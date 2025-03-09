@@ -1,0 +1,342 @@
+<?php
+include_once('db/connect.php');
+
+// Hàm để xử lý lỗi database
+function db_error($mysqli) {
+    echo "Lỗi database: " . $mysqli->error;
+    exit;
+}
+
+// Lấy book_id từ URL
+$book_id = isset($_GET['book_id']) ? (int)$_GET['book_id'] : 0;
+
+// Truy vấn để lấy thông tin chi tiết sách
+$query = "SELECT * FROM tbl_book WHERE book_id = ?";
+$stmt = $mysqli->prepare($query);
+
+if (!$stmt) {
+    db_error($mysqli);
+}
+
+$stmt->bind_param("i", $book_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Kiểm tra xem có sách nào không
+if ($result->num_rows > 0) {
+    $book = $result->fetch_assoc();
+} else {
+    echo "<p>Không tìm thấy sách.</p>";
+    exit();
+}
+
+// Truy vấn để lấy category
+$sql_category = "SELECT * FROM tbl_category ORDER BY category_id DESC";
+$spl_category = $mysqli->query($sql_category);
+
+if (!$spl_category) {
+    db_error($mysqli);
+}
+
+// Truy vấn để lấy sách (xem thêm)
+$query_related = "SELECT * FROM tbl_book ORDER BY RAND() LIMIT 12";
+$result_related = $mysqli->query($query_related);
+
+if (!$result_related) {
+    db_error($mysqli);
+}
+
+$stmt->close();
+?>
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/Chi_tiet_sản_phẩm.css" type="text/css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <title><?php echo isset($book['book_title']) ? htmlspecialchars($book['book_title']) : 'Chi tiết sách'; ?></title>
+       
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <a class="navbar-brand" href="index.php">
+                <img src="images/book_haven.jpg" width="50" height="50" class="d-inline-block align-top" alt="Book Haven">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="Trang_chủ.php">Trang Chủ <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Sản Phẩm
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <?php
+                            if ($spl_category) {
+                                mysqli_data_seek($spl_category, 0);
+                                while ($row_category = $spl_category->fetch_assoc()): ?>
+                                    <a class="dropdown-item" href="./Phân_loại.php"><?php echo htmlspecialchars($row_category['category_name']); ?></a>
+                                <?php endwhile;
+                            } else {
+                                echo "Không có category nào.";
+                            }
+                            ?>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./Liên_hệ.html">Liên Hệ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Giới_thiệu.php">Giới Thiệu</a>
+                    </li>
+                </ul>
+                <form class="form-inline ml-auto" method="post" action="">
+                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+            </div>
+            <button id="cart" class="btn btn-danger ml-2">
+                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                Giỏ Hàng
+            </button>
+            <ul class="navbar-nav ml-2">
+                <li class="nav-item">
+                    <a class="nav-link" href="./Tai_khoan_khach.html">Tài khoản</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Story Section -->
+    <div class="story">
+        <div class="story-bg">
+            <div class="box-avata">
+                <div class="avata">
+                    <div class="image">
+                        <img src="images/<?php echo isset($book['book_image']) ? htmlspecialchars($book['book_image']) : 'default.jpg'; ?>" alt="<?php echo isset($book['book_title']) ? htmlspecialchars($book['book_title']) : 'Sách'; ?>">
+                    </div>
+                    <div class="discount-badge"><?php echo isset($book['book_discount']) ? htmlspecialchars($book['book_discount']) : '0'; ?>%</div>
+                </div>
+            </div>
+
+            <div class="story-infor">
+                <div class="story-name"><?php echo isset($book['book_title']) ? htmlspecialchars($book['book_title']) : 'Chưa có tiêu đề'; ?></div>
+                <ul class="view list-unstyled">
+                    <li>Tác giả: <span><?php echo isset($book['book_author']) ? htmlspecialchars($book['book_author']) : 'Không xác định'; ?></span></li>
+                    <li>Nhà xuất bản: <span><?php echo isset($book['book_publisher']) ? htmlspecialchars($book['book_publisher']) : 'Không xác định'; ?></span></li>
+                    <li>Kích thước: <span><?php echo isset($book['book_size']) ? htmlspecialchars($book['book_size']) : 'Không xác định'; ?></span></li>
+                    <li>Thể loại: <span><?php echo isset($book['book_category']) ? htmlspecialchars($book['book_category']) : 'Không xác định'; ?></span></li>
+                    <li>Nội dung <span><div class="story-content"><?php echo isset($book['book_describe']) ? htmlspecialchars($book['book_describe']) : 'Chưa có mô tả'; ?></div></span> </li>
+                    <?php
+                    $original_price = isset($book['book_original_price']) ? $book['book_original_price'] : 0;
+                    $discount = isset($book['book_discount']) ? $book['book_discount'] : 0;
+                    $price = $original_price * (1 - $discount / 100);
+                    ?>
+
+                    <li>
+                        <div class="price"><?php echo number_format($price, 0, ',', '.'); ?>đ</div>
+                    </li>
+                    <li>
+                        <div class="original-price"><?php echo number_format($original_price, 0, ',', '.'); ?>đ</div>
+                    </li>
+                </ul>
+
+                <div class="box-counter">
+                    <form action="Them_gio_hang.php" method="POST">
+                        <input type="hidden" name="book_id" value="<?php echo $book['book_id']; ?>">
+                        <input type="hidden" name="book_title" value="<?php echo htmlspecialchars($book['book_title']); ?>">
+                        <input type="hidden" name="book_image" value="<?php echo htmlspecialchars($book['book_image']); ?>">
+                        <input type="hidden" name="book_price" value="<?php echo number_format($price, 0, ',', '.'); ?>">
+                        <div class="counter d-flex align-items-center">
+                            <button type="button" class="btn btn-secondary" id="decrease">-</button>
+                            <div class="number px-3" id="count">1</div>
+                            <button type="button" class="btn btn-secondary" id="increase">+</button>
+                        </div>
+                        <input type="hidden" name="quantity" id="quantity" value="1">
+                        <button type="submit" class="btn btn-primary">Thêm Vào Giỏ</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabbed Content -->
+    <div class="container mt-5">
+        <div class="tong">
+            <div class="words">
+                <span class="word selected" onclick="changeContent(this, 'Mô tả')">Mô tả</span>
+                <span class="word" onclick="changeContent(this, 'Bình luận')">Bình luận</span>
+            </div>
+        </div>
+
+        <div class="box" id="box">
+            <div class="mota">
+                <div class="box-mota">
+                    <div class="story-content"><?php echo isset($book['book_describe']) ? htmlspecialchars($book['book_describe']) : 'Chưa có mô tả'; ?></div>
+                </div>
+            </div>
+
+            <div class="cmt" style="display: none;">
+                <div class="box-cmt">
+                    <!-- Phần bình luận sẽ được thêm vào sau -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    <div class="container mt-5">
+        <h2>Xem thêm các sản phẩm khác</h2>
+        <section class="wrapper">
+            <div class="row">
+                <?php
+                if ($result_related->num_rows > 0) {
+                    while ($row = $result_related->fetch_assoc()) {
+                        $original_price = $row['book_original_price'];
+                        $discount = $row['book_discount'];
+                        $price = $original_price * (1 - $discount / 100);
+
+                        echo '<div class="col-md-3 mb-4">';
+                        echo '<div class="card">';
+                        echo '<a href="Chi_tiet_san_pham.php?book_id=' . $row['book_id'] . '">';
+                        echo '<img src="images/' . htmlspecialchars($row['book_image']) . '" class="card-img-top" alt="' . htmlspecialchars($row['book_title']) . '">';
+                        echo '<div class="card-body">';
+                        echo '<h5 class="card-title">' . htmlspecialchars($row['book_title']) . '</h5>';
+                        echo '<p class="card-text">';
+                        echo '<span class="font-weight-bold">' . number_format($price, 0, ',', '.') . 'đ</span><br>';
+                        echo '<del class="text-muted">' . number_format($row['book_original_price'], 0, ',', '.') . 'đ</del> ';
+                        echo '<span class="text-danger">-' . htmlspecialchars($row['book_discount']) . '%</span>';
+                        echo '</p>';
+                        echo '</div>';
+                        echo '</a>';
+                        echo '</div>';
+                        echo '</div>';
+                    }
+                } else {
+                    echo "<p>Không có sách nào trong cơ sở dữ liệu.</p>";
+                }
+                ?>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="images/Book Haven (2).png" width="130px" height="130px" alt="Book Haven">
+                </div>
+                <div class="col-md-3">
+                    <h5>Dịch vụ</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Điều khoản sử dụng</a></li>
+                        <li><a href="#">Liên hệ</a></li>
+                        <li><a href="#">Hệ thống nhà sách</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Hỗ trợ</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Chính sách đổi trả - hoàn tiền</a></li>
+                        <li><a href="#">Phương thức vận chuyển</a></li>
+                        <li><a href="#">Phương thức thanh toán</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Nhà sách bán lẻ</h5>
+                    <ul class="list-unstyled">
+                        <li>Giám đốc: Tào Thanh Hà | Mai Phương Anh</li>
+                        <li>Địa chỉ: Đại học Phenikaa</li>
+                        <li>Số điện thoại: </li>
+                        <li>Email: </li>
+                        <li>Facebook: </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="javascript/Chi_tiet_san_pham.js"></script>
+    <script>
+       document.getElementById('cart').addEventListener('click', function() {
+    window.location.href = 'Giỏ_hàng.php';
+});
+
+const countElement = document.getElementById('count');
+    const decreaseButton = document.getElementById('decrease');
+    const increaseButton = document.getElementById('increase');
+
+    decreaseButton.addEventListener('click', () => {
+        let currentCount = parseInt(countElement.textContent);
+        if (currentCount > 1) {
+            countElement.textContent = currentCount - 1;
+        }
+    });
+
+    increaseButton.addEventListener('click', () => {
+        let currentCount = parseInt(countElement.textContent);
+        countElement.textContent = currentCount + 1;
+    });
+    
+//Đổi box tác phẩm
+function changeContent(element, text) {
+    const chapElement = document.querySelector('.mota');
+    const cmtElement = document.querySelector('.cmt');
+
+    if (text === 'Mô tả') {
+        chapElement.style.display = 'flex';
+        cmtElement.style.display = 'none';
+    } else if (text === 'Bình luận') {
+        chapElement.style.display = 'none';
+        cmtElement.style.display = 'flex';
+    }
+
+    const words = document.getElementsByClassName('word');
+    for (let i = 0; i < words.length; i++) {
+        words[i].classList.remove('selected');
+    }
+
+    element.classList.add('selected');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menu-toggle'); 
+    const navMenu = document.getElementById('nav-menu'); 
+
+    menuToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active'); 
+    });
+});
+
+
+
+    </script>
+</body>
+</html>
+<?php
+// Đóng kết nối
+$mysqli->close();
+?>

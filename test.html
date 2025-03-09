@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập / Đăng Ký</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <li>Xin chào, <?php echo htmlspecialchars($_SESSION['user_name']); ?></li>
+                    <li><a href="?logout=true">Đăng xuất</a></li>
+                <?php else: ?>
+                    <li><a href="#loginModal" onclick="document.getElementById('loginModal').style.display='block'">Đăng Nhập</a></li>
+                    <li><a href="#registerModal" onclick="document.getElementById('registerModal').style.display='block'">Đăng Ký</a></li>
+                <?php endif; ?>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Modal Đăng Nhập -->
+    <div id="loginModal" style="display:none;">
+        <form method="post" action="">
+            <h2>Đăng Nhập</h2>
+            <input type="text" name="login_phone" placeholder="Số điện thoại" required>
+            <input type="password" name="login_password" placeholder="Mật khẩu" required>
+            <button type="submit" name="login">Đăng Nhập</button>
+            <button type="button" onclick="document.getElementById('loginModal').style.display='none'">Đóng</button>
+        </form>
+    </div>
+
+    <!-- Modal Đăng Ký -->
+    <div id="registerModal" style="display:none;">
+        <form method="post" action="">
+            <h2>Đăng Ký</h2>
+            <input type="text" name="name" placeholder="Tên" required>
+            <input type="email" name="email" placeholder="Gmail" required>
+            <input type="text" name="phone" placeholder="Số điện thoại" required>
+            <input type="password" name="password" placeholder="Mật khẩu" required>
+            <input type="password" name="confirm_password" placeholder="Nhập lại mật khẩu" required>
+            <button type="submit" name="register">Đăng Ký</button>
+            <button type="button" onclick="document.getElementById('registerModal').style.display='none'">Đóng</button>
+        </form>
+    </div>
+
+    <script>
+        // Đóng modal khi nhấn ra ngoài
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('loginModal') || event.target == document.getElementById('registerModal')) {
+                event.target.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

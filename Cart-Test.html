@@ -1,0 +1,348 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shopping-cart</title>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="Cart.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/reponsive.css" />
+</head>
+
+<body>
+    <!-- header -->
+    <header>
+        <nav>
+
+            <div class="content-nav">
+                <div class="img-nav">
+                    <img src="bookhaven.jpg" width="50px" height="50px" />
+                </div>
+                <ul>
+                    <li><a href="#">Trang Chủ</a></li>
+                    <li><a href="#">Sản Phẩm</a></li>
+                    <li><a href="#">Liên Hệ</a></li>
+                    <li><a href="#">Giới Thiệu</a></li>
+                </ul>
+                <form>
+                    <input type="text" name="search" placeholder="Tìm kiếm sản phẩm..." />
+                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+            </div>
+            <!-- The Modal -->
+            <button id="cart">
+                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                Giỏ Hàng
+            </button>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Giỏ Hàng</h5>
+                        <span class="close">&times;</span>
+                    </div>
+            <div class="modal-body">
+                        
+
+                <div class="cart-items">
+                            
+                        <div class="cart-row">
+                        
+                            <div class="cart-item cart-column">
+                                <img class="cart-item-image" src="https://dorahome.info/wp-content/uploads/2022/05/tron-bo-truyen-dai-doremon-24-tap-doc-xuoi-1.jpg">
+                                <span class="cart-item-title">Combo Doraemon tập dài</span>
+                            </div>
+                            <span class="cart-price cart-column">250000đ</span>
+                            <div class="cart-quantity cart-column">
+                                <input class="cart-quantity-input" type="number" value="1">
+                                <button class="btn btn-danger" type="button">Xóa</button>
+                            </div>
+                        </div>
+                        
+                        <div class="cart-row">
+                            <div class="cart-item cart-column">
+                                <img class="cart-item-image" src="https://stbhatay.com.vn/wp-content/uploads/2023/02/sv27.webp">
+                                <span class="cart-item-title">Shin cậu bé bút chì tập 27</span>
+                            </div>
+                            <span class="cart-price cart-column">25000đ</span>
+                            <div class="cart-quantity cart-column">
+                                <input class="cart-quantity-input" type="number" value="2">
+                                <button class="btn btn-danger" type="button">Xóa</button>
+                            </div>
+                        </div>
+                        <div class="cart-total">
+                            <strong class="cart-total-title">Tổng Cộng:</strong>
+                            <span class="cart-total-price">VNĐ</span>
+                        </div>
+    </div>
+
+                       </div>
+                       <!-- <div class="cart-total">
+                            <strong class="cart-total-title">Tổng Cộng:</strong>
+                            <span class="cart-total-price">0VNĐ</span>
+                        </div>
+                    </div> -->
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary close-footer">Đóng</button>
+                        <button type="button" class="btn btn-primary order">Thanh Toán</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+    </header>
+
+    <!-- content -->
+    <section class="wrapper">
+        <div class="products">
+            <ul>
+                <li class="main-product">
+                    <div class="img-product">
+                        <img class="img-prd"
+                            src="https://dorahome.info/wp-content/uploads/2022/05/tron-bo-truyen-dai-doremon-24-tap-doc-xuoi-1.jpg"
+                            alt="">
+                    </div>
+                    <div class="content-product">
+                        <h3 class="content-product-h3">Combo Doraemon tập dài</h3>
+                        <div class="content-product-deltals">
+                            <div class="price">
+                                <span class="money">250000đ</span>
+                            </div>
+                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="main-product">
+                    <div class="img-product">
+                        <img class="img-prd"
+                            src="https://stbhatay.com.vn/wp-content/uploads/2023/02/sv27.webp"
+                            alt="">
+                    </div>
+                    <div class="content-product">
+                        <h3 class="content-product-h3">Shin - Cậu bé bút chì tập 27</h3>
+                        <div class="content-product-deltals">
+                            <div class="price">
+                                <span class="money">25000đ</span>
+                            </div>
+                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="main-product">
+                    <div class="img-product">
+                        <img class="img-prd"
+                            src="https://images.thuvienpdf.com/003/murx9Wf3nZ.webp"
+                            alt="">
+                    </div>
+                    <div class="content-product">
+                        <h3 class="content-product-h3">Shin - Cậu bé bút chì tập 70</h3>
+                        <div class="content-product-deltals">
+                            <div class="price">
+                                <span class="money">25000đ</span>
+                            </div>
+                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="main-product no-margin">
+                    <div class="img-product">
+                        <img class="img-prd"
+                            src="https://product.hstatic.net/200000343865/product/1_71bfba09f20e4340a6b66a99022aa4f4_cc7b6da4d8004f4ba00bcb2c87fb06fd_master.jpg"
+                            alt="">
+                    </div>
+                    <div class="content-product">
+                        <h3 class="content-product-h3">Dragon Ball tập 1</h3>
+                        <div class="content-product-deltals">
+                            <div class="price">
+                                <span class="money">25000đ</span>
+                            </div>
+                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="main-product">
+                    <div class="img-product">
+                        <img class="img-prd"
+                            src="https://down-vn.img.susercontent.com/file/07acd12ab5360e45c0121ff726cd564e"
+                            alt="">
+                    </div>
+                    <div class="content-product">
+                        <h3 class="content-product-h3">Naruto tập 1
+                        </h3>
+                        <div class="content-product-deltals">
+                            <div class="price">
+                                <span class="money">25000đ</span>
+                            </div>
+                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="main-product">
+                    <div class="img-product">
+                        <img class="img-prd"
+                            src="https://vn-test-11.slatic.net/p/42d135122e864a504ddb6631de5fb264.jpg"
+                            alt="">
+                    </div>
+                    <div class="content-product">
+                        <h3 class="content-product-h3">One Piece tập 3</h3>
+                        <div class="content-product-deltals">
+                            <div class="price">
+                                <span class="money">25000đ</span>
+                            </div>
+                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="main-product">
+                    <div class="img-product">
+                        <img class="img-prd"
+                            src="https://down-vn.img.susercontent.com/file/187586de67213800b59c87b1854d9450"
+                            alt="">
+                    </div>
+                    <div class="content-product">
+                        <h3 class="content-product-h3">Bleach tập 74</h3>
+                        <div class="content-product-deltals">
+                            <div class="price">
+                                <span class="money">25000đ</span>
+                            </div>
+                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="main-product no-margin">
+                    <div class="img-product">
+                        <img class="img-prd"
+                            src="https://product.hstatic.net/200000343865/product/100_4c16bcbf81f343c8883a95cd60b1d69f_ee1bfef3856142a990b58b66ac56913a.jpg"
+                            alt="">
+                    </div>
+                    <div class="content-product">
+                        <h3 class="content-product-h3">Conan tập 100</h3>
+                        <div class="content-product-deltals">
+                            <div class="price">
+                                <span class="money">25000đ</span>
+                            </div>
+                            <button type="button" class="btn btn-cart">Thêm Vào Giỏ</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- footer -->
+    <footer>
+        <div>
+            <ul class="end">
+                <li>
+                    <ul>
+                        <img src="bookhaven.jpg" width="130px" height="130px">
+                    </ul>
+                </li>
+                <li><ul>
+                    <li class="tieu_de">Dịch vụ</li>
+                    <li><a href="">Điều khoản sử dụng</a></li>
+                    <li><a href="">Liên hệ</a></li>
+                    <li><a href="">Hệ thống nhà sách</a></li>
+                </ul></li>
+    
+                <li><ul>
+                    <li class="tieu_de">Hỗ trợ</li>
+                    <li><a href="">Chính sách đổi trả - hoàn tiền</a></li>
+                    <li><a href="">Phương thức vận chuyển</a></li>
+                    <li><a href="">Phương thức thanh toán</a></li>
+                </ul></li>
+    
+                <li><ul>
+                    <li class="tieu_de">Nhà sách bán lẻ</li>
+                    <li>Giám đốc: Tào Thanh Hà | Mai Phương Anh</li>
+                    <li>Địa chỉ: Đại học Phenikaa</li>
+                    <li>Số điện thoại: </li>
+                    <li>Email: </li>
+                    <li>Facebook: </li>
+                </ul></li>
+            </ul>
+        </div>
+    </footer>
+
+
+    <script>
+      var modal = document.getElementById("myModal");
+      var btn = document.getElementById("cart");
+      var close = document.getElementsByClassName("close")[0];
+
+
+      var close_footer = document.getElementsByClassName("close-footer")[0];
+      var order = document.getElementsByClassName("order")[0];
+      btn.onclick = function () {
+      modal.style.display = "block";
+      }
+      close.onclick = function () {
+       modal.style.display = "none";
+      }
+      close_footer.onclick = function () {
+      modal.style.display = "none";
+      }
+      order.onclick = function () {
+      alert("Cảm ơn bạn đã thanh toán đơn hàng")
+      }
+      window.onclick = function (event) {
+      if (event.target == modal) {
+      modal.style.display = "none";
+      }
+    }
+
+    // xóa cart
+var remove_cart = document.getElementsByClassName("btn-danger");
+for (var i = 0; i < remove_cart.length; i++) {
+    var button = remove_cart[i];
+    button.addEventListener("click", function(event) {
+        var button_remove = event.target;
+        button_remove.parentElement.parentElement.remove();
+        
+        // Gọi hàm updatecart() để cập nhật lại tổng giá
+        updatecart();
+    });
+}
+
+
+// Update cart 
+function updatecart() {
+  var cart_items_container = document.getElementsByClassName("cart-items")[0]; // Chỉ lấy phần tử đúng
+  var cart_rows = cart_items_container.getElementsByClassName("cart-row");
+  var total = 0;
+
+  for (var i = 0; i < cart_rows.length; i++) {
+    var cart_row = cart_rows[i];
+    var price_item = cart_row.getElementsByClassName("cart-price")[0];
+    var quantity_item = cart_row.getElementsByClassName("cart-quantity-input")[0];
+
+    if (price_item && quantity_item) {
+      var price = parseFloat(price_item.innerText.replace('đ', '').replace(/\D/g, '')); // Chỉ lấy số từ giá
+      var quantity = quantity_item.value; // Lấy giá trị trong input
+      total += price * quantity;
+    }
+  }
+
+  document.getElementsByClassName("cart-total-price")[0].innerText = total + ' VNĐ'; // Cập nhật tổng tiền
+}
+
+
+
+// thay đổi số lượng sản phẩm
+var quantity_input = document.getElementsByClassName("cart-quantity-input");
+for (var i = 0; i < quantity_input.length; i++) {
+  var input = quantity_input[i];
+  input.addEventListener("change", function (event) {
+    var input = event.target
+    if (isNaN(input.value) || input.value <= 0) {
+      input.value = 1;
+    }
+    updatecart()
+  })
+}
+    </script>
+
+</html>

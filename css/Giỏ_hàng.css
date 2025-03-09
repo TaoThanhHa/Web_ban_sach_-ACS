@@ -1,0 +1,250 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Muli', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  }
+  
+  li {
+    list-style: none;
+  }
+  
+  /* header */
+  .header{
+    width: 100%;
+    height: 50px;
+    box-shadow: 0px 2px 2px 0px gray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    padding: 25px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color:#b6e2d3;
+    z-index: 1;
+}
+
+.header a{
+    text-decoration: none;
+    color: white;
+    font-size: xx-large;
+    font-weight: 900;
+}
+
+.header a:hover{
+    color: #eb3c15;
+}
+
+/*Giỏ hàng*/
+.box_cart{
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.box_cart_item{
+    width: 80%;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+td>img{
+    width: 50px;
+    height: 70px;
+}
+th {
+    background-color: #f2f2f2;
+}
+.total {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+.button {
+    padding: 10px 20px;
+    background-color: #eb3c15;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
+}
+.button:hover {
+    background-color: #eb3c15;
+}
+.note {
+    margin-top: 20px;
+}
+
+
+/* footer */
+
+ul{
+    list-style: none;
+    margin-right: 10px;
+}
+
+.end{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 10%;
+    background-color:aliceblue;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.end>li>ul .tieu_de{
+    color: black;
+    font-size: large;
+    margin-bottom: 5px;
+    font-weight: bolder;
+} 
+
+.end>li>ul>li>a{
+    text-decoration: none;
+    color: black;
+}
+
+.end>li>ul>li{
+    color: black;
+}
+
+  /* cart */
+.cart-header {
+    font-weight: bold;
+    font-size: 1.25em;
+    color: #333;
+  }
+  
+  .cart-column {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid black;
+    margin-right: 1.5em;
+    padding-bottom: 10px;
+    margin-top: 10px;
+  }
+  
+  .cart-row {
+    display: flex;
+  }
+  
+  .cart-item {
+    width: 45%;
+  }
+  
+  .cart-price {
+    width: 20%;
+    font-size: 1.2em;
+    color: #333;
+  }
+  
+  .cart-quantity {
+    width: 35%;
+  }
+  
+  .cart-item-title {
+    color: #333;
+    margin-left: .5em;
+    font-size: 1.2em;
+  }
+  
+  .cart-item-image {
+    width: 75px;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .btn-danger {
+    color: white;
+    background-color: #EB5757;
+    border: none;
+    border-radius: .3em;
+    font-weight: bold;
+  }
+  
+  .btn-danger:hover {
+    background-color: #CC4C4C;
+  }
+  
+  .cart-quantity-input {
+    height: 34px;
+    width: 50px;
+    border-radius: 5px;
+    border: 1px solid #56CCF2;
+    background-color: #eee;
+    color: #333;
+    padding: 0;
+    text-align: center;
+    font-size: 1.2em;
+    margin-right: 25px;
+  }
+  
+  .cart-row:last-child {
+    border-bottom: 1px solid black;
+  }
+  
+  .cart-row:last-child .cart-column {
+    border: none;
+  }
+  
+  .cart-total {
+    text-align: end;
+    margin-top: 10px;
+    margin-right: 10px;
+  }
+  
+  .cart-total-title {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: black;
+    margin-right: 20px;
+  }
+  
+  .cart-total-price {
+    color: #333;
+    font-size: 1.1em;
+  }
+
+
+  @media screen and (max-width: 846px) {
+  .fas {
+    display: block;
+}
+
+nav .content-nav ul {
+    position: fixed;
+    bottom: 0;
+    left: -200px; /* Hide off-screen */
+    width: 200px;
+    height: 90%;
+    background-color: #f1f1f1;
+    transition: left 0.3s ease;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    height: calc(100% - 40px);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+nav .content-nav ul li{
+    width: 100%;
+}
+
+nav .content-nav ul.active {
+    left: 0;
+}
+  }

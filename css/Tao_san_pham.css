@@ -1,0 +1,181 @@
+*{margin: 0; padding: 0; box-sizing: border-box;}
+
+/*Phần đầu*/
+.header{
+    width: 100%;
+    height: 50px;
+    box-shadow: 0px 2px 2px 0px gray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    padding: 25px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color:#b6e2d3;
+    z-index: 1;
+}
+
+.header a{
+    text-decoration: none;
+    color: white;
+    font-size: xx-large;
+    font-weight: 900;
+}
+
+.header a:hover{
+    color: #eb3c15;
+}
+
+.header button{
+    background-color: white;
+    border-radius: 10px;
+    width: 50px;
+    height: 30px;
+    border: 1px solid;
+}
+
+.header button:hover{
+    font-weight: bold;
+    color: #eb3c15;
+}
+
+/*Phần thân*/
+.body{
+    display: flex;
+    justify-content: center; 
+    background-color: aliceblue;
+}
+
+.container{
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 2px 1px 2px 3px gray;
+    margin-top: 80px;
+    padding: 10px;
+    flex-wrap: wrap;
+    background-color: white;
+    margin-bottom: 30px;
+}
+
+/*Box avata*/
+.body .container .box-avata{
+    width: 30%;
+    display: flex;
+    justify-content: center;
+}
+
+.container .avata{
+    width: 150px;
+    height: 200px;
+    margin-top: 15px;
+    background-color: gainsboro;
+    cursor: pointer;
+}
+
+.container .avata img{
+    width: 150px;
+    height: 200px;
+}
+.avata .img{
+    display: flex;
+    align-items: center;
+}
+#preview-image {
+    position: relative;
+}
+
+#preview-image::after {
+    content: "Ấn vào đây để chọn ảnh";
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    background-color: #b6e2d3;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 14px;
+    color: black;
+    cursor: pointer;
+}
+/*Box điều khiển*/
+.box-box {
+    width: 70%;
+}
+
+/*Box story*/
+.body .container .box-box .story{
+    font-weight: bolder;
+    font-size: large;
+    width: 100%;
+    padding-right: 30px;
+}
+
+.story input[type="text"] {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: 'Times New Roman', Times, serif;
+    padding: 5px;
+}
+
+.story textarea{
+    width: 100%;
+    height: 300px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: 'Times New Roman', Times, serif;
+    padding: 5px;
+}
+
+.story select{
+    width: 150px;
+    height: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.form-group{
+    flex-wrap: wrap;
+    display: flex;
+}
+
+.form-check{
+    margin-left: 20px;
+    font-weight: 100;
+    width: 190px;
+}
+
+.hd{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.hd input[type="number"]{
+    height: 25px;
+    width: 250px;
+}
+
+.hd p{
+    margin-bottom: 10px;
+}
+
+
+@media screen and (max-width: 846px) {
+    .body .container .box-avata, .box-box{
+        width: 100%;
+    }
+
+    .body .container .box-avata{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .box-box{
+        margin-left: 30px;
+    }
+}
+

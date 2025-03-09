@@ -1,0 +1,164 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shopping-cart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/Giỏ_hàng.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/reponsive.css" />
+</head>
+
+<body>
+    <!-- header -->
+    <header>
+        <nav>
+            <div class="content-nav">
+                <div class="img-nav">
+                    <img src="images/book_haven.jpg" width="50px" height="50px" />
+                </div>
+                <i class="fas fa-bars" id="menu-toggle"></i>
+                <ul>
+                    <li><a href="#">Trang Chủ</a></li>
+                    <li><a href="#">Sản Phẩm</a>
+                        <ul>
+                            <li><a href="">Trinh thám & kinh dị</a></li>
+                            <li><a href="">Ngôn tình</a></li>
+                            <li><a href="">Boylove</a></li>
+                            <li><a href="">Kỹ năng</a></li>
+                            <li><a href="">Văn học kinh điển</a></li>
+                            <li><a href="">Manga & Comic</a></li>
+                            <li><a href="">Light Novel</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Liên Hệ</a></li>
+                    <li><a href="#">Giới Thiệu</a></li>
+                </ul>
+                <form>
+                    <input type="text" name="search" placeholder="Tìm kiếm sản phẩm..." />
+                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+            </div>
+            <!-- The Modal -->
+            <button id="cart">
+                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                Giỏ Hàng
+            </button>
+        </nav>
+
+    </header>
+    <!--Giỏ hàng-->
+    <div class="box_cart">
+        <div class="box_cart_item">
+            <h1>Giỏ Hàng</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ảnh</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Giá tiền</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="cart-items">
+                    <tr>
+                        <td><img src="" alt=""></td>
+                        <td>Người Gác Cây Long Nảo</td>
+                        <td><input type="number" value="1" min="1" onchange="updateTotal()"></td>
+                        <td class="price" data-price="112000">112,000₫</td>
+                        <td><button class="button" onclick="removeItem(this)">Xóa</button></td>
+                    </tr>
+                    <tr>
+                        <td><img src="" alt=""></td>
+                        <td>Thập Giác Quán (Boxset Manga 5 tập)</td>
+                        <td><input type="number" value="1" min="1" onchange="updateTotal()"></td>
+                        <td class="price" data-price="286000">286,000₫</td>
+                        <td><button class="button" onclick="removeItem(this)">Xóa</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="total">
+                Tổng cộng: <span id="total-price">398,000₫</span>
+            </div>
+
+            <div class="note">
+                <label for="note">Ghi chú:</label>
+                <textarea id="note" rows="4" style="width: 100%;"></textarea>
+            </div>
+
+            <button class="button" onclick="updateCart()">Cập nhật</button>
+            <button class="button" onclick="checkout()">Thanh toán</button>
+    </div>
+</div>
+
+    <!-- footer -->
+    <footer>
+        <div>
+            <ul class="end">
+                <li>
+                    <ul>
+                        <img src="images/Book Haven (2).png" width="130px" height="130px">
+                    </ul>
+                </li>
+                <li><ul>
+                    <li class="tieu_de">Dịch vụ</li>
+                    <li><a href="">Điều khoản sử dụng</a></li>
+                    <li><a href="">Liên hệ</a></li>
+                    <li><a href="">Hệ thống nhà sách</a></li>
+                </ul></li>
+    
+                <li><ul>
+                    <li class="tieu_de">Hỗ trợ</li>
+                    <li><a href="">Chính sách đổi trả - hoàn tiền</a></li>
+                    <li><a href="">Phương thức vận chuyển</a></li>
+                    <li><a href="">Phương thức thanh toán</a></li>
+                </ul></li>
+    
+                <li><ul>
+                    <li class="tieu_de">Nhà sách bán lẻ</li>
+                    <li>Giám đốc: Tào Thanh Hà | Mai Phương Anh</li>
+                    <li>Địa chỉ: Đại học Phenikaa</li>
+                    <li>Số điện thoại: </li>
+                    <li>Email: </li>
+                    <li>Facebook: </li>
+                </ul></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+
+    <script>
+        function updateTotal() {
+        let total = 0;
+        const rows = document.querySelectorAll('#cart-items tr');
+        rows.forEach(row => {
+            const quantity = row.querySelector('input[type="number"]').value;
+            const price = row.querySelector('.price').dataset.price;
+            total += quantity * price;
+        });
+        document.getElementById('total-price').innerText = total.toLocaleString('vi-VN') + '₫';
+    }
+
+    function removeItem(button) {
+        const row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+        updateTotal();
+    }
+
+    function updateCart() {
+        alert('Giỏ hàng đã được cập nhật!');
+        updateTotal();
+    }
+
+    function checkout() {
+        alert('Chức năng thanh toán chưa được triển khai!');
+    }
+    </script>
+
+</html>

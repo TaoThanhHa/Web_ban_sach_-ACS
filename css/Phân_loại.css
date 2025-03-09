@@ -1,0 +1,350 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Muli', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  }
+  
+  li {
+    list-style: none;
+  }
+  a{
+    text-decoration: none;
+  }
+  
+  /* header */
+  nav {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    background: #fffefc;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 0px 2px 2px 0px rgb(242, 199, 120);
+    z-index: 1;
+  }
+  
+  nav .content-nav {
+    display: flex;
+    line-height: 2rem;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 80%;
+  }
+  
+  nav .content-nav ul {
+    display: flex;
+    padding-top: 8px;
+    transition: transform 0.3s ease;
+  }
+
+.fas {
+  display: none;
+  position: absolute;
+  top: 80px;
+  left: 0px;
+  font-size: 24px;
+  cursor: pointer;
+  background-color: #f1f1f1;
+  padding: 5px;
+  border-radius: 5px;
+}
+.content-nav>ul>li>ul{
+    background-color: whitesmoke;
+    padding: 10px;
+    margin: 10px;
+    flex-direction: column;
+    position: absolute;
+    width: 250px;
+    top: 40px;
+    left: 20%;
+    display: none;
+    flex-wrap: wrap;
+}
+
+.content-nav>ul>li>ul>li{
+    margin-top: 10px;
+    padding-bottom: 10px;
+    border-right: none;
+    border-bottom: 1px solid cadetblue;
+    width: 250px;
+}
+
+.content-nav>ul>li>ul>li>a{
+    color: cadetblue;
+}
+
+.content-nav>ul>li:hover>ul{
+    display: block;
+}
+
+.content-nav>ul>li>ul>li:hover{
+    font-weight: bold;
+}
+
+.content-nav>ul>li::after{
+    content: "";
+    display: block;
+    width: 150px;
+    height: 10px;
+    position: absolute;   
+}
+
+nav .content-nav ul li a {
+    text-decoration: none;
+    color: #43433e;
+    text-transform: uppercase;
+    padding: 0 15px;
+    font-weight: 800;
+  }
+  
+  nav .content-nav ul li a:hover {
+    color: #eb3c15;
+  }
+  
+  .content-nav form {
+    position: relative;
+    padding-top: 8px;
+  }
+
+  .content-nav form .fa{
+    padding-top: 10px;
+  }
+  
+  .content-nav form input {
+    border: none;
+    background: #fff;
+    padding: 7px;
+    outline: none;
+    border-radius: 12px;
+  }
+  
+  .content-nav form button {
+    padding: 5px;
+    border-radius: 12px;
+    position: absolute;
+    right: 0;
+    top: 2px;
+    border: none;
+    outline: none;
+    background: #fff;
+  }
+
+  #cart {
+    font-size: 15px;
+    color: #fff;
+    background: #eb3c15;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    outline: none;
+    margin-left: 1rem;
+    padding: 12px;
+    cursor: pointer;
+  }
+  
+  #cart:hover {
+    border-color: #fff;
+  }
+/*Login*/
+.login{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-left: 20px;
+    text-align: center;
+  }
+
+  .login>li>a{
+    text-decoration: none;
+    color: #000;
+    font-weight: 600;
+  }
+
+.row{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cartegory {
+    padding: 120px 0 0;
+}
+
+.cartegory-top{
+    margin-bottom: 50px;
+    margin-left: 50px;
+}
+
+.cartegory-top p{
+    margin: 0 12px;
+    font-size: 12px;
+}
+
+.cartegory-left{
+    width: 20%;
+    padding-left: 50px;
+}
+
+.cartegory-left>ul>li a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.cartegory-left>ul>li {
+    margin-bottom: 10px;
+}
+
+.cartegory-right{
+    width: 80%;
+    display: flex;
+    justify-content: center;
+}
+
+/* wrapper */
+.wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.box{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 90%;
+}
+
+/*Sản phẩm*/
+.card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 230px;
+    text-align: center;
+    position: relative;
+    background-color: #fff;
+    margin: 10px;
+  }
+  .card img {
+    width: 230px;
+    height: 350px;
+  }
+  .discount {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  .title {
+    font-size: 20px;
+    margin-top: 6px;
+    color: rgb(246, 25, 25);
+  }
+  .price {
+    font-size: 20px;
+    color: green;
+    margin: 5px 0;
+  }
+  .original-price {
+    text-decoration: line-through;
+    color: #999;
+  }
+
+/*Chuyển trang*/
+.box_pagination{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  .pagination {
+    display: inline-block;
+    padding-top: 20px;
+  }
+  
+  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    margin: 0 4px;
+    border: 1px solid #ddd;
+  }
+  
+  .pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+  
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
+  
+/* footer */
+
+  ul{
+    list-style: none;
+    margin-right: 10px;
+}
+
+.end{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 10%;
+    background-color:aliceblue;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.end>li>ul .tieu_de{
+    color: black;
+    font-size: large;
+    margin-bottom: 5px;
+    font-weight: bolder;
+} 
+
+.end>li>ul>li>a{
+    text-decoration: none;
+    color: black;
+}
+
+.end>li>ul>li{
+    color: black;
+}
+
+
+
+
+  @media screen and (max-width: 846px) {
+  .fas {
+    display: block;
+}
+
+nav .content-nav ul {
+    position: fixed;
+    bottom: 0;
+    left: -200px; /* Hide off-screen */
+    width: 200px;
+    height: 90%;
+    background-color: #f1f1f1;
+    transition: left 0.3s ease;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    height: calc(100% - 40px);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+nav .content-nav ul li{
+    width: 100%;
+}
+
+nav .content-nav ul.active {
+    left: 0;
+}
+  }
