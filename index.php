@@ -16,7 +16,23 @@ include_once('db/connect.php');
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 </head>
+<style>
+.card {
+    height: 500px;
+}
+img.card-img-top {
+    height: 350px;
+}
 
+.card-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2; 
+    text-overflow: ellipsis;
+    line-clamp: 2; 
+}
+</style>
 <body>
     <?php
         // Truy vấn để lấy category
@@ -82,60 +98,7 @@ include_once('db/connect.php');
     ?>
 
     <!-- header -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-            <a class="navbar-brand" href="index.php">
-                <img src="images/book_haven.jpg" width="50" height="50" class="d-inline-block align-top" alt="Book Haven">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="Trang_chủ.php">Trang Chủ <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Sản Phẩm
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <?php
-                            if ($spl_category) {
-                                mysqli_data_seek($spl_category, 0); 
-                                while ($row_category = $spl_category->fetch_assoc()): ?>
-                                    <a class="dropdown-item" href="./Phân_loại.php"><?php echo htmlspecialchars($row_category['category_name']); ?></a>
-                                <?php endwhile;
-                            } else {
-                                echo "Không có category nào.";
-                            }
-                            ?>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./Liên_hệ.html">Liên Hệ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Giới_thiệu.php">Giới Thiệu</a>
-                    </li>
-                </ul>
-                <form class="form-inline ml-auto" method="post" action="">
-                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                </form>
-            </div>
-            <button id="cart" class="btn btn-danger ml-2">
-                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                Giỏ Hàng
-            </button>
-            <ul class="navbar-nav ml-2">
-                <li class="nav-item">
-                    <a class="nav-link" href="./ĐN.php">Đăng nhập</a>
-                    <a class="nav-link" href="./ĐK.php">Đăng ký</a>
-                </li>
-            </ul>
-        </nav>
-    </header>
+    <?php include 'header.php'; ?>
 
     <!--Slidershow-->
     <section id="slider">
@@ -212,40 +175,8 @@ include_once('db/connect.php');
     </div>
 
     <!-- footer -->
-    <footer class="bg-light py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <img src="images/Book Haven (2).png" width="130px" height="130px" alt="Book Haven">
-                </div>
-                <div class="col-md-3">
-                    <h5>Dịch vụ</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Điều khoản sử dụng</a></li>
-                        <li><a href="#">Liên hệ</a></li>
-                        <li><a href="#">Hệ thống nhà sách</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5>Hỗ trợ</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Chính sách đổi trả - hoàn tiền</a></li>
-                        <li><a href="#">Phương thức vận chuyển</a></li>
-                        <li><a href="#">Phương thức thanh toán</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5>Nhà sách bán lẻ</h5>
-                    <ul class="list-unstyled">
-                        <li>Giám đốc: Tào Thanh Hà | Mai Phương Anh</li>
-                        <li>Địa chỉ: Đại học Phenikaa</li>
-                        <li>Số điện thoại: </li>
-                        <li>Email: </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php include 'footer.php'; ?>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

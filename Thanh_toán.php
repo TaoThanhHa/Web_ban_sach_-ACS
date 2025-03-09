@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         echo '<div class="product">';
                         echo '<span><img src="images/' . htmlspecialchars($item['image']) . '" alt=""></span>';
                         echo '<span>' . htmlspecialchars($item['title']) . '</span>';
-                        echo '<span>' . number_format($item['price'] * $item['quantity'], 0, ',', '.') . '000₫</span>';
+                        echo '<span>' . number_format($item['price'] * $item['quantity'], 0, ',', '.') . '₫</span>';
                         echo '</div>';
                     }
                 }
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="total">
                 Tổng cộng: <span id="total-amount"><?php echo number_format(array_sum(array_map(function($item) {
                     return $item['price'] * $item['quantity'];
-                }, $_SESSION['cart'])), 0, ',', '.'); ?>000₫</span>
+                }, $_SESSION['cart'])), 0, ',', '.'); ?>₫</span>
             </div>
 
             <button type="submit" class="button">Hoàn tất đơn hàng</button>
