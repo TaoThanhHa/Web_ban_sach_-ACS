@@ -9,9 +9,10 @@ include_once('db/connect.php');
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Shopping-cart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/Phân_loại.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/reponsive.css" />
 </head>
 
 <body>
@@ -25,113 +26,57 @@ include_once('db/connect.php');
         $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $offset = ($current_page - 1) * $books_per_page;
 
+        // Truy vấn để lấy category_name
+        $category_name = '';
+        if($category_id > 0){
+            $sql_category_name = "SELECT category_name FROM tbl_category WHERE category_id = $category_id";
+            $query_category_name = mysqli_query($mysqli,$sql_category_name);
+            $row_category_name = mysqli_fetch_array($query_category_name);
+            $category_name = $row_category_name['category_name'];
+        }
+
         // Phần tìm kiếm
         $search_keyword = isset($_POST['search']) ? $_POST['search'] : '';
         $query = "SELECT * FROM tbl_book WHERE 1=1";
 
         if ($category_id > 0) {
-            $query .= " AND category_id = ?";
+            $query .= " AND book_category = $category_id"; //sửa category_id thành book_category
         }
 
         if (!empty($search_keyword)) {
             $query .= " AND book_title LIKE ?";
         }
 
-        $stmt = $mysqli->prepare($query);
+        $query .= " LIMIT $books_per_page OFFSET $offset";
+        $results = $mysqli->query($query);
 
-        if ($category_id > 0 && !empty($search_keyword)) {
-            $search_param = "%" . $search_keyword . "%";
-            $stmt->bind_param("is", $category_id, $search_param);
-        } elseif ($category_id > 0) {
-            $stmt->bind_param("i", $category_id);
-        } elseif (!empty($search_keyword)) {
-            $search_param = "%" . $search_keyword . "%";
-            $stmt->bind_param("s", $search_param);
-        }
+      
 
-        $stmt->execute();
-        $results = $stmt->get_result();
-        $total_books = $results->num_rows;
-
-        $total_pages = ceil($total_books / $books_per_page);
-
-        $stmt->close();
-        
-        $query .= " LIMIT ? OFFSET ?";
-        $stmt = $mysqli->prepare($query);
-
-        if ($category_id > 0 && !empty($search_keyword)) {
-            $stmt->bind_param("isi", $category_id, $books_per_page, $offset);
-        } elseif ($category_id > 0) {
-            $stmt->bind_param("ii", $books_per_page, $offset);
-        } elseif (!empty($search_keyword)) {
-            $search_param = "%" . $search_keyword . "%";
-            $stmt->bind_param("si", $search_param, $books_per_page, $offset);
-        } else {
-            $stmt->bind_param("ii", $books_per_page, $offset);
-        }
-
-        $stmt->execute();
-        $results = $stmt->get_result();
-        $stmt->close();
-
-        $mysqli->close();
     ?>
 
     <!-- header -->
-    <header>
-        <nav>
-            <div class="content-nav">
-                <div class="img-nav">
-                    <img src="images/book_haven.jpg" width="50px" height="50px" />
-                </div>
-                
-                <ul>
-                    <li><a href="index.php">Trang Chủ</a></li>
-                    <li><a href="#">Sản Phẩm</a>
-                        <ul>
-                            <?php while($row_category = mysqli_fetch_array($spl_category)): ?>
-                                <li><a href="Phân_loại.php?category_id=<?php echo $row_category['category_id']; ?>"><?php echo $row_category['category_name']; ?></a></li>
-                            <?php endwhile; ?>
-                        </ul>
-                    </li>
-                    <li><a href="">Liên Hệ</a></li>
-                    <li><a href="Giới_thiệu.php">Giới Thiệu</a></li>
-                </ul>
-                <form method="post" action="">
-                    <input type="text" name="search" placeholder="Tìm kiếm sản phẩm..." />
-                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                </form>
-            </div>
-            <button id="cart">
-                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                Giỏ Hàng
-            </button>
-            <ul class="login">
-                <li><a href="">Đăng nhập</a></li>
-                <li><a href="">Đăng ký</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php include 'header.php'; ?>
 
     <section class="cartegory">
         <div class="container">
             <div class="cartegory-top row">
-                <p>Trang chủ <span>&#8594;</span> <p>Sản phẩm </p><span>&#8594;</span><p>Trinh thám</p></p>
+                <p>Trang chủ <span>→</span> <p>Thể loại </p><span>→</span><p><?php echo $category_name ?></p></p>
             </div>
         </div>
         <div class="container">
             <div class="row">
-                <div class="cartegory-left">
+                 <div class="cartegory-left">
                     <ul>
-                        <li class="cartegory-left-li"><a href="">Linh dị</a></li>
-                        <li class="cartegory-left-li"><a href="">Manga & Comic</a></li>
-                        <li class="cartegory-left-li"><a href="">Light Novel</a></li>
-                        <li class="cartegory-left-li"><a href="">Truyện tranh</a></li>
-                        <li class="cartegory-left-li"><a href="">BoyLove & GirlLove</a></li>
-                        <li class="cartegory-left-li"><a href="">Văn học kinh điển</a></li>
-                        <li class="cartegory-left-li"><a href="">Ngôn tình</a></li>
-                        <li class="cartegory-left-li"><a href="">Trình thám - Kinh dị</a></li>
+                         <?php
+                            if ($spl_category) {
+                                mysqli_data_seek($spl_category, 0);
+                                while ($row_category = $spl_category->fetch_assoc()): ?>
+                                    <li class="cartegory-left-li"><a href="Phân_loại.php?category_id=<?php echo $row_category['category_id']; ?>"><?php echo htmlspecialchars($row_category['category_name']); ?></a></li>
+                                <?php endwhile;
+                            } else {
+                                echo "Không có category nào.";
+                            }
+                            ?>
                     </ul>
                 </div>
 
@@ -161,9 +106,9 @@ include_once('db/connect.php');
                         ?>
                     </div>
                 </section>
-                <div class="box_pagination">
+                   <!--   <div class="box_pagination">
                             <div class="pagination">
-                                <a href="?page=1">&laquo;</a> 
+                                <a href="?page=1">«</a> 
                                 <?php
                                 $start_page = max(1, $current_page - 2);
                                 $end_page = min($total_pages, $start_page + 4);
@@ -173,9 +118,9 @@ include_once('db/connect.php');
                                     echo '<a href="?page=' . $i . '" class="' . $active . '">' . $i . '</a>';
                                 }
                                 ?>
-                                <a href="?page=<?php echo $total_pages; ?>">&raquo;</a> 
+                                <a href="?page=<?php echo $total_pages; ?>">»</a> 
                             </div>
-                        </div>
+                        </div> -->
                 </div>
                 </div>
             </div>
@@ -183,35 +128,9 @@ include_once('db/connect.php');
     </section>
 
     <!-- footer -->
-    <footer>
-        <div>
-            <ul class="end">
-                <li>
-                    <ul>
-                        <img src="images/Book Haven (2).png" width="130px" height="130px">
-                    </ul>
-                </li>
-                <li><ul>
-                    <li class="tieu_de">Dịch vụ</li>
-                    <li><a href="">Điều khoản sử dụng</a></li>
-                    <li><a href="">Liên hệ</a></li>
-                    <li><a href="">Hệ thống nhà sách</a></li>
-                </ul></li>
-                <li><ul>
-                    <li class="tieu_de">Hỗ trợ</li>
-                    <li><a href="">Chính sách đổi trả - hoàn tiền</a></li>
-                    <li><a href="">Phương thức vận chuyển</a></li>
-                    <li><a href="">Phương thức thanh toán</a></li>
-                </ul></li>
-                <li><ul>
-                    <li class="tieu_de">Nhà sách bán lẻ</li>
-                    <li>Giám đốc: Tào Thanh Hà | Mai Phương Anh</li>
-                    <li>Địa chỉ: Đại học Phenikaa</li>
-                    <li>Số điện thoại: </li>
-                    <li>Email: </li>
-                </ul></li>
-            </ul>
-        </div>
-    </footer>
+    <?php include 'footer.php'; ?>
 </body>
 </html>
+<?php
+ $mysqli->close();
+?>

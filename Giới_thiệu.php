@@ -22,59 +22,7 @@ include_once('db/connect.php');
 <body>
 
     <!-- Header -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-            <a class="navbar-brand" href="index.php">
-                <img src="images/book_haven.jpg" width="50" height="50" class="d-inline-block align-top" alt="Book Haven">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="Trang_chủ.php">Trang Chủ <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Sản Phẩm
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <?php
-                            if ($spl_category) {
-                                mysqli_data_seek($spl_category, 0);
-                                while ($row_category = $spl_category->fetch_assoc()): ?>
-                                    <a class="dropdown-item" href="./Phân_loại.php"><?php echo htmlspecialchars($row_category['category_name']); ?></a>
-                                <?php endwhile;
-                            } else {
-                                echo "Không có category nào.";
-                            }
-                            ?>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./Liên_hệ.html">Liên Hệ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Giới_thiệu.php">Giới Thiệu</a>
-                    </li>
-                </ul>
-                <form class="form-inline ml-auto" method="post" action="">
-                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                </form>
-            </div>
-            <button id="cart" class="btn btn-danger ml-2">
-                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                Giỏ Hàng
-            </button>
-            <ul class="navbar-nav ml-2">
-                <li class="nav-item">
-                    <a class="nav-link" href="./Tai_khoan_khach.html">Tài khoản</a>
-                </li>
-            </ul>
-        </nav>
-    </header>
+    <?php include 'header.php'; ?>
 
     <!-- content -->    
     <section class="wrapper_gt">
@@ -109,39 +57,8 @@ include_once('db/connect.php');
     </section>
     
     <!-- footer -->
-    <footer>
-        <div>
-            <ul class="end">
-                <li>
-                    <ul>
-                        <img src="images/Book Haven (2).png" width="130px" height="130px">
-                    </ul>
-                </li>
-                <li><ul>
-                    <li class="tieu_de">Dịch vụ</li>
-                    <li><a href="">Điều khoản sử dụng</a></li>
-                    <li><a href="">Liên hệ</a></li>
-                    <li><a href="">Hệ thống nhà sách</a></li>
-                </ul></li>
+    <?php include 'footer.php'; ?>
     
-                <li><ul>
-                    <li class="tieu_de">Hỗ trợ</li>
-                    <li><a href="">Chính sách đổi trả - hoàn tiền</a></li>
-                    <li><a href="">Phương thức vận chuyển</a></li>
-                    <li><a href="">Phương thức thanh toán</a></li>
-                </ul></li>
-    
-                <li><ul>
-                    <li class="tieu_de">Nhà sách bán lẻ</li>
-                    <li>Giám đốc: Tào Thanh Hà | Mai Phương Anh</li>
-                    <li>Địa chỉ: Đại học Phenikaa</li>
-                    <li>Số điện thoại: </li>
-                    <li>Email: </li>
-                    <li>Facebook: </li>
-                </ul></li>
-            </ul>
-        </div>
-    </footer>
     <script>
         document.getElementById('cart').addEventListener('click', function() {
             window.location.href = 'Giỏ_hàng.php';

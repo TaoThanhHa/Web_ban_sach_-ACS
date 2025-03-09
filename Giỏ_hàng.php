@@ -1,4 +1,7 @@
 <?php
+include_once('db/connect.php');
+?>
+<?php
 session_start();
 
 // Kiểm tra nếu giỏ hàng không tồn tại
@@ -30,7 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/Giỏ_hàng.css" type="text/css">
+    <link rel="stylesheet" href="css//header.css" type="text/css">
     <title>Giỏ Hàng</title>
     <script>
         function updateTotal() {
@@ -96,11 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </script>
 </head>
 <body>
-    <header>
-        <div class="header">
-            <a href="Trang_chủ.php">&lt;</a>
-        </div>
-    </header>
+    <!-- header -->
+    <?php include 'header.php'; ?>
     
     <div class="box_cart">
         <div class="box_cart_item">
@@ -126,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo '<td><img src="images/' . htmlspecialchars($item['image']) . '" alt=""></td>';
                             echo '<td>' . htmlspecialchars($item['title']) . '</td>';
                             echo '<td><input type="number" value="' . $item['quantity'] . '" min="1" onchange="updateQuantity(this)"></td>';
-                            echo '<td class="price" data-price="' . ($item['price']) . '">' . number_format($item['price'], 0, ',', '.') . '₫</td>';
+                            echo '<td class="price" data-price="' . htmlspecialchars($item['price']) . '">' . number_format($item['price'], 0, ',', '.') . '₫</td>';
                             echo '<td><button class="button" onclick="removeItem(this)">Xóa</button></td>';
                             echo '</tr>';
                         }
