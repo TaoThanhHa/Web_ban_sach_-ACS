@@ -162,7 +162,7 @@ $stmt->close();
                         <input type="hidden" name="book_id" value="<?php echo $book['book_id']; ?>">
                         <input type="hidden" name="book_title" value="<?php echo htmlspecialchars($book['book_title']); ?>">
                         <input type="hidden" name="book_image" value="<?php echo htmlspecialchars($book['book_image']); ?>">
-                        <input type="hidden" name="book_price" value="<?php echo number_format($price, 0, ',', '.'); ?>">
+                        <input type="hidden" name="book_price" value="<?php echo $price; ?>">
                         <div class="counter d-flex align-items-center">
                             <button type="button" class="btn btn-secondary" id="decrease">-</button>
                             <div class="number px-3" id="count">1</div>

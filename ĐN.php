@@ -6,7 +6,7 @@ if (isset($_POST['login'])) {
     $pass = $_POST['pass']; // Mật khẩu nhập vào
 
     // Truy vấn để lấy mật khẩu đã lưu và vai trò
-    $stmt = $mysqli->prepare("SELECT pass, role FROM tbl_users WHERE email = ? OR user = ?");
+    $stmt = $mysqli->prepare("SELECT pass, role FROM tbl_user WHERE email = ? OR user = ?");
     $stmt->bind_param("ss", $user, $user);
     $stmt->execute();
     $stmt->store_result();
