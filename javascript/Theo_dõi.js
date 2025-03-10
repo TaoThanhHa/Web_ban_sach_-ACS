@@ -21,8 +21,9 @@ function displayOrders() {
             data.forEach(order => {
                 const orderItem = document.createElement('div');
                 orderItem.classList.add('order-item');
+                // Sử dụng order_date_local nếu có, nếu không thì sử dụng order_date
                 orderItem.innerHTML = `
-                    <h3>Đơn hàng #${order.id_order} - ${order.order_date}</h3>
+                    <h3>Đơn hàng #${order.id_order} - ${order.order_date_local || order.order_date}</h3>
                     <p>Trạng thái: <span class="order-status">${order.order_status}</span></p>
                 `;
                 orderItem.addEventListener('click', () => displayOrderDetails(order.id_order));

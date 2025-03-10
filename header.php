@@ -25,7 +25,7 @@ include_once('db/connect.php'); // Đảm bảo file này tồn tại và kết 
                     <a class="nav-link" href="Phân_loại.php?category_id=<?php echo $category_id_first ?>">Thể loại</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./Liên_hệ.html">Liên Hệ</a>
+                    <a class="nav-link" href="./Liên_hệ.php">Liên Hệ</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="Giới_thiệu.php">Giới Thiệu</a>
