@@ -1,27 +1,40 @@
 <?php
+session_start(); // Khởi tạo session ở đầu file
+
 include_once('db/connect.php');
 
 if (isset($_POST['login'])) {
     $user = $_POST['user']; // Người dùng nhập email hoặc tên
     $pass = $_POST['pass']; // Mật khẩu nhập vào
 
-    // Truy vấn để lấy mật khẩu đã lưu và vai trò
-    $stmt = $mysqli->prepare("SELECT pass, role FROM tbl_user WHERE email = ? OR user = ?");
+    // Truy vấn để lấy mật khẩu đã lưu, vai trò và user ID
+    $sql = "SELECT id, pass, role FROM tbl_user WHERE email = ? OR user = ?"; // Sử dụng 'id' thay vì 'id_user'
+    $stmt = $mysqli->prepare($sql);
+
+    if ($stmt === false) { // Kiểm tra xem prepare() có thành công không
+        echo "Lỗi prepare: " . $mysqli->error; // In ra thông báo lỗi chi tiết
+        exit(); // Dừng thực thi script
+    }
+
     $stmt->bind_param("ss", $user, $user);
     $stmt->execute();
     $stmt->store_result();
-    
+
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($storedPassword, $role);
+        $stmt->bind_result($id, $storedPassword, $role); // Sử dụng $id thay vì $user_id
         $stmt->fetch();
 
         // So sánh mật khẩu nhập vào với mật khẩu đã lưu
-        if ($pass === $storedPassword) { 
+        if ($pass === $storedPassword) {
+            // Đăng nhập thành công
+            $_SESSION['user_id'] = $id; // Lưu user ID vào session
+
             if ($role == 1) {
                 header("Location: Admin.html"); // Giao diện cho role 1
             } else {
                 header("Location: Trang_chủ.php"); // Giao diện cho role 0
             }
+            exit(); // Thêm exit() để đảm bảo không có code nào khác được thực thi sau khi chuyển hướng
         } else {
             echo "Mật khẩu không chính xác.";
         }
@@ -45,7 +58,7 @@ if (isset($_POST['login'])) {
                     <div class="dnvao">
                         <span class="chu">Đăng nhập vào tài khoản của bạn</span>
                     </div>
-                    
+
                         <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
                         <div class="chon">
                             <p class="mot">Email hoặc Tên người dùng<span class="sao">*</span></p>

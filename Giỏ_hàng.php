@@ -4,9 +4,20 @@ include_once('db/connect.php');
 <?php
 session_start();
 
-// Kiểm tra nếu giỏ hàng không tồn tại
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = [];
+// Kiểm tra xem user đã đăng nhập chưa
+if (!isset($_SESSION['user_id'])) {
+    echo "<script>
+            alert('Bạn cần đăng nhập để xem giỏ hàng.');
+            window.location.href = 'login.php'; // Chuyển hướng đến trang đăng nhập
+          </script>";
+    exit();
+}
+
+$user_id = $_SESSION['user_id']; // Lấy user ID từ session
+
+// Kiểm tra nếu giỏ hàng của người dùng này không tồn tại
+if (!isset($_SESSION['cart'][$user_id])) {
+    $_SESSION['cart'][$user_id] = [];
 }
 
 // Cập nhật giỏ hàng khi có yêu cầu từ client
@@ -15,13 +26,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $book_id = $_POST['book_id'];
         $quantity = $_POST['quantity'];
         if ($quantity <= 0) {
-            unset($_SESSION['cart'][$book_id]);
+            unset($_SESSION['cart'][$user_id][$book_id]); // Xóa sản phẩm khỏi giỏ hàng của người dùng này
         } else {
-            $_SESSION['cart'][$book_id]['quantity'] = $quantity;
+            $_SESSION['cart'][$user_id][$book_id]['quantity'] = $quantity; // Cập nhật số lượng trong giỏ hàng của người dùng này
         }
     } elseif (isset($_POST['action']) && $_POST['action'] === 'remove') {
         $book_id = $_POST['book_id'];
-        unset($_SESSION['cart'][$book_id]);
+        unset($_SESSION['cart'][$user_id][$book_id]); // Xóa sản phẩm khỏi giỏ hàng của người dùng này
     }
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit();
@@ -122,8 +133,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <tbody id="cart-items">
                     <?php
                     $total_price = 0;
-                    if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
-                        foreach ($_SESSION['cart'] as $book_id => $item) {
+                    if (isset($_SESSION['cart'][$user_id]) && !empty($_SESSION['cart'][$user_id])) {
+                        foreach ($_SESSION['cart'][$user_id] as $book_id => $item) {
                             $item_total = $item['price'] * $item['quantity'];
                             $total_price += $item_total;
                             echo '<tr data-book-id="' . htmlspecialchars($book_id) . '">';

@@ -1,88 +1,98 @@
-// Giả lập dữ liệu đơn hàng
-const orders = [
-    {
-        id: 1,
-        date: '2024-09-24',
-        status: 'Đang xử lý',
-        estimatedDelivery: '2024-09-30',
-        shippingMethod: 'Giao hàng nhanh',
-        shippingFee: 30000,
-        items: [
-            { name: 'Sách A', quantity: 1, price: 100000 },
-            { name: 'Sách B', quantity: 2, price: 150000 }
-        ],
-        total: 400000,
-        shippingAddress: '123 Đường ABC, Thành phố XYZ'
-    },
-    {
-        id: 2,
-        date: '2024-09-20',
-        status: 'Đã giao hàng',
-        estimatedDelivery: '2024-09-25',
-        shippingMethod: 'Giao hàng tiêu chuẩn',
-        shippingFee: 20000,
-        items: [
-            { name: 'Sách C', quantity: 1, price: 200000 }
-        ],
-        total: 200000,
-        shippingAddress: '456 Đường DEF, Thành phố XYZ'
-    }
-];
+// QLTD.js
 
 // Hiển thị danh sách đơn hàng cho quản trị viên
 function displayOrders() {
     const orderList = document.getElementById('order-list');
-    orderList.innerHTML = '';
+    orderList.innerHTML = 'Loading...'; // Hiển thị thông báo loading
 
-    orders.forEach(order => {
-        const orderItem = document.createElement('div');
-        orderItem.classList.add('order-item');
-        orderItem.innerHTML = `
-            <h3>Đơn hàng #${order.id} - ${order.date}</h3>
-            <p>Trạng thái: <span class="order-status">${order.status}</span></p>
-            <button onclick="displayOrderDetails(${order.id})">Xem chi tiết</button>
-        `;
-        orderList.appendChild(orderItem);
-    });
+    fetch('get_all_orders.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                orderList.innerHTML = `<p class="error">${data.error}</p>`;
+                return;
+            }
+
+            orderList.innerHTML = ''; // Xóa thông báo loading
+
+            data.forEach(order => {
+                const orderItem = document.createElement('div');
+                orderItem.classList.add('order-item');
+                orderItem.innerHTML = `
+                    <h3>Đơn hàng #${order.id_order} - ${order.order_date}</h3>
+                    <p>Người dùng: ${order.id_user}</p>
+                    <p>Trạng thái: <span class="order-status">${order.order_status}</span></p>
+                    <button onclick="displayOrderDetails(${order.id_order})">Xem chi tiết</button>
+                `;
+                orderList.appendChild(orderItem);
+            });
+        })
+        .catch(error => {
+            orderList.innerHTML = `<p class="error">Có lỗi xảy ra: ${error}</p>`;
+        });
 }
 
 // Hiển thị chi tiết đơn hàng
 function displayOrderDetails(orderId) {
-    const order = orders.find(o => o.id === orderId);
-    if (!order) return;
-
     const orderDetails = document.getElementById('order-details');
     orderDetails.classList.remove('hidden');
+    orderDetails.innerHTML = 'Loading...'; // Hiển thị thông báo loading
 
-    let itemsList = '';
-    order.items.forEach(item => {
-        itemsList += `<li>${item.name} - Số lượng: ${item.quantity}, Giá: ${item.price} VND</li>`;
-    });
+    fetch(`get_all_order_details.php?id=${orderId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                orderDetails.innerHTML = `<p class="error">${data.error}</p>`;
+                return;
+            }
 
-    orderDetails.innerHTML = `
-        <h2>Chi tiết đơn hàng #${order.id}</h2>
-        <p>Ngày đặt hàng: ${order.date}</p>
-        <p>Địa chỉ giao hàng: ${order.shippingAddress}</p>
-        <p>Trạng thái: <span class="order-status">${order.status}</span></p>
-        <p>Ngày giao hàng dự kiến: ${order.estimatedDelivery}</p>
-        <p>Phương thức vận chuyển: ${order.shippingMethod}</p>
-        <p>Phí vận chuyển: ${order.shippingFee} VND</p>
-        <h3>Sản phẩm:</h3>
-        <ul>${itemsList}</ul>
-        <p><strong>Tổng cộng:</strong> ${order.total} VND</p>
-        <button onclick="changeOrderStatus(${order.id})">Cập nhật trạng thái</button>
-    `;
+            let itemsList = '';
+            data.items.forEach(item => {
+                itemsList += `<li>${item.book_title} - Số lượng: ${item.quantity}, Giá: ${item.price} VND</li>`;
+            });
+
+            orderDetails.innerHTML = `
+                <h2>Chi tiết đơn hàng #${data.id_order}</h2>
+                <p>Ngày đặt hàng: ${data.order_date}</p>
+                <p>Địa chỉ giao hàng: ${data.shipping_address}</p>
+                <p>Trạng thái: <span class="order-status">${data.order_status}</span></p>
+                <p>Phương thức thanh toán: ${data.payment_method}</p>
+                <p>Phương thức vận chuyển: ${data.shipping_method}</p>
+                <p>Phí vận chuyển: ${data.shipping_fee} VND</p>
+                <h3>Sản phẩm:</h3>
+                <ul>${itemsList}</ul>
+                <p><strong>Tổng cộng:</strong> ${data.total_amount} VND</p>
+                <button onclick="changeOrderStatus(${data.id_order})">Cập nhật trạng thái</button>
+            `;
+        })
+        .catch(error => {
+            orderDetails.innerHTML = `<p class="error">Có lỗi xảy ra: ${error}</p>`;
+        });
 }
 
 // Hàm cập nhật trạng thái đơn hàng
 function changeOrderStatus(orderId) {
-    const order = orders.find(o => o.id === orderId);
-    if (order) {
-        const newStatus = prompt("Nhập trạng thái mới cho đơn hàng (ví dụ: 'Đang vận chuyển', 'Đã giao hàng'):");
-        if (newStatus) {
-            order.status = newStatus;
-            displayOrders(); // Cập nhật danh sách đơn hàng
-        }
+    const newStatus = prompt("Nhập trạng thái mới cho đơn hàng (ví dụ: 'Đang vận chuyển', 'Đã giao hàng'):");
+    if (newStatus) {
+        fetch('update_order_status.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `id=${orderId}&status=${newStatus}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.success);
+                displayOrders(); // Cập nhật danh sách đơn hàng
+            } else if (data.error) {
+                alert(data.error);
+            }
+        })
+        .catch(error => {
+            alert(`Có lỗi xảy ra: ${error}`);
+        });
     }
 }
 

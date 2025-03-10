@@ -11,7 +11,7 @@ if (isset($_POST['register'])) {
 
     // Kiểm tra xem mật khẩu có khớp không
     if ($password === $confirmPassword) {
-        $stmt = $mysqli->prepare("INSERT INTO tbl_users (name, email, phone, pass) VALUES (?, ?, ?, ?)");
+        $stmt = $mysqli->prepare("INSERT INTO tbl_user (name, email, phone, pass) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $name, $email, $phone, $password); // Lưu mật khẩu thẳng vào DB
         
         if ($stmt->execute()) {

@@ -9,10 +9,21 @@ function db_error($mysqli) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Kiểm tra xem user đã đăng nhập chưa
+    if (!isset($_SESSION['user_id'])) {
+        echo "<script>
+                alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.');
+                window.location.href = 'login.php'; // Chuyển hướng đến trang đăng nhập
+              </script>";
+        exit();
+    }
+
+    $user_id = $_SESSION['user_id']; // Lấy user ID từ session
+
     $book_id = isset($_POST['book_id']) ? (int)$_POST['book_id'] : 0;
     $book_title = isset($_POST['book_title']) ? $_POST['book_title'] : '';
     $book_image = isset($_POST['book_image']) ? $_POST['book_image'] : '';
-    $book_price = isset($_POST['book_price']) ? (float)$_POST['book_price'] : 0.0; // Quan trọng: Ép kiểu về float
+    $book_price = isset($_POST['book_price']) ? (float)$_POST['book_price'] : 0.0;
     $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
 
     // Truy vấn để lấy số lượng sách còn lại trong kho
@@ -31,10 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result->fetch_assoc();
         $available_quantity = (int)$row['book_quantity'];
 
-        // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
-        if (isset($_SESSION['cart'][$book_id])) {
-            // Sản phẩm đã có trong giỏ hàng
-            $existing_quantity = (int)$_SESSION['cart'][$book_id]['quantity'];
+        // Kiểm tra xem sản phẩm đã có trong giỏ hàng của người dùng này chưa
+        if (isset($_SESSION['cart'][$user_id][$book_id])) {
+            // Sản phẩm đã có trong giỏ hàng của người dùng này
+            $existing_quantity = (int)$_SESSION['cart'][$user_id][$book_id]['quantity'];
             $new_quantity = $existing_quantity + $quantity;
 
             // Kiểm tra tổng số lượng yêu cầu so với số lượng có sẵn
@@ -46,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit();
             } else {
                 // Cập nhật số lượng trong giỏ hàng
-                $_SESSION['cart'][$book_id]['quantity'] = $new_quantity;
+                $_SESSION['cart'][$user_id][$book_id]['quantity'] = $new_quantity;
 
                 echo "<script>
                     alert('Cập nhật giỏ hàng thành công!');
@@ -55,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit();
             }
         } else {
-            // Sản phẩm chưa có trong giỏ hàng
+            // Sản phẩm chưa có trong giỏ hàng của người dùng này
             // Kiểm tra số lượng yêu cầu so với số lượng có sẵn
             if ($quantity > $available_quantity) {
                 echo "<script>
@@ -72,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'price' => $book_price,
                     'quantity' => $quantity
                 );
-                $_SESSION['cart'][$book_id] = $item;
+                $_SESSION['cart'][$user_id][$book_id] = $item;
 
                 echo "<script>
                     alert('Thêm vào giỏ hàng thành công!');
