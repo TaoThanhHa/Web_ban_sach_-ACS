@@ -41,8 +41,14 @@ include_once('db/connect.php'); // Đảm bảo file này tồn tại và kết 
             Giỏ Hàng
         </button>
         <ul class="navbar-nav ml-2">
-            <li class="nav-item">
-                <a class="nav-link" href="./ĐN.php">Tài khoản</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Tài khoản
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="ĐX.php">Đăng xuất</a>
+                    <a class="dropdown-item" href="Theo_dõi.html">Theo dõi đơn hàng</a> 
+                </div>
             </li>
         </ul>
     </nav>
