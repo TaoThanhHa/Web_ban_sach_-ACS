@@ -20,7 +20,14 @@ if ($order_id <= 0) {
 }
 
 // Truy vấn để lấy thông tin đơn hàng
-$sql_order = "SELECT id_order, order_date, shipping_address, order_status, total_amount, shipping_method, payment_method, shipping_fee
+$sql_order = "SELECT id_order, 
+              order_date,
+              shipping_address, 
+              order_status, 
+              total_amount, 
+              shipping_method, 
+              payment_method, 
+              shipping_fee
               FROM tbl_order
               WHERE id_order = ? AND id_user = ?";
 
@@ -41,6 +48,12 @@ if ($result_order->num_rows === 0) {
 }
 
 $order = $result_order->fetch_assoc();
+
+// Chuyển đổi múi giờ trong PHP
+$order_date = new DateTime($order['order_date'], new DateTimeZone('UTC'));
+$order_date->setTimezone(new DateTimeZone('Asia/Ho_Chi_Minh'));
+$order['order_date'] = $order_date->format('Y-m-d H:i:s'); // Định dạng lại nếu cần
+
 $stmt_order->close();
 
 // Truy vấn để lấy thông tin các sản phẩm trong đơn hàng
@@ -72,4 +85,3 @@ $order['items'] = $items;
 // Trả về dữ liệu dưới dạng JSON
 header('Content-Type: application/json');
 echo json_encode($order);
-?>
