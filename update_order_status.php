@@ -3,7 +3,6 @@ session_start();
 
 include_once('db/connect.php');
 
-
 // Lấy order ID và new status từ tham số POST
 $order_id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
 $new_status = isset($_POST['status']) ? $_POST['status'] : '';

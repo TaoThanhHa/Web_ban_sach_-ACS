@@ -1,5 +1,5 @@
 <?php
-include_once('db/connect.php'); // Đảm bảo file này tồn tại và kết nối CSDL thành công
+include_once('db/connect.php');
 ?>
 
 <header>
@@ -31,8 +31,8 @@ include_once('db/connect.php'); // Đảm bảo file này tồn tại và kết 
                     <a class="nav-link" href="Giới_thiệu.php">Giới Thiệu</a>
                 </li>
             </ul>
-            <form class="form-inline ml-auto" method="post" action="">
-                <input class="form-control mr-sm-2" type="search" name="search" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
+            <form class="form-inline my-2 my-lg-0" action="Tìm_kiếm.php" method="GET" style="text-align: right">
+                <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm" aria-label="Search" name="keyword">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
             </form>
         </div>

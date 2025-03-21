@@ -108,15 +108,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/Thanh_toán.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/header.css?v=<?php echo time(); ?>" type="text/css">
+    <link rel="stylesheet" href="css/Thanh_toán.css?v=<?php echo time(); ?>">
     <title>Thông tin giao hàng</title>
 </head>
 <body>
-    <header>
-        <div class="header">
-            <a href="Giỏ_hàng.php"><</a>
-        </div>
-    </header>
+    <?php include 'header.php'; ?>
 
     <div class="container">
         <h1>Thông tin giao hàng</h1>

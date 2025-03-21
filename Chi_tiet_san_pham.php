@@ -60,7 +60,8 @@ $stmt->close();
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/Chi_tiet_sản_phẩm.css" type="text/css">
+    <link rel="stylesheet" href="css/Chi_tiet_sản_phẩm.css?v=<?php echo time(); ?>" type="text/css">
+    <link rel="stylesheet" href="css/header.css?v=<?php echo time(); ?>" type="text/css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <title><?php echo isset($book['book_title']) ? htmlspecialchars($book['book_title']) : 'Chi tiết sách'; ?></title>
@@ -187,13 +188,9 @@ $stmt->close();
 
     <!-- Footer -->
     <?php include 'footer.php'; ?>
-
-    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <!-- Custom JavaScript -->
     <script src="javascript/Chi_tiet_san_pham.js"></script>
 </body>
 </html>
