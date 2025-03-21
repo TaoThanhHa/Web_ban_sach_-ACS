@@ -1,14 +1,12 @@
 <?php
 include_once('db/connect.php');
-?>
 
-<?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $results = null;
 
-$search_keyword = isset($_POST['search']) ? $_POST['search'] : '';
+$search_keyword = isset($_POST['search']) ? $mysqli->real_escape_string($_POST['search']) : '';
 
 // Nếu có từ khóa tìm kiếm, thực hiện truy vấn tìm kiếm
 if (!empty($search_keyword)) {
@@ -24,6 +22,9 @@ if (!empty($search_keyword)) {
     $query = "SELECT * FROM tbl_book";
     $results = $mysqli->query($query);
 }
+
+// Kiểm tra xem có thông báo từ trang Xử_lý_sách.php không
+$message = isset($_GET['message']) ? $_GET['message'] : '';
 ?>
 
 <!DOCTYPE html>
@@ -41,6 +42,11 @@ if (!empty($search_keyword)) {
 
     <div class="container">
     <h1>Quản lý sách</h1>
+
+    <?php if (!empty($message)): ?>
+        <div class="message"><?php echo htmlspecialchars($message); ?></div>
+    <?php endif; ?>
+
     <form method="post" action="">
       <input class="tim-kiem" type="text" name="search" placeholder="Tìm kiếm sách...">
       <input type="submit" value="Tìm kiếm">
@@ -50,16 +56,20 @@ if (!empty($search_keyword)) {
 
     <div id="book-list">
       <?php
-      if ($results->num_rows > 0) {
+      if ($results && $results->num_rows > 0) {
           while($row = $results->fetch_assoc()) {
-              echo '<div class="book row">';
-              echo '  <div class="book-left row">';
-              echo '    <div class="image"><img src="images/' . $row["book_image"] . '" alt=""></div>';
-              echo '    <div class="book-title">' . $row["book_title"] . '</div>';
+              echo '<div class="book">';
+              echo '  <div class="book-left">';
+              echo '    <img src="images/' . htmlspecialchars($row["book_image"]) . '" alt="' . htmlspecialchars($row["book_title"]) . '">';
+              echo '    <div class="book-title">' . htmlspecialchars($row["book_title"]) . '</div>';
               echo '  </div>';
-              echo '  <div class="book-right row">';
-              echo '    <button class="button" onclick="deleteBook(' . $row["book_id"] . ')">Xóa</button>';
-              echo '    <button class="button" onclick="editBook(' . $row["book_id"] . ', \'' . addslashes($row["book_title"]) . '\')">Sửa</button>';
+              echo '  <div class="book-right">';
+              echo '    <form method="post" action="Xử_lý_sách.php">';
+              echo '      <input type="hidden" name="book_id" value="' . htmlspecialchars($row["book_id"]) . '">';
+              echo '      <input type="hidden" name="action" value="delete">';
+              echo '      <button type="submit" class="button">Xóa</button>';
+              echo '    </form>';
+              echo '    <a href="Sửa_sách.php?book_id=' . htmlspecialchars($row["book_id"]) . '" class="button">Sửa</a>';
               echo '  </div>';
               echo '</div>';
           }
@@ -68,13 +78,12 @@ if (!empty($search_keyword)) {
       }
       ?>
     </div>
-    
+
   </div>
 
   <?php
   // Đóng kết nối
   $mysqli->close();
   ?>
-  <script src="javascript/QLS.js"></script>
 </body>
 </html>

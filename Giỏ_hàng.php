@@ -47,8 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/Giỏ_hàng.css" type="text/css">
-    <link rel="stylesheet" href="css//header.css" type="text/css">
+    <link rel="stylesheet" href="css/Giỏ_hàng.css?v=<?php echo time(); ?>" type="text/css">
+    <link rel="stylesheet" href="css/header.css?v=<?php echo time(); ?>">
     <title>Giỏ Hàng</title>
     <script>
         function updateTotal() {

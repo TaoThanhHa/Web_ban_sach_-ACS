@@ -195,6 +195,22 @@ button:disabled {
      color: gray;
 }
 
+.card {
+    height: 500px;
+}
+img.card-img-top {
+    height: 350px;
+}
+
+.card-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    line-clamp: 2;
+}
+
 
 @media screen and (max-width: 850px) {
     .box-icon .fas, .interaction-count{

@@ -48,20 +48,22 @@ a:hover{
 
 h2{
     text-align: center;
+    margin-top: 15px;
 }
 
-/*Phân trang*/
-.pagination{
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
+.card {
+    height: 500px;
+}
+img.card-img-top {
+    height: 350px;
 }
 
-.page-link{
-    color: black;
+.card-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    line-clamp: 2;
 }
 
-.page-item.active .page-link {
-    background-color: #4CAF50;
-    border: 1px solid #4CAF50;
-}
