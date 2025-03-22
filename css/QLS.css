@@ -1,52 +1,5 @@
 /* Thêm CSS để style trang quản lý sách */
 .container {
-    width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-h1 {
-    text-align: center;
-}
-
-.tim-kiem {
-    width: 70%;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-#add-book-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-.book {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.button {
-    padding: 5px 10px;
-    background-color: #f44336;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.button.edit {
-    background-color: #008CBA;
-}
-
-/* Thêm CSS để style trang quản lý sách */
-.container {
   width: 80%;
   margin: 0 auto;
   padding: 20px;
