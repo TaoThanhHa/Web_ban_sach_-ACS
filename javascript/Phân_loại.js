@@ -1,3 +1,7 @@
+document.getElementById('cart').addEventListener('click', function() {
+    window.location.href = 'Giỏ_hàng.php';
+});
+
 function setupPagination(totalItems, itemsPerPage) {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const pagination = document.getElementById('pagination');

@@ -4,19 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý đơn hàng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/QLTD.css">
 </head>
 <body>
     <div class="header">
-        <a href="Admin.html">&lt;</a>
+        <a href="Admin.php"><i class="fas fa-arrow-left"></i></a>
+        <h1>Quản lý đơn hàng</h1>
     </div>
     <div class="container">
-        <h1>Quản lý đơn hàng</h1>
+        <div class="search-bar">
+            <input type="text" id="order-search" placeholder="Nhập mã đơn hàng...">
+            <button onclick="searchOrder()"><i class="fas fa-search"></i> Tìm kiếm</button>
+        </div>
         <div id="order-list">
             <!-- Danh sách đơn hàng sẽ được hiển thị ở đây -->
         </div>
         <div id="order-details" class="hidden">
-            <!-- Chi tiết đơn hàng sẽ hiển thị ở đây -->
+            <h2>Chi tiết đơn hàng</h2>
+            <div class="order-info">
+                <!-- Thông tin đơn hàng -->
+            </div>
+            <div class="order-items">
+                <h3>Sản phẩm</h3>
+                <ul>
+                    <!-- Danh sách sản phẩm trong đơn hàng -->
+                </ul>
+            </div>
+            <div class="order-actions">
+                <!-- Các nút thao tác (ví dụ: Cập nhật trạng thái, Hủy đơn hàng) -->
+            </div>
         </div>
     </div>
 

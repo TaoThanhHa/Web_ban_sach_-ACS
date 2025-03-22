@@ -1,100 +1,204 @@
-/*Phần đầu*/
-.header{
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8; /* Màu nền sáng */
+    margin: 0;
+    padding: 0;
+    color: #333;
+    overflow-x: hidden; /* Ngăn cuộn ngang */
+}
+
+/* Header */
+.header {
     width: 100%;
-    height: 50px;
-    box-shadow: 0px 2px 2px 0px gray;
+    height: 60px;
+    background-color: #e44d26; /* Cam chủ đạo như trang Theo dõi */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     display: flex;
-    justify-content: space-between;
-    align-items: center; 
+    align-items: center;
+    justify-content: space-between; /* Để các phần tử cách xa nhau */
     position: fixed;
     top: 0;
     left: 0;
-    background-color:#b6e2d3;
     z-index: 1;
-  }
-  
-  .header a{
+    color: white;
+    padding: 0 20px;
+}
+
+.header a {
     text-decoration: none;
     color: white;
-    font-size: xx-large;
-    font-weight: 900;
-    margin-left: 50px;
-  }
-  
-  .header a:hover{
-    color: #eb3c15;
-  }
-  
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f7f9fc; /* Màu nền sáng và nhẹ nhàng */
-    margin: 0;
-    padding: 0;
+    font-size: 1.8em;
+    margin-right: 20px;
+    transition: color 0.3s ease;
+}
+
+.header a:hover {
+    color: #f39c12; /* Vàng cam khi hover */
+}
+
+.header h1 {
+    margin: 0 auto; /* Căn giữa tiêu đề */
+    font-size: 1.8em;
+    font-weight: 500;
+    text-align: center; /* Đảm bảo tiêu đề căn giữa */
 }
 
 .container {
-    padding-top: 80px;
-    width: 80%;
-    margin: 0 auto;
-    background-color: #ffffff; /* Màu nền trắng cho vùng nội dung */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px; /* Góc bo tròn */
+    padding-top: 80px; /* Để không bị che bởi header */
+    width: 90%; /* Tăng chiều rộng */
+    max-width: 1200px; /* Giới hạn chiều rộng tối đa */
+    margin: 20px auto;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Tăng độ đậm của bóng */
+    border-radius: 12px; /* Góc bo tròn */
+    padding: 30px;
 }
 
 h1 {
     text-align: center;
-    color: #4a4a4a; /* Màu chữ tối cho tiêu đề */
+    color: #e44d26; /* Cam chủ đạo */
+    margin-bottom: 30px;
+    font-size: 2.2em; /* Tăng kích thước tiêu đề */
 }
 
-.order-item {
-    padding: 15px;
-    border-bottom: 1px solid #e0e0e0; /* Đường viền nhẹ cho từng đơn hàng */
+/* Thanh tìm kiếm */
+.search-bar {
+    display: flex;
+    margin-bottom: 20px;
+    margin-top: 30px;
+    justify-content: center; /* Căn giữa thanh tìm kiếm */
+}
+
+.search-bar input[type="text"] {
+    flex: 1;
+    max-width: 300px; /* Giới hạn chiều rộng input */
+    padding: 10px;
+    border: 2px solid #e44d26; /* Viền màu cam */
+    border-radius: 25px; /* Bo tròn viền */
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.search-bar input[type="text"]:focus {
+    border-color: #007bff; /* Đổi màu viền khi focus */
+    outline: none;
+}
+
+.search-bar button {
+    background-color: #e44d26; /* Cam chủ đạo */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px; /* Bo tròn viền */
     cursor: pointer;
-    background-color: #fafafa; /* Nền cho từng đơn hàng */
-    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
-    border-radius: 5px; /* Góc bo cho mỗi đơn hàng */
+    font-size: 16px;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background-color: #c63d1a; /* Cam đậm hơn khi hover */
+}
+
+/* Danh sách đơn hàng */
+.order-item {
+    padding: 20px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .order-item:hover {
-    background-color: #f0f0f0; /* Màu nền khi hover */
+    transform: translateY(-5px); /* Hiệu ứng nâng lên */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .order-item h3 {
-    margin: 0;
-    color: #333; /* Màu chữ cho tiêu đề đơn hàng */
+    margin: 0 0 10px;
+    font-size: 1.7em;
+    color: #34495e; /* Xám đậm */
 }
 
 .order-status {
     font-weight: bold;
-    color: #008cba; /* Màu chữ cho trạng thái đơn hàng */
+    color: #27ae60; /* Xanh lá cây tươi sáng */
+}
+
+/* Chi tiết đơn hàng */
+#order-details {
+    margin-top: 30px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-top: 4px solid #e44d26; /* Viền cam đậm */
+}
+
+#order-details h2 {
+    font-size: 2.2em;
+    color: #e44d26; /* Cam chủ đạo */
+    margin-bottom: 20px;
+}
+
+/* Thông tin đơn hàng */
+.order-info {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.order-info p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.order-info strong {
+    font-weight: bold;
+    color: #34495e; /* Xám đậm */
+    margin-right: 5px;
+}
+
+/* Danh sách sản phẩm */
+.order-items ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.order-items li {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+/* Các nút thao tác */
+.order-actions {
+    margin-top: 25px;
+    text-align: center;
 }
 
 button {
-    background-color: #008cba; /* Màu nền cho nút */
-    color: #ffffff; /* Màu chữ cho nút */
+    background-color: #e44d26; /* Cam chủ đạo */
+    color: #fff;
     border: none;
-    padding: 8px 12px;
-    border-radius: 4px; /* Góc bo cho nút */
+    padding: 12px 20px;
+    border-radius: 8px;
     cursor: pointer;
-    margin-top: 10px; /* Khoảng cách giữa nút và nội dung */
-    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Thêm hiệu ứng transform */
+    margin: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ cho nút */
 }
 
 button:hover {
-    background-color: #006f9a; /* Màu nền khi hover */
+    background-color: #c63d1a; /* Cam đậm hơn khi hover */
+    transform: scale(1.05); /* Hiệu ứng phóng to */
 }
 
-#order-details {
-    margin-top: 20px;
-    padding: 15px;
-    border-top: 1px solid #ddd;
-    background-color: #ffffff; /* Màu nền cho chi tiết đơn hàng */
-}
-
+/* Ẩn chi tiết đơn hàng */
 .hidden {
-    display: none; /* Ẩn chi tiết đơn hàng */
-}
-
-ul {
-    padding-left: 20px; /* Khoảng cách bên trái cho danh sách sản phẩm */
+    display: none;
 }

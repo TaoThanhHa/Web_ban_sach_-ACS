@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_SESSION['user_id'])) {
         echo "<script>
                 alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.');
-                window.location.href = 'login.php'; // Chuyển hướng đến trang đăng nhập
+                window.location.href = 'Trang_chủ.php'; // Chuyển hướng đến trang đăng nhập
               </script>";
         exit();
     }
@@ -50,12 +50,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Kiểm tra tổng số lượng yêu cầu so với số lượng có sẵn
             if ($new_quantity > $available_quantity) {
-                echo "<script>
-                    alert('Số lượng bạn chọn cộng với số lượng đã có trong giỏ hàng vượt quá số lượng còn lại trong kho. Bạn chỉ có thể mua tối đa " . ($available_quantity - $existing_quantity) . " sản phẩm này.');
-                    window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "'; // Quay lại trang chi tiết
-                  </script>";
-                exit();
+                if ($available_quantity == $existing_quantity) {
+                    // Hết hàng
+                    echo "<script>
+                        alert('Sản phẩm này đã hết hàng.');
+                        window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "'; // Quay lại trang chi tiết
+                      </script>";
+                    exit();
+                } else {
+                    // Vượt quá số lượng có thể mua
+                    echo "<script>
+                        alert('Số lượng bạn chọn cộng với số lượng đã có trong giỏ hàng vượt quá số lượng còn lại trong kho. Bạn chỉ có thể mua tối đa " . ($available_quantity - $existing_quantity) . " sản phẩm này.');
+                        window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "'; // Quay lại trang chi tiết
+                      </script>";
+                    exit();
+                }
             } else {
+                // **Cập nhật số lượng sách trong CSDL (GIẢM)**
+                $update_query = "UPDATE tbl_book SET book_quantity = book_quantity - ? WHERE book_id = ?";
+                $update_stmt = $mysqli->prepare($update_query);
+
+                if (!$update_stmt) {
+                    db_error($mysqli);
+                }
+
+                $update_stmt->bind_param("ii", $quantity, $book_id);
+                $update_stmt->execute();
+                $update_stmt->close();
+
                 // Cập nhật số lượng trong giỏ hàng
                 $_SESSION['cart'][$user_id][$book_id]['quantity'] = $new_quantity;
 
@@ -69,12 +91,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Sản phẩm chưa có trong giỏ hàng của người dùng này
             // Kiểm tra số lượng yêu cầu so với số lượng có sẵn
             if ($quantity > $available_quantity) {
-                echo "<script>
-                    alert('Số lượng bạn chọn vượt quá số lượng còn lại trong kho. Chỉ còn lại " . $available_quantity . " sản phẩm.');
-                    window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "'; // Quay lại trang chi tiết
-                  </script>";
-                exit();
+                 if ($available_quantity == 0) {
+                    // Hết hàng
+                    echo "<script>
+                        alert('Sản phẩm này đã hết hàng.');
+                        window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "'; // Quay lại trang chi tiết
+                      </script>";
+                    exit();
+                } else {
+                    // Vượt quá số lượng có thể mua
+                    echo "<script>
+                        alert('Số lượng bạn chọn vượt quá số lượng còn lại trong kho. Chỉ còn lại " . $available_quantity . " sản phẩm.');
+                        window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "'; // Quay lại trang chi tiết
+                      </script>";
+                    exit();
+                }
+
             } else {
+                // **Cập nhật số lượng sách trong CSDL (GIẢM)**
+                $update_query = "UPDATE tbl_book SET book_quantity = book_quantity - ? WHERE book_id = ?";
+                $update_stmt = $mysqli->prepare($update_query);
+
+                if (!$update_stmt) {
+                    db_error($mysqli);
+                }
+
+                $update_stmt->bind_param("ii", $quantity, $book_id);
+                $update_stmt->execute();
+                $update_stmt->close();
+
+
                 // Thêm sản phẩm vào giỏ hàng
                 $item = array(
                     'book_id' => $book_id,

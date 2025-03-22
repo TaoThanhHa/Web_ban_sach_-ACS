@@ -1,4 +1,5 @@
 <?php
+session_start(); // Khởi động session ở đầu file header.php
 include_once('db/connect.php');
 ?>
 
@@ -40,16 +41,30 @@ include_once('db/connect.php');
             <i class="fa fa-shopping-basket" aria-hidden="true"></i>
             Giỏ Hàng
         </button>
-        <ul class="navbar-nav ml-2">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Tài khoản
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="ĐX.php">Đăng xuất</a>
-                    <a class="dropdown-item" href="Theo_dõi.html">Theo dõi đơn hàng</a> 
-                </div>
-            </li>
-        </ul>
+
+        <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
+            <!-- Nếu đã đăng nhập, hiển thị dropdown tài khoản -->
+            <ul class="navbar-nav ml-2">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Tài khoản
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="ĐX.php">Đăng xuất</a>
+                        <a class="dropdown-item" href="Theo_dõi.html">Theo dõi đơn hàng</a>
+                    </div>
+                </li>
+            </ul>
+        <?php else: ?>
+            <!-- Nếu chưa đăng nhập, hiển thị nút Đăng nhập/Đăng ký -->
+            <ul class="navbar-nav ml-2">
+                <li class="nav-item">
+                    <a class="nav-link" href="ĐN.php">Đăng nhập</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="ĐK.php">Đăng ký</a>
+                </li>
+            </ul>
+        <?php endif; ?>
     </nav>
 </header>

@@ -10,20 +10,28 @@ if (isset($_POST['register'])) {
     $confirmPassword = $_POST['confirmPassword'];
 
     // Kiểm tra xem mật khẩu có khớp không
-    if ($password === $confirmPassword) {
-        $stmt = $mysqli->prepare("INSERT INTO tbl_user (name, email, phone, pass) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $name, $email, $phone, $password); // Lưu mật khẩu thẳng vào DB
-        
-        if ($stmt->execute()) {
-            // Đăng ký thành công, có thể chuyển hướng đến trang đăng nhập
-            header("Location: ĐN.php");
-            exit();
-        } else {
-            // Thông báo lỗi
-            echo "Có lỗi xảy ra: " . $stmt->error;
-        }
-    } else {
+    if ($password !== $confirmPassword) {
         echo "<script>alert('Mật khẩu và nhập lại mật khẩu không khớp!');</script>";
+    } else {
+        // Kiểm tra độ mạnh của mật khẩu (ví dụ đơn giản)
+        if (strlen($password) < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)) {
+            echo "<script>alert('Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa và số!');</script>";
+        } else {
+            // Băm mật khẩu
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            $stmt = $mysqli->prepare("INSERT INTO tbl_user (name, email, phone, pass) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $name, $email, $phone, $hashedPassword); // Lưu mật khẩu đã băm
+
+            if ($stmt->execute()) {
+                // Đăng ký thành công, có thể chuyển hướng đến trang đăng nhập
+                header("Location: ĐN.php");
+                exit();
+            } else {
+                // Thông báo lỗi
+                echo "Có lỗi xảy ra: " . $stmt->error;
+            }
+        }
     }
 }
 ?>

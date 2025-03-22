@@ -1,5 +1,8 @@
+
 <?php
 include_once('db/connect.php');
+
+
 ?>
 <?php
 session_start();
@@ -8,7 +11,7 @@ session_start();
 if (!isset($_SESSION['user_id'])) {
     echo "<script>
             alert('Bạn cần đăng nhập để xem giỏ hàng.');
-            window.location.href = 'login.php'; // Chuyển hướng đến trang đăng nhập
+            window.location.href = 'Trang_chủ.php'; // Chuyển hướng đến trang đăng nhập
           </script>";
     exit();
 }
@@ -165,6 +168,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button class="button" onclick="checkout()">Thanh toán</button>
         </div>
     </div>
-    
-</body>
+    <script src="javascript/Giỏ_hàng.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
 </html>

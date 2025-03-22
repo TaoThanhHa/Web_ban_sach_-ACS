@@ -1,5 +1,6 @@
 <?php
 session_start();
+date_default_timezone_set('Asia/Bangkok'); // Đặt múi giờ ở ĐÂY
 
 // Kiểm tra xem user đã đăng nhập chưa
 if (!isset($_SESSION['user_id'])) {
@@ -40,7 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         // 1. Lưu thông tin vào bảng tbl_order
-        $order_date = date('Y-m-d H:i:s'); // Lấy thời gian hiện tại
+        // Lấy thời gian hiện tại
+        $order_date = date('Y-m-d H:i:s'); //Thời gian Bangkok
+        error_log("Múi giờ: " . date_default_timezone_get());
+        error_log("Thời gian trước khi INSERT: " . $order_date);
         $sql_order = "INSERT INTO tbl_order (id_user, order_date, shipping_address, payment_method, shipping_method, shipping_fee, total_amount, order_status)
                       VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt_order = $mysqli->prepare($sql_order);

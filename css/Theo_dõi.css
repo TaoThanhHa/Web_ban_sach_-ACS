@@ -1,49 +1,204 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+    background-image: url('images/bookhaven.jpg'); /* Thêm hình nền */
+    background-size: cover;
+    background-position: center;
     margin: 0;
     padding: 0;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Đảm bảo chiều cao tối thiểu bằng viewport */
 }
 
 .container {
     width: 80%;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    max-width: 960px;
+    margin: 20px auto; /* Giảm margin top/bottom */
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.9); /* Nền trắng trong suốt */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tăng độ đậm của bóng */
+    border-radius: 15px; /* Góc bo tròn lớn hơn */
+    text-align: center; /* Căn giữa nội dung */
 }
 
 h1 {
     text-align: center;
-    color: #333;
+    color: #e44d26; /* Màu cam nổi bật */
+    margin-bottom: 25px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Tạo bóng cho tiêu đề */
+    font-size: 2.5em; /* Tăng kích thước tiêu đề */
 }
 
-.order-item {
-    padding: 15px;
-    border-bottom: 1px solid #ddd;
+/* Thanh tìm kiếm */
+.search-bar {
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: center; /* Căn giữa thanh tìm kiếm */
+}
+
+.search-bar input[type="text"] {
+    flex: 1;
+    max-width: 300px; /* Giới hạn chiều rộng input */
+    padding: 10px;
+    border: 2px solid #e44d26; /* Viền màu cam */
+    border-radius: 25px; /* Bo tròn viền */
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.search-bar input[type="text"]:focus {
+    border-color: #007bff; /* Đổi màu viền khi focus */
+    outline: none;
+}
+
+.search-bar button {
+    background-color: #e44d26; /* Cam chủ đạo */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px; /* Bo tròn viền */
     cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+    background-color: #c63d1a; /* Cam đậm hơn khi hover */
+}
+
+/* Danh sách đơn hàng */
+.order-item {
+    padding: 20px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .order-item:hover {
-    background-color: #f0f0f0;
+    transform: translateY(-5px); /* Nâng lên khi hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .order-item h3 {
-    margin: 0;
-    color: #555;
+    margin: 0 0 10px;
+    font-size: 20px;
+    color: #e44d26;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .order-status {
     font-weight: bold;
-    color: #008cba;
+    color: #27ae60; /* Xanh lá cây tươi sáng */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+/* Chi tiết đơn hàng */
 #order-details {
-    margin-top: 20px;
-    padding: 15px;
-    border-top: 1px solid #ddd;
+    margin-top: 30px;
+    padding: 30px;
+    background-color: #ecf0f1; /* Nền xám nhạt */
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-top: 5px solid #e44d26; /* Viền cam đậm */
 }
 
+#order-details h2 {
+    font-size: 24px;
+    color: #e44d26;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Thông tin đơn hàng */
+.order-info {
+    margin-bottom: 25px;
+    text-align: left; /* Căn trái thông tin đơn hàng */
+}
+
+.order-info p {
+    font-size: 17px;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.order-info strong {
+    font-weight: bold;
+    color: #e44d26; /* Màu cam */
+    margin-right: 5px; /* Khoảng cách với nội dung */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Timeline trạng thái đơn hàng */
+.order-status-timeline {
+    position: relative;
+    padding-left: 40px;
+    text-align: left;
+}
+
+.order-status-timeline:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 15px;
+    width: 3px;
+    background-color: #e44d26; /* Cam chủ đạo */
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-item .timeline-icon {
+    position: absolute;
+    left: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 3px solid #e44d26;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e44d26;
+    font-size: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.timeline-item .timeline-content {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-item .timeline-content h4 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: #e44d26;
+}
+
+.timeline-item .timeline-content p {
+    font-size: 15px;
+    color: #777;
+    margin-bottom: 0;
+}
+
+/* Ẩn chi tiết đơn hàng */
 .hidden {
     display: none;
 }

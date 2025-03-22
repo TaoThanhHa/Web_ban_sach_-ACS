@@ -4,16 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Theo dõi đơn hàng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/Theo_dõi.css">
 </head>
 <body>
     <div class="container">
         <h1>Theo dõi đơn hàng</h1>
+
+        <div class="search-bar">
+            <input type="text" id="order-search" placeholder="Nhập mã đơn hàng...">
+            <button onclick="searchOrder()"><i class="fas fa-search"></i> Tìm kiếm</button>
+        </div>
+
         <div id="order-list">
             <!-- Danh sách đơn hàng sẽ được hiển thị ở đây -->
         </div>
+
         <div id="order-details" class="hidden">
-            <!-- Chi tiết đơn hàng sẽ hiển thị ở đây -->
+            <h2>Chi tiết đơn hàng</h2>
+            <div class="order-info">
+                <!-- Thông tin đơn hàng -->
+            </div>
+            <div class="order-status-timeline">
+                <!-- Tiến trình trạng thái đơn hàng -->
+            </div>
         </div>
     </div>
 

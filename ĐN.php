@@ -7,13 +7,13 @@ if (isset($_POST['login'])) {
     $user = $_POST['user']; // Người dùng nhập email hoặc tên
     $pass = $_POST['pass']; // Mật khẩu nhập vào
 
-    // Truy vấn để lấy mật khẩu đã lưu, vai trò và user ID
-    $sql = "SELECT id, pass, role, status FROM tbl_user WHERE email = ? OR user = ?";
+    // Truy vấn để lấy mật khẩu đã lưu, vai trò, user ID và tên người dùng
+    $sql = "SELECT id, pass, role, status, user FROM tbl_user WHERE email = ? OR user = ?";
     $stmt = $mysqli->prepare($sql);
 
-    if ($stmt === false) { 
-        echo "Lỗi prepare: " . $mysqli->error; 
-        exit(); 
+    if ($stmt === false) {
+        echo "Lỗi prepare: " . $mysqli->error;
+        exit();
     }
 
     $stmt->bind_param("ss", $user, $user);
@@ -21,26 +21,31 @@ if (isset($_POST['login'])) {
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($id, $storedPassword, $role, $status);
+        $stmt->bind_result($id, $storedPassword, $role, $status, $username);
         $stmt->fetch();
+
+        // Gỡ lỗi: In mật khẩu đã nhập và mật khẩu đã băm
+        error_log("Đăng nhập: Mật khẩu đã nhập: " . $pass);
+        error_log("Đăng nhập: Mật khẩu đã băm từ CSDL: " . $storedPassword);
 
         // Kiểm tra trạng thái khóa tài khoản
         if ($status == 1) {
-            echo "Your account is locked. Please contact the administrator.";
+            echo "Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.";
             exit;
         }
 
-        // So sánh mật khẩu nhập vào với mật khẩu đã lưu
-        if ($pass === $storedPassword) {
+        // So sánh mật khẩu nhập vào với mật khẩu đã lưu (CẦN BĂM MẬT KHẨU)
+        if (password_verify($pass, $storedPassword)) { // Sử dụng password_verify()
             // Đăng nhập thành công
+            $_SESSION['loggedin'] = true;  // Đặt biến session loggedin
             $_SESSION['user_id'] = $id;
-            $_SESSION['user_name'] = $name;
+            $_SESSION['user_name'] = $username;  // Lưu tên người dùng
             $_SESSION['user_role'] = $role;
 
             if ($role == 1) {
-                header("Location: Admin.html"); 
+                header("Location: Admin.php");
             } else {
-                header("Location: Trang_chủ.php"); 
+                header("Location: Trang_chủ.php");
             }
             exit();
         } else {
