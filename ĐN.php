@@ -8,12 +8,12 @@ if (isset($_POST['login'])) {
     $pass = $_POST['pass']; // Mật khẩu nhập vào
 
     // Truy vấn để lấy mật khẩu đã lưu, vai trò và user ID
-    $sql = "SELECT id, pass, role FROM tbl_user WHERE email = ? OR user = ?"; // Sử dụng 'id' thay vì 'id_user'
+    $sql = "SELECT id, pass, role, status FROM tbl_user WHERE email = ? OR user = ?";
     $stmt = $mysqli->prepare($sql);
 
-    if ($stmt === false) { // Kiểm tra xem prepare() có thành công không
-        echo "Lỗi prepare: " . $mysqli->error; // In ra thông báo lỗi chi tiết
-        exit(); // Dừng thực thi script
+    if ($stmt === false) { 
+        echo "Lỗi prepare: " . $mysqli->error; 
+        exit(); 
     }
 
     $stmt->bind_param("ss", $user, $user);
@@ -21,20 +21,28 @@ if (isset($_POST['login'])) {
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($id, $storedPassword, $role); // Sử dụng $id thay vì $user_id
+        $stmt->bind_result($id, $storedPassword, $role, $status);
         $stmt->fetch();
+
+        // Kiểm tra trạng thái khóa tài khoản
+        if ($status == 1) {
+            echo "Your account is locked. Please contact the administrator.";
+            exit;
+        }
 
         // So sánh mật khẩu nhập vào với mật khẩu đã lưu
         if ($pass === $storedPassword) {
             // Đăng nhập thành công
-            $_SESSION['user_id'] = $id; // Lưu user ID vào session
+            $_SESSION['user_id'] = $id;
+            $_SESSION['user_name'] = $name;
+            $_SESSION['user_role'] = $role;
 
             if ($role == 1) {
-                header("Location: Admin.html"); // Giao diện cho role 1
+                header("Location: Admin.html"); 
             } else {
-                header("Location: Trang_chủ.php"); // Giao diện cho role 0
+                header("Location: Trang_chủ.php"); 
             }
-            exit(); // Thêm exit() để đảm bảo không có code nào khác được thực thi sau khi chuyển hướng
+            exit();
         } else {
             echo "Mật khẩu không chính xác.";
         }
@@ -44,6 +52,7 @@ if (isset($_POST['login'])) {
     $stmt->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>

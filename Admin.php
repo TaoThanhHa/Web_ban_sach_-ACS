@@ -28,7 +28,7 @@
         <nav class="sidebar">
             <ul>
                 <li><a href="Quản_lý_sách.php"><i class="fas fa-book"></i> Quản lý sách</a></li>
-                <li><a href=""><i class="fas fa-users"></i> Quản lý người dùng</a></li>
+                <li><a href="Quản_lý_người_dùng.php"><i class="fas fa-users"></i> Quản lý người dùng</a></li>
                 <li><a href="QLTD.html"><i class="fas fa-box"></i> Quản lý đơn hàng</a></li>
                 <li><a href="Hỗ_trợ.php"><i class="fas fa-headset"></i> Hỗ trợ khách hàng</a></li>
             </ul>
