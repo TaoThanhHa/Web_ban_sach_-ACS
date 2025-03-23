@@ -13,7 +13,7 @@
     </div>
 
     <div class="body">
-        <form class="container" id="story-form" action="db/Tao_san_pham.php" method="POST" enctype="multipart/form-data">
+        <form class="container" id="story-form" action="db/Tao_san-pham.php" method="POST" enctype="multipart/form-data">
             <!--Ảnh tải avata-->
             <div class="box-avata">
                 <div class="avata">

@@ -4,8 +4,11 @@ include_once('db/connect.php');
 
 // Kiểm tra xem người dùng đã đăng nhập hay chưa
 if (!isset($_SESSION['user_id'])) {
-    echo "Bạn cần đăng nhập để xem liên hệ.";
-    exit(); // Hoặc chuyển hướng đến trang đăng nhập
+    echo "<script>
+            alert('Bạn cần đăng nhập để liên hệ.');
+            window.location.href = 'Trang_chủ.php'; 
+          </script>";
+    exit();
 }
 
 // Lấy user_id từ session

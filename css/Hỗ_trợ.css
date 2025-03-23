@@ -15,7 +15,7 @@ li {
   height: 50px;
   box-shadow: 0px 2px 2px 0px gray;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;  /* Thay đổi để căn trái */
   align-items: center; 
   position: fixed;
   top: 0;
@@ -29,34 +29,36 @@ li {
   color: white;
   font-size: xx-large;
   font-weight: 900;
-  margin-left: 50px;
+  margin-left: 20px; /* Giảm khoảng cách lề trái */
 }
 
 .header a:hover{
   color: #eb3c15;
 }
 
-
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    color: white;
-    margin-top: 130px;
+    margin-top: 70px; /* Điều chỉnh margin-top */
+    background-color: #f8f9fa; /* Màu nền sáng */
 }
 
 .container {
-    max-width: 500px;
+    max-width: 90%; /* Tăng kích thước container */
     margin: auto;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 20px;
+    background-color: #fff; /* Màu nền trắng */
+    padding: 30px;
+    margin-top: 100px;
     border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ */
 }
 
 h1, h2 {
-    text-align: center;
+    color: #343a40; /* Màu chữ đậm hơn */
 }
 
-form {
+/* Ẩn các style form và button không cần thiết */
+/* form {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -79,7 +81,7 @@ button {
 
 button:hover {
     background-color: #218838;
-}
+} */
 
 #requestStatus {
     margin-top: 20px;
