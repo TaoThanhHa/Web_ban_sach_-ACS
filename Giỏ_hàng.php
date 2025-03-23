@@ -159,12 +159,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 Tổng cộng: <span id="total-price"><?php echo number_format($total_price, 0, ',', '.'); ?>₫</span>
             </div>
 
-
-            <div class="note">
-                <label for="note">Ghi chú:</label>
-                <textarea id="note" rows="4" style="width: 100%;"></textarea>
-            </div>
-
             <button class="button" onclick="checkout()">Thanh toán</button>
         </div>
     </div>
