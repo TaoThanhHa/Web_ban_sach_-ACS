@@ -1,4 +1,4 @@
-/* Reset CSS */
+/* Reset CSS (Giữ nguyên) */
 * {
   padding: 0;
   margin: 0;
@@ -6,12 +6,12 @@
   font-family: 'Muli', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-/* Thêm padding-top cho body */
+/* Thêm padding-top cho body (Giữ nguyên) */
 body {
   padding-top: 56px;
 }
 
-/* CSS cho header (Navbar Bootstrap) */
+/* CSS cho header (Navbar Bootstrap) (Giữ nguyên) */
 header>nav {
   z-index: 1030;
 }
@@ -20,9 +20,25 @@ header>nav {
 .cartegory {
   position: relative;
   z-index: 1;
+  padding: 0; 
+  margin: 0;  
+}
+
+/* Chỉnh sửa container */
+.container {
+  width: 100%;           
+  max-width: 1200px;       
+  margin: 0 auto;        
+  padding-left: 10px;   
+  padding-right: 10px;  
+}
+
+.cartegory .container .row {
+  display: flex; /* Sử dụng flexbox cho container cha */
 }
 
 .cartegory-left {
+  width: 20%; /* Chiếm 25% chiều rộng của container cha */
   position: relative;
   z-index: 2;
   padding-right: 20px;
@@ -40,6 +56,12 @@ header>nav {
 .cartegory-left a {
   color: black;
   text-decoration: none;
+  display: block; 
+  padding: 10px; 
+}
+
+.cartegory-right {
+  width: 80%; /* Chiếm 75% chiều rộng của container cha */
 }
 
 .cartegory-right a{
@@ -48,25 +70,36 @@ header>nav {
 }
 
 .cartegory-top.row { /* Sử dụng độ đặc hiệu cao hơn */
-  padding-top: 25px; 
-  
+  padding-top: 25px;
 }
 
 /* CSS cho sản phẩm */
+.wrapper {
+    padding: 10px; /* Thêm padding để không bị sát lề */
+}
+
+.box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Căn chỉnh các card từ bên trái */
+    margin-left: 0; 
+}
 
 .card {
   border: 1px solid #ccc;
   border-radius: 10px;
   overflow: hidden;
-  width: 230px;
+  width: 23%; /* Điều chỉnh kích thước để có 4 card trên hàng */
   text-align: center;
   position: relative;
   background-color: #fff;
-  margin: 10px;
+  margin: 1%; /* Điều chỉnh margin để có khoảng cách đẹp */
 }
 
 .card img {
-  width: 230px;
+  width: 100%; /* Đảm bảo ảnh lấp đầy card */
+  height: auto; /* Giữ tỷ lệ khung hình */
+  object-fit: cover; /* Quan trọng: Giữ tỷ lệ và cắt ảnh nếu cần */
   height: 350px;
 }
 
@@ -81,12 +114,12 @@ header>nav {
 }
 
 .title {
-  font-size: 20px;
+  font-size: 16px; /* Giảm kích thước tiêu đề */
   margin-top: 6px;
 }
 
 .price {
-  font-size: 20px;
+  font-size: 16px; /* Giảm kích thước giá */
   color: green;
   margin: 5px 0;
 }
@@ -96,7 +129,14 @@ header>nav {
   color: #999;
 }
 
-/* CSS cho chuyển trang */
+/* CSS cho thể loại đang được chọn */
+.cartegory-left-li.active a {
+    color: white; /* Đổi màu chữ */
+    background-color: #eb5013; /* Đổi màu nền */
+    font-weight: bold; /* In đậm chữ (tùy chọn) */
+}
+
+/* CSS cho chuyển trang (Giữ nguyên) */
 .box_pagination {
   display: flex;
   justify-content: center;
@@ -128,7 +168,7 @@ header>nav {
   background-color: #ddd;
 }
 
-/* CSS cho footer */
+/* CSS cho footer (Giữ nguyên) */
 ul {
   list-style: none;
   margin-right: 10px;
@@ -160,7 +200,7 @@ ul {
   color: black;
 }
 
-/* CSS cho responsive */
+/* CSS cho responsive (Giữ nguyên) */
 @media screen and (max-width: 846px) {
   .fas {
     display: block;

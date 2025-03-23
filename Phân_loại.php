@@ -2,6 +2,7 @@
 include_once('db/connect.php');
 ?>
 
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -50,9 +51,6 @@ include_once('db/connect.php');
 
         $query .= " LIMIT $books_per_page OFFSET $offset";
         $results = $mysqli->query($query);
-
-      
-
     ?>
 
     <!-- header -->
@@ -61,30 +59,34 @@ include_once('db/connect.php');
     <section class="cartegory">
         <div class="container">
             <div class="cartegory-top row">
-                <p>Trang chủ <span>→</span> <p>Thể loại </p><span>→</span><p><?php echo $category_name ?></p></p>
+                <p>Trang chủ <span>→</span> Thể loại <span>→</span> <?php echo htmlspecialchars($category_name); ?></p>
             </div>
         </div>
         <div class="container">
             <div class="row">
-                 <div class="cartegory-left">
+                <div class="cartegory-left">
                     <ul>
-                         <?php
-                            if ($spl_category) {
-                                mysqli_data_seek($spl_category, 0);
-                                while ($row_category = $spl_category->fetch_assoc()): ?>
-                                    <li class="cartegory-left-li"><a href="Phân_loại.php?category_id=<?php echo $row_category['category_id']; ?>"><?php echo htmlspecialchars($row_category['category_name']); ?></a></li>
-                                <?php endwhile;
-                            } else {
-                                echo "Không có category nào.";
-                            }
-                            ?>
+                        <?php
+                        if ($spl_category) {
+                            mysqli_data_seek($spl_category, 0);
+                            while ($row_category = $spl_category->fetch_assoc()): ?>
+                                <li class="cartegory-left-li <?php if ($category_id == $row_category['category_id']) echo 'active'; ?>">
+                                    <a href="Phân_loại.php?category_id=<?php echo $row_category['category_id']; ?>">
+                                        <?php echo htmlspecialchars($row_category['category_name']); ?>
+                                    </a>
+                                </li>
+                            <?php endwhile;
+                        } else {
+                            echo "Không có category nào.";
+                        }
+                        ?>
                     </ul>
                 </div>
 
-                <div class="cartegory-right row">
-                <section class="wrapper">
-                    <div class="box">
-                        <?php
+                <div class="cartegory-right">
+                    <section class="wrapper">
+                        <div class="box">
+                            <?php
                             if ($results->num_rows > 0) {
                                 while ($row = $results->fetch_assoc()) {
                                     $original_price = $row['book_original_price'];
@@ -104,12 +106,12 @@ include_once('db/connect.php');
                             } else {
                                 echo "<p>Không có sách nào trong cơ sở dữ liệu.</p>";
                             }
-                        ?>
-                    </div>
-                </section>
-                   <!--   <div class="box_pagination">
+                            ?>
+                        </div>
+                    </section>
+                    <!--   <div class="box_pagination">
                             <div class="pagination">
-                                <a href="?page=1">«</a> 
+                                <a href="?page=1">«</a>
                                 <?php
                                 $start_page = max(1, $current_page - 2);
                                 $end_page = min($total_pages, $start_page + 4);
@@ -119,10 +121,9 @@ include_once('db/connect.php');
                                     echo '<a href="?page=' . $i . '" class="' . $active . '">' . $i . '</a>';
                                 }
                                 ?>
-                                <a href="?page=<?php echo $total_pages; ?>">»</a> 
+                                <a href="?page=<?php echo $total_pages; ?>">»</a>
                             </div>
                         </div> -->
-                </div>
                 </div>
             </div>
         </div>
@@ -137,5 +138,5 @@ include_once('db/connect.php');
 </body>
 </html>
 <?php
- $mysqli->close();
+$mysqli->close();
 ?>
