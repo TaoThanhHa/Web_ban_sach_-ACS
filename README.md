@@ -1,8 +1,8 @@
-# Web Bán Sách - Dự án ACS
+# Web Bán Sách - Dự án xây dựng website kinh doanh sách
 
 ## Mô tả
 
-Dự án "Web Bán Sách" là một ứng dụng web thương mại điện tử cho phép người dùng duyệt, tìm kiếm và mua sách trực tuyến. Dự án này được phát triển như một phần của môn học ACS (có thể là An toàn và Bảo mật Hệ thống hoặc một môn học liên quan).
+Dự án "Web Bán Sách" là một ứng dụng web thương mại điện tử cho phép người dùng duyệt, tìm kiếm và mua sách trực tuyến.
 
 ## Chức năng chính
 
@@ -15,7 +15,7 @@ Dự án "Web Bán Sách" là một ứng dụng web thương mại điện tử
 *   **Giỏ hàng và thanh toán:**
     *   Thêm sách vào giỏ hàng.
     *   Quản lý giỏ hàng (cập nhật số lượng, xóa sách).
-    *   Thanh toán trực tuyến bằng các phương thức khác nhau.
+    *   Thanh toán bằng các phương thức khác nhau.
 *   **Quản lý tài khoản người dùng:**
     *   Đăng ký tài khoản mới.
     *   Đăng nhập và đăng xuất.
@@ -33,26 +33,43 @@ Dự án "Web Bán Sách" là một ứng dụng web thương mại điện tử
 ## Công nghệ sử dụng
 
 *   **Ngôn ngữ lập trình:** PHP, JavaScript, HTML, CSS
-*   **Cơ sở dữ liệu:** MySQL
+*   **Cơ sở dữ liệu:** MySQL (Sử dụng Xampp)
 *   **Thư viện/Framework:**
     *   Bootstrap (tùy chọn, để tạo giao diện responsive)
     *   Có thể sử dụng jQuery hoặc các thư viện JavaScript khác
 *   **Máy chủ web:** Apache (hoặc Nginx)
 
-## Cài đặt và cấu hình
+## Cài đặt và cấu hình (Sử dụng XAMPP)
 
 1.  **Yêu cầu:**
-    *   Máy chủ web (Apache hoặc Nginx)
-    *   PHP (phiên bản 7.0 trở lên)
-    *   MySQL (hoặc MariaDB)
+    *   **XAMPP:** Đã cài đặt và cấu hình XAMPP (bao gồm Apache, MySQL, PHP).
 2.  **Cài đặt:**
-    *   Sao chép thư mục `Web_ban_sach_-ACS` vào thư mục gốc của máy chủ web (ví dụ: `/var/www/html/` trên Linux, hoặc `htdocs` trên XAMPP).
-    *   Tạo một cơ sở dữ liệu MySQL với tên `webbansach`.
-    *   Nhập cấu trúc cơ sở dữ liệu và dữ liệu mẫu (nếu có) từ file SQL (có thể có trong thư mục `db/`).
-    *   Chỉnh sửa file `db/connect.php` để cập nhật thông tin kết nối cơ sở dữ liệu (host, username, password, database name).
+    *   Sao chép thư mục `Web_ban_sach_-ACS` vào thư mục `htdocs` của XAMPP (ví dụ: `C:\xampp\htdocs\`).
+    *   **Khởi động Apache và MySQL trong XAMPP Control Panel.**
+    *   **Tạo cơ sở dữ liệu `webbansach` bằng phpMyAdmin:**
+        *   Mở trình duyệt và truy cập `http://localhost/phpmyadmin/`.
+        *   Nhấn vào "New" để tạo cơ sở dữ liệu mới.
+        *   Nhập `webbansach` làm tên cơ sở dữ liệu và chọn "utf8\_unicode\_ci" làm collation.
+        *   Nhấn "Create".
+    *   **Nhập file SQL `webbansach.sql` vào cơ sở dữ liệu `webbansach`:**
+        *   Chọn cơ sở dữ liệu `webbansach` trong phpMyAdmin.
+        *   Nhấn vào tab "Import".
+        *   Chọn file `db/webbansach.sql` từ thư mục dự án.
+        *   Nhấn "Go".
+    *   Chỉnh sửa file `db/connect.php` để cập nhật thông tin kết nối cơ sở dữ liệu:
+        ```php
+        <?php
+        $mysqli = new mysqli("localhost", "root", "", "webbansach");
+
+        if ($mysqli->connect_errno) {
+            echo "Failed to connect to MySQL: " . $mysqli->connect_error;
+            exit();
+        }
+        ?>
+        ```
+        (Trong XAMPP, username mặc định là `root` và password là rỗng "")
 3.  **Cấu hình:**
-    *   Cấu hình máy chủ web để trỏ đến thư mục `Web_ban_sach_-ACS`.
-    *   Cấu hình các quyền truy cập file và thư mục phù hợp.
+    *   Truy cập trang web bằng cách mở trình duyệt và truy cập `http://localhost/Web_ban_sach_-ACS/`.
 
 ## Hướng dẫn sử dụng
 
@@ -65,7 +82,7 @@ Dự án "Web Bán Sách" là một ứng dụng web thương mại điện tử
     *   Truy cập trang quản lý (ví dụ: `http://localhost/Web_ban_sach_-ACS/admin/Quản_lý_sách.php`).
     *   Đăng nhập bằng tài khoản admin.
     *   Quản lý sách, danh mục, v.v.
-
+  
 ## Thông tin liên hệ
 
 *   [Mai Phương Anh - Tào Thanh Hà]
