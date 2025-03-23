@@ -73,54 +73,58 @@ $stmt->close();
     <?php include 'header.php'; ?>
 
     <!-- Story Section -->
-    <div class="story">
-        <div class="story-bg">
-            <div class="box-avata">
-                <div class="avata">
-                    <div class="image">
-                        <img src="images/<?php echo isset($book['book_image']) ? htmlspecialchars($book['book_image']) : 'default.jpg'; ?>" alt="<?php echo isset($book['book_title']) ? htmlspecialchars($book['book_title']) : 'Sách'; ?>">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="box-avata">
+                    <div class="avata">
+                        <div class="image">
+                            <img src="images/<?php echo isset($book['book_image']) ? htmlspecialchars($book['book_image']) : 'default.jpg'; ?>" alt="<?php echo isset($book['book_title']) ? htmlspecialchars($book['book_title']) : 'Sách'; ?>" class="img-fluid">
+                        </div>
+                        <div class="discount-badge"><?php echo isset($book['book_discount']) ? htmlspecialchars($book['book_discount']) : '0'; ?>%</div>
                     </div>
-                    <div class="discount-badge"><?php echo isset($book['book_discount']) ? htmlspecialchars($book['book_discount']) : '0'; ?>%</div>
                 </div>
             </div>
 
-            <div class="story-infor">
-                <div class="story-name"><?php echo isset($book['book_title']) ? htmlspecialchars($book['book_title']) : 'Chưa có tiêu đề'; ?></div>
-                <ul class="view list-unstyled">
-                    <li>Tác giả: <span><?php echo isset($book['book_author']) ? htmlspecialchars($book['book_author']) : 'Không xác định'; ?></span></li>
-                    <li>Nhà xuất bản: <span><?php echo isset($book['book_publisher']) ? htmlspecialchars($book['book_publisher']) : 'Không xác định'; ?></span></li>
-                    <li>Kích thước: <span><?php echo isset($book['book_size']) ? htmlspecialchars($book['book_size']) : 'Không xác định'; ?></span></li>
+            <div class="col-md-8">
+                <div class="story-infor">
+                    <h2 class="story-name"><?php echo isset($book['book_title']) ? htmlspecialchars($book['book_title']) : 'Chưa có tiêu đề'; ?></h2>
+                    <ul class="view list-unstyled">
+                        <li>Tác giả: <span><?php echo isset($book['book_author']) ? htmlspecialchars($book['book_author']) : 'Không xác định'; ?></span></li>
+                        <li>Nhà xuất bản: <span><?php echo isset($book['book_publisher']) ? htmlspecialchars($book['book_publisher']) : 'Không xác định'; ?></span></li>
+                        <li>Kích thước: <span><?php echo isset($book['book_size']) ? htmlspecialchars($book['book_size']) : 'Không xác định'; ?></span></li>
 
-                    <li>Nội dung <span><div class="story-content"><?php echo isset($book['book_describe']) ? htmlspecialchars($book['book_describe']) : 'Chưa có mô tả'; ?></div></span> </li>
-                    <?php
-                    $original_price = isset($book['book_original_price']) ? $book['book_original_price'] : 0;
-                    $discount = isset($book['book_discount']) ? $book['book_discount'] : 0;
-                    $price = $original_price * (1 - $discount / 100);
-                    ?>
+                        <li>Nội dung: <span class="story-content"><?php echo isset($book['book_describe']) ? htmlspecialchars($book['book_describe']) : 'Chưa có mô tả'; ?></span></li>
+                        <?php
+                        $original_price = isset($book['book_original_price']) ? $book['book_original_price'] : 0;
+                        $discount = isset($book['book_discount']) ? $book['book_discount'] : 0;
+                        $price = $original_price * (1 - $discount / 100);
+                        ?>
 
-                    <li>
-                        <div class="price"><?php echo number_format($price, 0, ',', '.'); ?>đ</div>
-                    </li>
-                    <li>
-                        <div class="original-price"><?php echo number_format($original_price, 0, ',', '.'); ?>đ</div>
-                    </li>
-                </ul>
+                        <li>
+                            <span class="price"><?php echo number_format($price, 0, ',', '.'); ?>đ</span>
+                        </li>
+                        <li>
+                            <span class="original-price"><?php echo number_format($original_price, 0, ',', '.'); ?>đ</span>
+                        </li>
+                    </ul>
 
-                <div class="box-counter">
-                    <form action="Them_gio_hang.php" method="POST">
-                        <input type="hidden" name="book_id" value="<?php echo $book['book_id']; ?>">
-                        <input type="hidden" name="book_title" value="<?php echo htmlspecialchars($book['book_title']); ?>">
-                        <input type="hidden" name="book_image" value="<?php echo htmlspecialchars($book['book_image']); ?>">
-                        <input type="hidden" name="book_price" value="<?php echo $price; ?>">
-                        <input type="hidden" name="book_price" value="<?php echo $price; ?>"> 
-                        <div class="counter d-flex align-items-center">
-                            <button type="button" class="btn btn-secondary" id="decrease">-</button>
-                            <div class="number px-3" id="count">1</div>
-                            <button type="button" class="btn btn-secondary" id="increase">+</button>
-                        </div>
-                        <input type="hidden" name="quantity" id="quantity" value="1">
-                        <button type="submit" class="btn btn-primary">Thêm Vào Giỏ</button>
-                    </form>
+                    <div class="box-counter">
+                        <form action="Them_gio_hang.php" method="POST" class="d-flex align-items-center">
+                            <input type="hidden" name="book_id" value="<?php echo $book['book_id']; ?>">
+                            <input type="hidden" name="book_title" value="<?php echo htmlspecialchars($book['book_title']); ?>">
+                            <input type="hidden" name="book_image" value="<?php echo htmlspecialchars($book['book_image']); ?>">
+                            <input type="hidden" name="book_price" value="<?php echo $price; ?>">
+
+                            <div class="counter d-flex align-items-center mr-3">
+                                <button type="button" class="btn btn-secondary" id="decrease">-</button>
+                                <div class="number px-3" id="count">1</div>
+                                <button type="button" class="btn btn-secondary" id="increase">+</button>
+                            </div>
+                            <input type="hidden" name="quantity" id="quantity" value="1">
+                            <button type="submit" class="btn btn-primary">Thêm Vào Giỏ</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -129,22 +133,27 @@ $stmt->close();
     <!-- Tabbed Content -->
     <div class="container mt-5">
         <div class="tong">
-            <div class="words">
-                <span class="word selected" onclick="changeContent(this, 'Mô tả')">Mô tả</span>
-                <span class="word" onclick="changeContent(this, 'Bình luận')">Bình luận</span>
-            </div>
+            <ul class="nav nav-tabs words" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active word" id="mota-tab" data-toggle="tab" href="#mota" role="tab" aria-controls="mota" aria-selected="true" onclick="changeContent(this, 'Mô tả')">Mô tả</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link word" id="binhluan-tab" data-toggle="tab" href="#binhluan" role="tab" aria-controls="binhluan" aria-selected="false" onclick="changeContent(this, 'Bình luận')">Bình luận</a>
+                </li>
+            </ul>
         </div>
 
-        <div class="box" id="box">
-            <div class="mota">
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active mota" id="mota" role="tabpanel" aria-labelledby="mota-tab">
                 <div class="box-mota">
                     <div class="story-content"><?php echo isset($book['book_describe']) ? htmlspecialchars($book['book_describe']) : 'Chưa có mô tả'; ?></div>
                 </div>
             </div>
 
-            <div class="cmt" style="display: none;">
+            <div class="tab-pane fade cmt" id="binhluan" role="tabpanel" aria-labelledby="binhluan-tab">
                 <div class="box-cmt">
                     <!-- Phần bình luận sẽ được thêm vào sau -->
+                    <p>Chức năng bình luận sẽ được phát triển sau</p>
                 </div>
             </div>
         </div>

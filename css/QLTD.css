@@ -42,9 +42,10 @@ body {
     font-weight: 500;
     text-align: center; /* Đảm bảo tiêu đề căn giữa */
 }
-
+body{
+    padding-top: 80px;
+}
 .container {
-    padding-top: 80px; /* Để không bị che bởi header */
     width: 90%; /* Tăng chiều rộng */
     max-width: 1200px; /* Giới hạn chiều rộng tối đa */
     margin: 20px auto;

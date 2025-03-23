@@ -44,3 +44,24 @@ h1 {
 .button.edit {
   background-color: #008CBA;
 }
+
+.book {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 5px;
+}
+.book-left {
+  display: flex;
+  align-items: center;
+}
+.book-left img {
+  width: 50px;
+  height: auto;
+  margin-right: 10px;
+}
+.book-right button {
+  margin-left: 5px;
+}

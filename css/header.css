@@ -47,3 +47,11 @@ header form{
     background: #f8f9fa;
     color: gray;
 }
+
+.logout-btn{
+    background-color: rgb(165, 56, 56);
+    font-size: 16px;
+    padding: 5px;
+    margin-left: 25px;
+    color: white;
+}

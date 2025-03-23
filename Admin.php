@@ -1,61 +1,98 @@
+<?php
+include_once('db/connect.php');
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin Dashboard</title>
+    <title>Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="css/Admin.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/Trang_chu.css?v=<?php echo time(); ?>" type="text/css">
+    <link rel="stylesheet" href="css/header.css?v=<?php echo time(); ?>" type="text/css">
+
 </head>
-
 <body>
-    <header>
-        <div class="header-content">
-            <div class="header-left">
-                <img src="images/book_haven.jpg" alt="Logo" class="logo">
-            </div>
-            <div class="header-right">
-                <h1>Trang Quản Trị</h1>
-                <a href="ĐN.php"><button id="logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button></a>
-            </div>
-        </div>
-    </header>    
+    <!-- header -->
+    <?php include 'header_admin.php'; ?>
 
-    <div class="admin-container">
-        <!-- Sidebar -->
-        <nav class="sidebar">
-            <ul>
-                <li><a href="Quản_lý_sách.php"><i class="fas fa-book"></i> Quản lý sách</a></li>
-                <li><a href="Quản_lý_người_dùng.php"><i class="fas fa-users"></i> Quản lý người dùng</a></li>
-                <li><a href="QLTD.html"><i class="fas fa-box"></i> Quản lý đơn hàng</a></li>
-                <li><a href="Hỗ_trợ.php"><i class="fas fa-headset"></i> Hỗ trợ khách hàng</a></li>
-            </ul>
-        </nav>
+    <div class="container mt-5 admin">
+        <?php
+        $sql_category = "SELECT * FROM tbl_category ORDER BY category_id DESC";
+        $spl_category = $mysqli->query($sql_category);
 
-        <!-- Main content -->
-        <div class="main-content">
-            <section id="manage-books">
-                <h2>Quản lý sách</h2>
-                <p>Danh sách sách và các chức năng liên quan.</p>
-            </section>
-            <section id="manage-users">
-                <h2>Quản lý người dùng</h2>
-                <p>Danh sách người dùng và các chức năng quản lý người dùng.</p>
-            </section>
-            <section id="manage-orders">
-                <h2>Quản lý đơn hàng</h2>
-                <p>Danh sách đơn hàng và các chức năng liên quan.</p>
-            </section>
-            <section id="manage-support">
-                <h2>Hỗ trợ khách hàng</h2>
-                <p>Quản lý các yêu cầu hỗ trợ từ khách hàng.</p>
-            </section>
-        </div>
+        if ($spl_category) {
+            while ($category = $spl_category->fetch_assoc()) {
+                $category_id = $category['category_id'];
+                $category_name = $category['category_name'];
+
+                $books_per_page = 8;
+
+                $query = "SELECT * FROM tbl_book WHERE book_category = ? LIMIT ?";
+                $stmt = $mysqli->prepare($query);
+                $stmt->bind_param("ii", $category_id, $books_per_page);
+                $stmt->execute();
+                $results = $stmt->get_result();
+
+                echo '<section class="wrapper">';
+                echo '<h2>' . htmlspecialchars($category_name) . '</h2>';
+                echo '<div class="row">';
+
+                if ($results->num_rows > 0) {
+                    while ($row = $results->fetch_assoc()) {
+                        $original_price = $row['book_original_price'];
+                        $discount = $row['book_discount'];
+                        $price = $original_price * (1 - $discount / 100);
+
+                        echo '<div class="col-md-3 mb-4">';
+                        echo '<div class="card">';
+                        echo '<a href="Chi_tiet_san_pham_admin.php?book_id=' . $row['book_id'] . '">';
+                        echo '<img src="images/' . htmlspecialchars($row['book_image']) . '" class="card-img-top" alt="' . htmlspecialchars($row['book_title']) . '">';
+                        echo '<div class="card-body">';
+                        echo '<h5 class="card-title">' . htmlspecialchars($row['book_title']) . '</h5>';
+                        echo '<p class="card-text">';
+                        echo '<span class="font-weight-bold">' . number_format($price, 0, ',', '.') . 'đ</span><br>';
+                        echo '<del class="text-muted">' . number_format($row['book_original_price'], 0, ',', '.') . 'đ</del> ';
+                        echo '<span class="text-danger">-' . htmlspecialchars($row['book_discount']) . '%</span>';
+                        echo '</p>';
+                        echo '</div>';
+                        echo '</a>';
+                        echo '</div>';
+                        echo '</div>';
+                    }
+                    if ($results->num_rows == $books_per_page) {
+                        echo '<div class="col-12 text-center mt-4">';
+                        echo '<a href="Phân_loại.php?category_id=' . htmlspecialchars($category_id) . '" class="btn btn-primary">Xem thêm</a>';
+                        echo '</div>';
+                    }
+                } else {
+                    echo "<div class='col-12'><p>Không có sách nào trong danh mục này.</p></div>";
+                }
+
+                echo '</div>';
+                echo '</section>';
+
+                $stmt->close();
+            }
+        } else {
+            echo "Không có category nào.";
+        }
+
+        $mysqli->close();
+        ?>
     </div>
 
-    <script src="javascript/Admin.js"></script>
-</body>
+    <!-- footer -->
+    <?php include 'footer.php'; ?>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="javascript/Trang_chủ.js"></script>
+</body>
 </html>
