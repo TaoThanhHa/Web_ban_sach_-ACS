@@ -1,3 +1,7 @@
+document.getElementById('cart').addEventListener('click', function() {
+    window.location.href = 'Giỏ_hàng.php';
+});
+
     const paymentMethodSelect = document.getElementById('payment-method');
     const shippingMethodContainer = document.getElementById('shipping-method-container');
     const transferDetails = document.getElementById('transfer-details');

@@ -37,7 +37,7 @@ include_once('db/connect.php');
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
             </form>
         </div>
-        <button id="cart" class="btn btn-danger ml-2">
+        <button onclick="window.location.href='Giỏ_hàng.php';" id="cart" class="btn btn-danger ml-2">
             <i class="fa fa-shopping-basket" aria-hidden="true"></i>
             Giỏ Hàng
         </button>
