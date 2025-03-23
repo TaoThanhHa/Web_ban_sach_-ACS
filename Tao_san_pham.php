@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="header">
-        <a href="./Quản_lý_sách.php"><</a>
+        <a href="./Admin.php"><</a>
         <button onclick="document.getElementById('story-form').submit()">Lưu</button>
     </div>
 

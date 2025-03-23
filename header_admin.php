@@ -26,10 +26,13 @@ include_once('db/connect.php');
                     <a class="nav-link" href="Phân_loại.php?category_id=<?php echo $category_id_first ?>">Thể loại</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./Quản_lý_người_dùng.php">Quản lý người dùng</a>
+                    <a class="nav-link" href="./Tao_san_pham.php">Thêm sách</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./QLTD.php">Quản lý đơn hàng</a>
+                    <a class="nav-link" href="./Quản_lý_người_dùng.php">QL người dùng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./QLTD.php">QL đơn hàng</a>
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0" action="Tìm_kiếm_admin.php" method="GET" style="text-align: right">
