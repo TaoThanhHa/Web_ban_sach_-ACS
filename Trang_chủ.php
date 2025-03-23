@@ -51,7 +51,7 @@ include_once('db/connect.php');
                 $category_id = $category['category_id'];
                 $category_name = $category['category_name'];
 
-                $books_per_page = 12;
+                $books_per_page = 8;
 
                 $query = "SELECT * FROM tbl_book WHERE book_category = ? LIMIT ?";
                 $stmt = $mysqli->prepare($query);

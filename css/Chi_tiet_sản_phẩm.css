@@ -2,7 +2,9 @@ a, a:hover{
     color: black;
     text-decoration: none;
 }
-
+body{
+    padding-top: 80px;
+}
 .story{
     width: 100%;
     display: flex;
@@ -141,10 +143,11 @@ button:disabled {
     color: rgb(246, 25, 25);
 }
 
-.price {
+.story-infor .view li .price {
     font-size: 30px;
     color: green;
     margin: 5px 0;
+    font-weight: 600;
 }
 
 .original-price {
@@ -211,6 +214,18 @@ img.card-img-top {
     line-clamp: 2;
 }
 
+.price {
+    font-size: 30px;
+    color: green;
+    margin: 5px 0;
+    font-weight: 600;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 20px;
+}
 
 @media screen and (max-width: 850px) {
     .box-icon .fas, .interaction-count{

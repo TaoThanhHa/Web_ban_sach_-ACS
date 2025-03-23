@@ -1,11 +1,11 @@
 <?php
-session_start(); // Khởi động session ở đầu file header.php
+session_start();
 include_once('db/connect.php');
 ?>
 
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <a class="navbar-brand" href="Trang_chủ.php">
+        <a class="navbar-brand" href="index.php">
             <img src="images/book_haven.jpg" width="50" height="50" class="d-inline-block align-top" alt="Book Haven">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,7 +14,7 @@ include_once('db/connect.php');
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="Trang_chủ.php">Trang Chủ <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="index.php">Trang Chủ <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <?php
