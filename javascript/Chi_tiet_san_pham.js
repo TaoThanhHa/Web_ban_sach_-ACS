@@ -21,6 +21,8 @@ increaseButton.addEventListener('click', () => {
     quantityInput.value = currentCount + 1;
 });
 
+
+
 //Đổi box tác phẩm
 function changeContent(element, text) {
     const chapElement = document.querySelector('.mota');

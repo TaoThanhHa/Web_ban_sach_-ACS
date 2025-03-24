@@ -179,6 +179,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="Nhà xuất bản Trẻ" <?php if ($book['book_publisher'] == 'Nhà xuất bản Trẻ') echo 'selected'; ?>>Nhà xuất bản Trẻ</option>
                             <option value="Nhà xuất bản IPM" <?php if ($book['book_publisher'] == 'Nhà xuất bản IPM') echo 'selected'; ?>>Nhà xuất bản IPM</option>
                             <option value="Nhà xuất bản Amak" <?php if ($book['book_publisher'] == 'Nhà xuất bản Amak') echo 'selected'; ?>>Nhà xuất bản Amak</option>
+                            <option value="Az Việt Nam" <?php if ($book['book_publisher'] == 'Az Việt Nam') echo 'selected'; ?>>Az Việt Nam</option>
+                            <option value="Nhà xuất bản Phúc Minh" <?php if ($book['book_publisher'] == 'Nhà xuất bản Phúc Minh') echo 'selected'; ?>>Nhà xuất bản Phúc Minh</option>
+                            <option value="Nhà xuất bản Moonbook" <?php if ($book['book_publisher'] == 'Nhà xuất bản Moonbook') echo 'selected'; ?>>Nhà xuất bản Moonbook</option>
                         </select> <br>
 
                         <label for="size">Kích thước:</label>

@@ -110,20 +110,24 @@ $stmt->close();
                     </ul>
 
                     <div class="box-counter">
-                        <form action="Them_gio_hang.php" method="POST" class="d-flex align-items-center">
-                            <input type="hidden" name="book_id" value="<?php echo $book['book_id']; ?>">
-                            <input type="hidden" name="book_title" value="<?php echo htmlspecialchars($book['book_title']); ?>">
-                            <input type="hidden" name="book_image" value="<?php echo htmlspecialchars($book['book_image']); ?>">
-                            <input type="hidden" name="book_price" value="<?php echo $price; ?>">
+                        <?php if ($book['book_quantity'] > 0): ?>
+                            <form action="Them_gio_hang.php" method="POST" class="d-flex align-items-center">
+                                <input type="hidden" name="book_id" value="<?php echo $book['book_id']; ?>">
+                                <input type="hidden" name="book_title" value="<?php echo htmlspecialchars($book['book_title']); ?>">
+                                <input type="hidden" name="book_image" value="<?php echo htmlspecialchars($book['book_image']); ?>">
+                                <input type="hidden" name="book_price" value="<?php echo $price; ?>">
 
-                            <div class="counter d-flex align-items-center mr-3">
-                                <button type="button" class="btn btn-secondary" id="decrease">-</button>
-                                <div class="number px-3" id="count">1</div>
-                                <button type="button" class="btn btn-secondary" id="increase">+</button>
-                            </div>
-                            <input type="hidden" name="quantity" id="quantity" value="1">
-                            <button type="submit" class="btn btn-primary">Thêm Vào Giỏ</button>
-                        </form>
+                                <div class="counter d-flex align-items-center mr-3">
+                                    <button type="button" class="btn btn-secondary" id="decrease">-</button>
+                                    <div class="number px-3" id="count">1</div>
+                                    <button type="button" class="btn btn-secondary" id="increase">+</button>
+                                </div>
+                                <input type="hidden" name="quantity" id="quantity" value="1">
+                                <button type="submit" class="btn btn-primary">Thêm Vào Giỏ</button>
+                            </form>
+                        <?php else: ?>
+                            <p class="text-danger">Hết hàng</p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

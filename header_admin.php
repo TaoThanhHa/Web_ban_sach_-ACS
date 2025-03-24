@@ -23,7 +23,7 @@ include_once('db/connect.php');
                         $row_category_first = mysqli_fetch_array($query_category_first);
                         $category_id_first = $row_category_first['category_id'];
                     ?>
-                    <a class="nav-link" href="Phân_loại.php?category_id=<?php echo $category_id_first ?>">Thể loại</a>
+                    <a class="nav-link" href="Phân_loại_admin.php?category_id=<?php echo $category_id_first ?>">Thể loại</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./Tao_san_pham.php">Thêm sách</a>

@@ -9,7 +9,7 @@
 <body>
     <div class="header">
         <a href="./Admin.php"><</a>
-        <button onclick="document.getElementById('story-form').submit()">Lưu</button>
+        
     </div>
 
     <div class="body">
@@ -19,7 +19,7 @@
                 <div class="avata">
                     <input type="file" id="image-upload" name="image" accept="image/*" style="display: none;">
                     <label for="image-upload">
-                        <img class="img" id="preview-image" src="#">
+                        <img class="img" id="preview-image" src="#" alt="Preview">
                     </label>
                 </div>
             </div>
@@ -28,12 +28,12 @@
                 <div class="box" id="box">
                     <div class="story">
                         <p for="story-title">Tiêu đề:</p>
-                        <input type="text" name="book_title" id="story-title" placeholder="Nhập tiêu đề của truyện" width="200px" contenteditable="true">
+                        <input type="text" name="book_title" id="story-title" placeholder="Nhập tiêu đề của truyện" width="200px" required>
                         <p for="story-content">Mô tả:</p>
-                        <textarea id="story-content" name="book_describe" placeholder="Viết mô tả của truyện ở đây" width="300px" height="300px"></textarea> <br>
+                        <textarea id="story-content" name="book_describe" placeholder="Viết mô tả của truyện ở đây" width="300px" height="300px" required></textarea> <br>
                         <div class="hd">
                             <p>Tác giả:</p>
-                            <input type="text" name="book_author" id="price"  width="200px" placeholder="Nhập tên tác giả" />
+                            <input type="text" name="book_author" id="price"  width="200px" placeholder="Nhập tên tác giả" required />
                         </div>
 
                         <label for="publisher">Nhà xuất bản:</label>
@@ -42,6 +42,9 @@
                             <option value="Nhà xuất bản Trẻ">Nhà xuất bản Trẻ</option>
                             <option value="Nhà xuất bản IPM">Nhà xuất bản IPM</option>
                             <option value="Nhà xuất bản Amak">Nhà xuất bản Amak</option>
+                            <option value="Nhà xuất bản Amak">Az Việt Nam</option>
+                            <option value="Nhà xuất bản Amak">Nhà xuất bản Phúc Minh</option>
+                            <option value="Nhà xuất bản Amak">Nhà xuất bản Moonbook</option>
                         </select> <br>
 
                         <label for="size">Kích thước:</label>
@@ -85,14 +88,18 @@
                             $result = $stmt->get_result();
                             $categories = $result->fetch_all(MYSQLI_ASSOC);
 
-                            foreach ($categories as $category): ?>
-                                <option value="<?php echo htmlspecialchars($category['category_id']); ?>"><?php echo htmlspecialchars($category['category_name']); ?></option>
-                            <?php endforeach;
-                            // Đóng kết nối database ở đây, sau khi đã lấy dữ liệu categories
+                            if ($categories) {
+                                foreach ($categories as $category): ?>
+                                    <option value="<?php echo htmlspecialchars($category['category_id']); ?>"><?php echo htmlspecialchars($category['category_name']); ?></option>
+                                <?php endforeach;
+                            } else {
+                                echo "<option value=''>Không có thể loại nào</option>";
+                            }
+
                             $mysqli->close();
                             ?>
                         </select>
-
+                        <input type="submit" value="Lưu">
                     </div>
                 </div>
             </div>
