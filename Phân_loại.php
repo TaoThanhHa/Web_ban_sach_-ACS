@@ -38,16 +38,20 @@ include_once('db/connect.php');
         }
 
         // Phần tìm kiếm
-        $search_keyword = isset($_POST['search']) ? $_POST['search'] : '';
+        $search_keyword = isset($_POST['search']) ? $mysqli->real_escape_string($_POST['search']) : '';
+
+        // Truy vấn chính
         $query = "SELECT * FROM tbl_book WHERE 1=1";
 
         if ($category_id > 0) {
-            $query .= " AND book_category = $category_id"; //sửa category_id thành book_category
+            $query .= " AND book_category = $category_id"; 
         }
 
         if (!empty($search_keyword)) {
-            $query .= " AND book_title LIKE ?";
+            $query .= " AND book_title LIKE '%$search_keyword%'";
         }
+
+        $query .= " ORDER BY book_id DESC";
 
         $query .= " LIMIT $books_per_page OFFSET $offset";
         $results = $mysqli->query($query);
@@ -109,21 +113,6 @@ include_once('db/connect.php');
                             ?>
                         </div>
                     </section>
-                    <!--   <div class="box_pagination">
-                            <div class="pagination">
-                                <a href="?page=1">«</a>
-                                <?php
-                                $start_page = max(1, $current_page - 2);
-                                $end_page = min($total_pages, $start_page + 4);
-
-                                for ($i = $start_page; $i <= $end_page; $i++) {
-                                    $active = ($i == $current_page) ? 'active' : '';
-                                    echo '<a href="?page=' . $i . '" class="' . $active . '">' . $i . '</a>';
-                                }
-                                ?>
-                                <a href="?page=<?php echo $total_pages; ?>">»</a>
-                            </div>
-                        </div> -->
                 </div>
             </div>
         </div>

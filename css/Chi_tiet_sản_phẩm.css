@@ -2,40 +2,33 @@ a, a:hover{
     color: black;
     text-decoration: none;
 }
-body{
+
+.container{
     padding-top: 80px;
 }
-.story{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 130px;
-    background-size: cover;
-    background-repeat: repeat;
-}
 
-.story-bg{
-    width: 80%;
-    padding: 10px;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-/*Avata*/
-.story .story-bg .box-avata{
+.box-avata {
     margin-right: 15px;
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
     position: relative;
 }
 
-.story .story-bg .box-avata .avata .image{
-    width: 300px;
-    height: 400px;
+.avata {
+    width: 100%;
+    height: auto;
+    position: relative;
 }
 
-.story .story-bg .box-avata .avata .image img{
-    width: 300px;
-    height: 400px;
+.image {
+    width: 100%;
+    height: auto;
+}
+
+.image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; 
 }
 
 .discount-badge {
@@ -50,30 +43,32 @@ body{
     text-align: center;
 }
 
-/*Mô tả truyện*/
-.story .story-bg .story-infor{
-    width: 50%;
+.story-infor {
+    width: 100%; 
 }
 
-.story-infor .story-name{
+.story-name {
     font-weight: bold;
     font-size: x-large;
     padding-bottom: 10px;
 }
 
-.story-infor .view{
+.view {
     list-style: none;
 }
 
-.story-infor .view li{
+.view li {
     padding-bottom: 10px;
     font-weight: bold;
 }
 
-.story-infor .view li span{
+.view li span {
     font-weight: 100;
 }
 
+.story-content {
+    font-weight: 100;
+}
 
 /*Thêm vào giỏ hàng và số lượng*/
 .box-counter {
@@ -115,7 +110,6 @@ button:disabled {
     border: 1px solid #4CAF50;
 }
 
-
 .box-counter .counter .btn-cart {
     border-radius: 10px;
     color: #fff;
@@ -123,41 +117,22 @@ button:disabled {
 }
 
 .card img {
-    width: 230px;
+    width: 100%; 
     height: 350px;
+    object-fit: cover;
 }
 
-.discount {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: red;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-
-.title {
-    font-size: 20px;
-    margin-top: 6px;
-    color: rgb(246, 25, 25);
-}
-
-.story-infor .view li .price {
-    font-size: 30px;
-    color: green;
-    margin: 5px 0;
-    font-weight: 600;
-}
-
-.original-price {
-    text-decoration: line-through;
-    color: #999;
-    font-size: 20px;
+.card-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    line-clamp: 2;
 }
 
 /*Box điều khiển*/
-.tong{
+.tong {
     display: flex;
     justify-content: center;
 }
@@ -198,72 +173,13 @@ button:disabled {
      color: gray;
 }
 
-.card {
-    height: 500px;
-}
-img.card-img-top {
-    height: 350px;
-}
-
-.card-title {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    -webkit-line-clamp: 2;
-    text-overflow: ellipsis;
-    line-clamp: 2;
-}
-
-.price {
-    font-size: 30px;
-    color: green;
-    margin: 5px 0;
-    font-weight: 600;
-}
-
-.original-price {
-    text-decoration: line-through;
-    color: #999;
-    font-size: 20px;
-}
-
-.btn-primary{
-    margin-left: 20px;
-}
-
-@media screen and (max-width: 850px) {
-    .box-icon .fas, .interaction-count{
-        color: aliceblue;
+@media (max-width: 768px) {
+    .box-avata {
+        margin-right: 0;
+        margin-bottom: 20px;
     }
-    .story .story-bg .story-infor, .story .story-bg .box-avata{
+
+    .story-infor {
         width: 100%;
-    }
-    .story .story-bg .story-infor{
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-    .story .story-bg .box-avata{
-        display: flex;
-        justify-content: center;
-        margin-bottom: 30px;
-    }
-
-    .story .story-bg .box-avata .avata .image{
-        width: 100%;
-        height: 100%;
-    }
-    
-    .story .story-bg .box-avata .avata .image img{
-        width: 100%;
-        height: 100%;
-    }
-
-    .episode-item-title, .episodes-item-num{
-        background-color: white;
-        border: none;
-    }
-
-    .episodes-item-num{
-        font-size: large;
     }
 }

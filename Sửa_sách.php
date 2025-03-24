@@ -92,13 +92,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if ($stmt->execute()) {
                         $message = "Thông tin sách và ảnh đã được cập nhật thành công.";
                         // Lấy lại thông tin sách mới để cập nhật ảnh hiển thị
-                        $query = "SELECT book_image FROM tbl_book WHERE book_id = ?";
-                        $stmt = $mysqli->prepare($query);
-                        $stmt->bind_param("i", $book_id);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-                        $book['book_image'] = $result->fetch_assoc()['book_image'];
-                        $stmt->close();
+                        $query2 = "SELECT book_image FROM tbl_book WHERE book_id = ?";
+                        $stmt2 = $mysqli->prepare($query2);
+                         if ($stmt2) {
+                            $stmt2->bind_param("i", $book_id);
+                            $stmt2->execute();
+                            $result2 = $stmt2->get_result();
+                            if ($result2->num_rows > 0) {
+                                $book['book_image'] = $result2->fetch_assoc()['book_image'];
+                             }
+                             $stmt2->close();
+                         }else {
+                              $message = "Lỗi prepare statement: " . $mysqli->error;
+                         }
 
                     } else {
                         $message = "Lỗi cập nhật database: " . $stmt->error;
@@ -127,9 +133,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $message = "Lỗi prepare statement: " . $mysqli->error;
         }
     }
-    //Không nên chuyển hướng ngay lập tức. Thay vào đó, nên hiển thị thông báo thành công trước khi chuyển hướng hoặc tải lại trang.
-    //header("Location: Admin.php?message=" . urlencode($message));
-    //exit;
+     $mysqli->close();
+     header("Location: Quản_lý_sách.php?message=" . urlencode($message));
+     exit;
 }
 ?>
 
@@ -138,13 +144,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/Tao_san_pham.css?v=<?php echo time(); ?>" type="text/css">
+    <link rel="stylesheet" href="css/Tao_san_pham.css" type="text/css">
     <title>Chỉnh sửa sách</title>
 </head>
 <body>
     <div class="header">
-        <a href="./Admin.php"><</a>
+        <a href="./Quản_lý_sách.php"><</a>
     </div>
 
     <div class="body">
@@ -232,8 +237,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $mysqli2->close();
                             ?>
                         </select>
-                        <button type="submit" class="btn btn-primary">Cập nhật</button>
-                        <a href="Admin.php" class="btn btn-secondary">Hủy</a>
+                         <button type="submit" >Cập nhật</button>
+                         <a href="Admin.php" >Hủy</a>
                          <?php if (isset($message)): ?>
                             <div class="alert alert-info"><?php echo $message; ?></div>
                          <?php endif; ?>

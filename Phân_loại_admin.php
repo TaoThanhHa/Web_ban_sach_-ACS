@@ -38,55 +38,23 @@ include_once('db/connect.php');
         }
 
         // Phần tìm kiếm
-        $search_keyword = isset($_POST['search']) ? $_POST['search'] : '';
+        $search_keyword = isset($_POST['search']) ? $mysqli->real_escape_string($_POST['search']) : '';
 
-        // Truy vấn để lấy tổng số sách
-        $sql_total = "SELECT COUNT(*) AS total FROM tbl_book WHERE 1=1";
-        if ($category_id > 0) {
-            $sql_total .= " AND book_category = ?";
-        }
-        if (!empty($search_keyword)) {
-            $sql_total .= " AND book_title LIKE ?";
-        }
-
-        $stmt_total = $mysqli->prepare($sql_total);
-        if ($category_id > 0 && !empty($search_keyword)) {
-            $search_keyword_param = "%" . $search_keyword . "%";
-            $stmt_total->bind_param("is", $category_id, $search_keyword_param);
-        } elseif ($category_id > 0) {
-            $stmt_total->bind_param("i", $category_id);
-        } elseif (!empty($search_keyword)) {
-            $search_keyword_param = "%" . $search_keyword . "%";
-            $stmt_total->bind_param("s", $search_keyword_param);
-        }
-        $stmt_total->execute();
-        $result_total = $stmt_total->get_result();
-        $row_total = $result_total->fetch_assoc();
-        $total_books = $row_total['total'];
-        $total_pages = ceil($total_books / $books_per_page);
-
-        // Truy vấn để lấy sách (có phân trang)
+        // Truy vấn chính
         $query = "SELECT * FROM tbl_book WHERE 1=1";
-        if ($category_id > 0) {
-            $query .= " AND book_category = ?";
-        }
-        if (!empty($search_keyword)) {
-            $query .= " AND book_title LIKE ?";
-        }
-        $query .= " LIMIT $books_per_page OFFSET $offset";
 
-        $stmt = $mysqli->prepare($query);
-        if ($category_id > 0 && !empty($search_keyword)) {
-            $search_keyword_param = "%" . $search_keyword . "%";
-            $stmt->bind_param("is", $category_id, $search_keyword_param);
-        } elseif ($category_id > 0) {
-            $stmt->bind_param("i", $category_id);
-        } elseif (!empty($search_keyword)) {
-            $search_keyword_param = "%" . $search_keyword . "%";
-            $stmt->bind_param("s", $search_keyword_param);
+        if ($category_id > 0) {
+            $query .= " AND book_category = $category_id"; 
         }
-        $stmt->execute();
-        $results = $stmt->get_result();
+
+        if (!empty($search_keyword)) {
+            $query .= " AND book_title LIKE '%$search_keyword%'";
+        }
+
+        $query .= " ORDER BY book_id DESC";
+
+        $query .= " LIMIT $books_per_page OFFSET $offset";
+        $results = $mysqli->query($query);
     ?>
 
     <!-- header -->
@@ -145,7 +113,6 @@ include_once('db/connect.php');
                             ?>
                         </div>
                     </section>
-                    
                 </div>
             </div>
         </div>
@@ -160,7 +127,5 @@ include_once('db/connect.php');
 </body>
 </html>
 <?php
-$stmt_total->close();
-$stmt->close();
 $mysqli->close();
 ?>
