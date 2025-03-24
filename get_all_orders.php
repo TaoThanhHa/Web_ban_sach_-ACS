@@ -4,15 +4,18 @@ header('Content-Type: application/json; charset=utf-8');
 
 include_once('db/connect.php');
 
-// Truy vấn để lấy thông tin tất cả đơn hàng
-$sql = "SELECT id_order, 
-               id_user, 
-               shipping_address, 
-               order_status, 
-               total_amount,
-               order_date -- Giữ nguyên để chuyển đổi trong PHP
-        FROM tbl_order
-        ORDER BY order_date DESC";
+// Truy vấn để lấy thông tin tất cả đơn hàng và tên người dùng
+$sql = "SELECT 
+            o.id_order, 
+            o.id_user, 
+            o.shipping_address, 
+            o.order_status, 
+            o.total_amount,
+            o.order_date,  -- Giữ nguyên để chuyển đổi trong PHP
+            u.name AS user_name  -- Lấy tên người dùng
+        FROM tbl_order o
+        INNER JOIN tbl_user u ON o.id_user = u.id  -- JOIN với bảng tbl_user
+        ORDER BY o.order_date DESC";
 
 $result = $mysqli->query($sql);
 
@@ -27,5 +30,5 @@ while ($row = $result->fetch_assoc()) {
 
 // Trả về dữ liệu dưới dạng JSON
 header('Content-Type: application/json');
-echo json_encode($orders);
+echo json_encode($orders, JSON_UNESCAPED_UNICODE); //Thêm JSON_UNESCAPED_UNICODE
 ?>

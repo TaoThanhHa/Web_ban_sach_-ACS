@@ -8,12 +8,14 @@
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Thêm Bootstrap CSS -->
     <script src="javascript/Hỗ_trợ.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="css/Trang_chu.css?v=<?php echo time(); ?>" type="text/css">
+    <link rel="stylesheet" href="css/header.css?v=<?php echo time(); ?>" type="text/css">
 </head>
 <body>
     <!-- header -->
-    <div class="header">
-        <a href="Admin.php"><</a>
-    </div>
+    <!-- header -->
+    <?php include 'header_admin.php'; ?>
 
     <div class="container">
         <h1 class="text-center mb-4">Hỗ trợ khách hàng</h1>

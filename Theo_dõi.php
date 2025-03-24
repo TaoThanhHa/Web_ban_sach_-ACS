@@ -23,16 +23,6 @@
         <div id="order-list">
             <!-- Danh sách đơn hàng sẽ được hiển thị ở đây -->
         </div>
-
-        <div id="order-details" class="hidden">
-            <h2>Chi tiết đơn hàng</h2>
-            <div class="order-info">
-                <!-- Thông tin đơn hàng -->
-            </div>
-            <div class="order-status-timeline">
-                <!-- Tiến trình trạng thái đơn hàng -->
-            </div>
-        </div>
     </div>
 
     <script src="javascript/Theo_dõi.js"></script>

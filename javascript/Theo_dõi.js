@@ -1,7 +1,7 @@
 // Theo_dõi.js
 
 // Hiển thị danh sách đơn hàng
-function displayOrders() {
+function displayOrders(searchTerm = '') {
     const orderList = document.getElementById('order-list');
     orderList.innerHTML = 'Loading...'; // Hiển thị thông báo loading
 
@@ -16,33 +16,54 @@ function displayOrders() {
                 return;
             }
 
-            orderList.innerHTML = ''; 
+            // Lọc đơn hàng theo searchTerm
+            const filteredOrders = data.filter(order => {
+                return String(order.id_order).includes(searchTerm); // Tìm kiếm theo id_order (chuyển thành chuỗi)
+            });
 
-            data.forEach(order => {
+            // Sắp xếp đơn hàng: 'Đã giao hàng' xuống cuối
+            filteredOrders.sort((a, b) => {
+                if (a.order_status === 'Đã giao hàng' && b.order_status !== 'Đã giao hàng') {
+                    return 1; // a xuống cuối
+                }
+                if (a.order_status !== 'Đã giao hàng' && b.order_status === 'Đã giao hàng') {
+                    return -1; // b xuống cuối
+                }
+                return 0; // Giữ nguyên thứ tự
+            });
+
+            orderList.innerHTML = '';
+
+            filteredOrders.forEach(order => {
                 const orderItem = document.createElement('div');
                 orderItem.classList.add('order-item');
-                // Sử dụng order_date_local nếu có, nếu không thì sử dụng order_date
                 orderItem.innerHTML = `
                     <h3>Đơn hàng #${order.id_order} - ${order.order_date_local || order.order_date}</h3>
                     <p>Trạng thái: <span class="order-status">${order.order_status}</span></p>
                 `;
-                orderItem.addEventListener('click', () => displayOrderDetails(order.id_order));
+                orderItem.addEventListener('click', () => displayOrderDetails(order.id_order, orderItem)); // Truyền orderItem
                 orderList.appendChild(orderItem);
             });
         })
         .catch(error => {
-          
             orderList.innerHTML = `<p class="error">Có lỗi xảy ra: ${error}</p>`;
         });
 }
 
 // Hiển thị chi tiết đơn hàng
-function displayOrderDetails(orderId) {
-    const orderDetails = document.getElementById('order-details');
-    orderDetails.classList.remove('hidden');
-    orderDetails.innerHTML = 'Loading...'; // Hiển thị thông báo loading
+function displayOrderDetails(orderId, orderItem) {
+    let orderDetails = orderItem.nextElementSibling; // Kiểm tra xem chi tiết đã được hiển thị chưa
 
- 
+    if (orderDetails && orderDetails.classList.contains('order-details')) {
+        // Nếu đã hiển thị, ẩn nó đi
+        orderDetails.remove();
+        return;
+    }
+
+    orderDetails = document.createElement('div');
+    orderDetails.classList.add('order-details');
+    orderDetails.innerHTML = 'Loading...'; // Hiển thị thông báo loading
+    orderItem.parentNode.insertBefore(orderDetails, orderItem.nextSibling); // Chèn vào DOM sau orderItem
 
     fetch(`get_order_details.php?id=${orderId}`)
         .then(response => {
@@ -75,6 +96,12 @@ function displayOrderDetails(orderId) {
         .catch(error => {
             orderDetails.innerHTML = `<p class="error">Có lỗi xảy ra: ${error}</p>`;
         });
+}
+
+// Hàm tìm kiếm đơn hàng
+function searchOrder() {
+    const searchTerm = document.getElementById('order-search').value;
+    displayOrders(searchTerm);
 }
 
 // Gọi hàm hiển thị danh sách đơn hàng khi trang được tải

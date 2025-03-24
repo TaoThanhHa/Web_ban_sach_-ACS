@@ -1,7 +1,7 @@
 // QLTD.js
 
 // Hiển thị danh sách đơn hàng cho quản trị viên
-function displayOrders() {
+function displayOrders(searchTerm = '') {
     const orderList = document.getElementById('order-list');
     orderList.innerHTML = 'Loading...'; // Hiển thị thông báo loading
 
@@ -13,18 +13,44 @@ function displayOrders() {
                 return;
             }
 
+            // Lọc đơn hàng theo searchTerm
+            const filteredOrders = data.filter(order => {
+                return String(order.id_order).includes(searchTerm); // Tìm kiếm theo id_order (chuyển thành chuỗi)
+            });
+
+            // Sắp xếp đơn hàng: 'Đã giao hàng' xuống cuối
+            filteredOrders.sort((a, b) => {
+                if (a.order_status === 'Đã giao hàng' && b.order_status !== 'Đã giao hàng') {
+                    return 1; // a xuống cuối
+                }
+                if (a.order_status !== 'Đã giao hàng' && b.order_status === 'Đã giao hàng') {
+                    return -1; // b xuống cuối
+                }
+                return 0; // Giữ nguyên thứ tự
+            });
+
             orderList.innerHTML = ''; // Xóa thông báo loading
 
-            data.forEach(order => {
+            filteredOrders.forEach(order => {
                 const orderItem = document.createElement('div');
                 orderItem.classList.add('order-item');
                 orderItem.innerHTML = `
                     <h3>Đơn hàng #${order.id_order} - ${order.order_date}</h3>
-                    <p>Người dùng: ${order.id_user}</p>
+                    <p>Khách hàng: ${order.user_name}</p>
                     <p>Trạng thái: <span class="order-status">${order.order_status}</span></p>
-                    <button onclick="displayOrderDetails(${order.id_order})">Xem chi tiết</button>
+                    <button class="show-details-button" data-order-id="${order.id_order}">Xem chi tiết</button>
                 `;
                 orderList.appendChild(orderItem);
+            });
+
+            // Gắn sự kiện click cho các nút "Xem chi tiết"
+            const showDetailsButtons = document.querySelectorAll('.show-details-button');
+            showDetailsButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const orderId = this.dataset.orderId;
+                    const orderItem = this.closest('.order-item');
+                    toggleOrderDetails(orderId, orderItem);
+                });
             });
         })
         .catch(error => {
@@ -32,11 +58,20 @@ function displayOrders() {
         });
 }
 
-// Hiển thị chi tiết đơn hàng
-function displayOrderDetails(orderId) {
-    const orderDetails = document.getElementById('order-details');
-    orderDetails.classList.remove('hidden');
-    orderDetails.innerHTML = 'Loading...'; // Hiển thị thông báo loading
+// Hiển thị hoặc ẩn chi tiết đơn hàng
+function toggleOrderDetails(orderId, orderItem) {
+    let orderDetails = orderItem.nextElementSibling;
+
+    if (orderDetails && orderDetails.classList.contains('order-details')) {
+        // Nếu đã hiển thị, ẩn nó đi
+        orderDetails.remove();
+        return;
+    }
+
+    orderDetails = document.createElement('div');
+    orderDetails.classList.add('order-details');
+    orderDetails.innerHTML = 'Loading...';
+    orderItem.parentNode.insertBefore(orderDetails, orderItem.nextSibling);
 
     fetch(`get_all_order_details.php?id=${orderId}`)
         .then(response => response.json())
@@ -59,10 +94,11 @@ function displayOrderDetails(orderId) {
                 <p>Phương thức thanh toán: ${data.payment_method}</p>
                 <p>Phương thức vận chuyển: ${data.shipping_method}</p>
                 <p>Phí vận chuyển: ${data.shipping_fee} VND</p>
+                <p>Email khách hàng: ${data.user_email}</p>
                 <h3>Sản phẩm:</h3>
                 <ul>${itemsList}</ul>
                 <p><strong>Tổng cộng:</strong> ${data.total_amount} VND</p>
-                <button onclick="changeOrderStatus(${data.id_order})">Cập nhật trạng thái</button>
+                <button class="update-status-button" onclick="changeOrderStatus(${data.id_order})">Cập nhật trạng thái</button>
             `;
         })
         .catch(error => {
@@ -94,6 +130,12 @@ function changeOrderStatus(orderId) {
             alert(`Có lỗi xảy ra: ${error}`);
         });
     }
+}
+
+// Hàm tìm kiếm đơn hàng
+function searchOrder() {
+    const searchTerm = document.getElementById('order-search').value;
+    displayOrders(searchTerm);
 }
 
 // Gọi hàm hiển thị danh sách đơn hàng khi trang được tải

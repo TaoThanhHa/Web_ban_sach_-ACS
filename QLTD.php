@@ -15,13 +15,7 @@
     <?php include 'header_admin.php'; ?>
     <div class="container">
         <h1>Quản lý đơn hàng</h1>
-        <div class="search-bar">
-            <input type="text" id="order-search" placeholder="Nhập mã đơn hàng...">
-            <button onclick="searchOrder()"><i class="fas fa-search"></i> Tìm kiếm</button>
-        </div>
-        <div id="order-list">
-            <!-- Danh sách đơn hàng sẽ được hiển thị ở đây -->
-        </div>
+
         <div id="order-details" class="hidden">
             <h2>Chi tiết đơn hàng</h2>
             <div class="order-info">
@@ -36,6 +30,15 @@
             <div class="order-actions">
                 <!-- Các nút thao tác (ví dụ: Cập nhật trạng thái, Hủy đơn hàng) -->
             </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="order-search" placeholder="Nhập mã đơn hàng...">
+            <button onclick="searchOrder()"><i class="fas fa-search"></i> Tìm kiếm</button>
+        </div>
+
+        <div id="order-list">
+            <!-- Danh sách đơn hàng sẽ được hiển thị ở đây -->
         </div>
     </div>
 
