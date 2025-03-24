@@ -2,7 +2,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <img src="images/Book Haven (2).png" width="130px" height="130px" alt="Book Haven">
+                    <img src="images/Book Haven (3).png" width="130px" height="130px" alt="Book Haven">
                 </div>
                 <div class="col-md-3">
                     <h5>Dịch vụ</h5>

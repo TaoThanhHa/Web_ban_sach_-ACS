@@ -6,7 +6,7 @@ include_once('db/connect.php');
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <a class="navbar-brand" href="Admin.php">
-            <img src="images/book_haven.jpg" width="50" height="50" class="d-inline-block align-top" alt="Book Haven">
+            <img src="images/Book Haven (3).png" width="50" height="50" class="d-inline-block align-top" alt="Book Haven">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

@@ -44,7 +44,7 @@ header {
 }
 
 .logout-btn {
-    background-color: #f44336;
+    background-color: #EB5757;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -108,7 +108,6 @@ header {
     margin-bottom: 30px;
 }
 
-/* Ensure Sidebar and Content Scroll Together */
 .sidebar, .main-content {
     overflow-y: auto;
 }

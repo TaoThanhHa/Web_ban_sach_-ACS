@@ -2,15 +2,20 @@
 session_start();
 include_once('db/connect.php');
 
-function getUsers($mysqli) {
-    // Truy vấn lấy dữ liệu người dùng (chỉ lấy role = 'user')
+// Truy vấn lấy dữ liệu người dùng
+function getUsers($mysqli, $search_keyword = '') {
     $sql = "SELECT id, name, email, phone, status FROM tbl_user WHERE role = 'user'";
+
+    if (!empty($search_keyword)) {
+        $search_keyword = mysqli_real_escape_string($mysqli, $search_keyword);
+        $sql .= " AND (email LIKE '%$search_keyword%' OR phone LIKE '%$search_keyword%')";
+    }
+
     $result = $mysqli->query($sql);
 
-    // Kiểm tra lỗi truy vấn
     if (!$result) {
         echo "Lỗi truy vấn: " . $mysqli->error;
-        return NULL; // Trả về NULL nếu có lỗi
+        return NULL;
     }
 
     return $result;
@@ -27,25 +32,29 @@ function getUsers($mysqli) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/Quản_lý_người dùng.css?php echo time(); ?>" type="text/css">
     <link rel="stylesheet" href="css/header.css?v=<?php echo time(); ?>" type="text/css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        .editable:hover {
-            background-color: #f0f0f0;
-            cursor: pointer;
-        }
-    </style>
 </head>
 
 <body>
 <?php include 'header_admin.php'; ?>
 
 <div class="container my-5">
-    <h1>Quản lý Người dùng - Inline Editing</h1>
+    <h1>Quản lý Người dùng</h1>
+
+      <!-- Form tìm kiếm -->
+      <div class="search-form">
+        <form action="" method="GET">
+            <input type="text" name="search" placeholder="Tìm kiếm email hoặc số điện thoại" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+            <button type="submit">Tìm kiếm</button>
+        </form>
+        <button id="save-changes" class="btn btn-primary">Lưu thay đổi</button>
+    </div>
+
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
@@ -54,15 +63,16 @@ function getUsers($mysqli) {
         </thead>
         <tbody>
         <?php
-        // Gọi hàm getUsers() để lấy dữ liệu
-        $result = getUsers($mysqli);
+
+        $search_keyword = isset($_GET['search']) ? $_GET['search'] : '';
+
+        $result = getUsers($mysqli, $search_keyword);
 
         // Kiểm tra xem $result có phải là null hay không trước khi lặp
         if ($result) {
             while ($row = $result->fetch_assoc()) {
                 ?>
                 <tr>
-                    <td><?php echo $row['id']; ?></td>
                     <td contenteditable="true" class="editable" data-id="<?php echo $row['id']; ?>" data-field="name">
                         <?php echo htmlspecialchars($row['name']); ?>
                     </td>
@@ -83,25 +93,21 @@ function getUsers($mysqli) {
         ?>
         </tbody>
     </table>
-    <button id="save-changes" class="btn btn-primary">Lưu thay đổi</button>
 </div>
 
 <script>
     $(document).ready(function () {
-        var changes = []; // Mảng để lưu các thay đổi
+        var changes = [];
 
         // Hàm để thêm thay đổi vào mảng
         function addChange(id, field, value) {
-            // Kiểm tra xem thay đổi đã tồn tại trong mảng chưa
             var existingChangeIndex = changes.findIndex(function (change) {
                 return change.id === id && change.field === field;
             });
 
             if (existingChangeIndex !== -1) {
-                // Nếu thay đổi đã tồn tại, cập nhật giá trị
                 changes[existingChangeIndex].value = value;
             } else {
-                // Nếu thay đổi chưa tồn tại, thêm vào mảng
                 changes.push({id: id, field: field, value: value});
             }
         }
@@ -126,16 +132,15 @@ function getUsers($mysqli) {
             if (changes.length > 0) {
                 // Gửi mảng các thay đổi đến server
                 $.ajax({
-                    url: 'update_users.php', // Đường dẫn đến file xử lý AJAX
+                    url: 'update_users.php',
                     type: 'POST',
                     contentType: 'application/json',
-                    data: JSON.stringify(changes), // Chuyển đổi mảng thành JSON
+                    data: JSON.stringify(changes),
                     success: function (response) {
                         try {
                             var data = JSON.parse(response);
                             if (data.status === 'success') {
                                 alert(data.message);
-                                // Tải lại trang để hiển thị dữ liệu mới nhất
                                 location.reload();
                             } else {
                                 alert('Lỗi: ' + data.message);

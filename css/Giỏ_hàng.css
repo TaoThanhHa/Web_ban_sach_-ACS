@@ -21,7 +21,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color:#b6e2d3;
+    background-color:#EB5757;
     z-index: 1;
 }
 
@@ -75,14 +75,14 @@ th {
 }
 .button {
     padding: 10px 20px;
-    background-color: #eb3c15;
+    background-color: #EB5757;
     color: white;
     border: none;
     cursor: pointer;
     margin-top: 15px;
 }
 .button:hover {
-    background-color: #eb3c15;
+    background-color: #EB5757;
 }
 .note {
     margin-top: 20px;

@@ -61,7 +61,7 @@ header>nav {
 }
 
 .cartegory-right {
-  width: 80%; /* Chiếm 75% chiều rộng của container cha */
+  width: 80%; 
 }
 
 .cartegory-right a{
@@ -69,19 +69,19 @@ header>nav {
   text-decoration: none;
 }
 
-.cartegory-top.row { /* Sử dụng độ đặc hiệu cao hơn */
+.cartegory-top.row { 
   padding-top: 25px;
 }
 
 /* CSS cho sản phẩm */
 .wrapper {
-    padding: 10px; /* Thêm padding để không bị sát lề */
+    padding: 10px; 
 }
 
 .box {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start; /* Căn chỉnh các card từ bên trái */
+    justify-content: flex-start;
     margin-left: 0; 
 }
 
@@ -89,17 +89,17 @@ header>nav {
   border: 1px solid #ccc;
   border-radius: 10px;
   overflow: hidden;
-  width: 23%; /* Điều chỉnh kích thước để có 4 card trên hàng */
+  width: 23%; 
   text-align: center;
   position: relative;
   background-color: #fff;
-  margin: 1%; /* Điều chỉnh margin để có khoảng cách đẹp */
+  margin: 1%;
 }
 
 .card img {
-  width: 100%; /* Đảm bảo ảnh lấp đầy card */
-  height: auto; /* Giữ tỷ lệ khung hình */
-  object-fit: cover; /* Quan trọng: Giữ tỷ lệ và cắt ảnh nếu cần */
+  width: 100%; 
+  height: auto; 
+  object-fit: cover; 
   height: 350px;
 }
 
@@ -107,19 +107,19 @@ header>nav {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: red;
+  background-color: #EB5757;
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
 }
 
 .title {
-  font-size: 16px; /* Giảm kích thước tiêu đề */
+  font-size: 16px; 
   margin-top: 6px;
 }
 
 .price {
-  font-size: 16px; /* Giảm kích thước giá */
+  font-size: 16px;
   color: green;
   margin: 5px 0;
 }
@@ -131,9 +131,9 @@ header>nav {
 
 /* CSS cho thể loại đang được chọn */
 .cartegory-left-li.active a {
-    color: white; /* Đổi màu chữ */
-    background-color: #eb5013; /* Đổi màu nền */
-    font-weight: bold; /* In đậm chữ (tùy chọn) */
+    color: white; 
+    background-color: #eb5013; 
+    font-weight: bold;
 }
 
 /* CSS cho chuyển trang (Giữ nguyên) */
@@ -159,9 +159,9 @@ header>nav {
 }
 
 .pagination a.active {
-  background-color: #4CAF50;
+  background-color: #EB5757;
   color: white;
-  border: 1px solid #4CAF50;
+  border: 1px solid #EB5757;
 }
 
 .pagination a:hover:not(.active) {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/Tao_san_pham.css" type="text/css">
+    <link rel="stylesheet" href="css/Tao_san_pham.css?v=<?php echo time(); ?>" type="text/css">
     <title>Truyện của tôi</title>
 </head>
 <body>

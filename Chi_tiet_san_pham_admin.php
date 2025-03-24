@@ -130,11 +130,6 @@ $stmt->close();
                 </div>
             </div>
         </div>
-
-        <section class="mt-5">
-            <h3>Sách liên quan</h3>
-            <!-- Thêm phần hiển thị sách liên quan ở đây -->
-        </section>
     </div>
 
     <!-- Footer -->
