@@ -51,7 +51,7 @@ include_once('db/connect.php');
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="ĐX.php">Đăng xuất</a>
-                        <a class="dropdown-item" href="Theo_dõi.html">Theo dõi đơn hàng</a>
+                        <a class="dropdown-item" href="Theo_dõi.php">Theo dõi đơn hàng</a>
                     </div>
                 </li>
             </ul>
