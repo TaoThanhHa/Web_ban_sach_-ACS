@@ -5,7 +5,12 @@ function displayOrders(searchTerm = '') {
     const orderList = document.getElementById('order-list');
     orderList.innerHTML = 'Loading...'; // Hiển thị thông báo loading
 
-    fetch('get_all_orders.php')
+    let url = 'get_all_orders.php';
+    if (searchTerm) {
+        url += `?searchTerm=${encodeURIComponent(searchTerm)}`;  // Thêm tham số tìm kiếm vào URL và encode
+    }
+
+    fetch(url)
         .then(response => response.json())
         .then(data => {
             if (data.error) {
@@ -13,13 +18,8 @@ function displayOrders(searchTerm = '') {
                 return;
             }
 
-            // Lọc đơn hàng theo searchTerm
-            const filteredOrders = data.filter(order => {
-                return String(order.id_order).includes(searchTerm); // Tìm kiếm theo id_order (chuyển thành chuỗi)
-            });
-
             // Sắp xếp đơn hàng: 'Đã giao hàng' xuống cuối
-            filteredOrders.sort((a, b) => {
+            data.sort((a, b) => {
                 if (a.order_status === 'Đã giao hàng' && b.order_status !== 'Đã giao hàng') {
                     return 1; // a xuống cuối
                 }
@@ -31,7 +31,7 @@ function displayOrders(searchTerm = '') {
 
             orderList.innerHTML = ''; // Xóa thông báo loading
 
-            filteredOrders.forEach(order => {
+            data.forEach(order => {
                 const orderItem = document.createElement('div');
                 orderItem.classList.add('order-item');
                 orderItem.innerHTML = `
@@ -41,17 +41,21 @@ function displayOrders(searchTerm = '') {
                     <button class="show-details-button" data-order-id="${order.id_order}">Xem chi tiết</button>
                 `;
                 orderList.appendChild(orderItem);
-            });
 
-            // Gắn sự kiện click cho các nút "Xem chi tiết"
-            const showDetailsButtons = document.querySelectorAll('.show-details-button');
-            showDetailsButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const orderId = this.dataset.orderId;
-                    const orderItem = this.closest('.order-item');
+                 // Gắn sự kiện click cho phần tử orderItem (bao gồm cả nút)
+                orderItem.addEventListener('click', (event) => {
+                    // Kiểm tra xem người dùng có click vào nút hay không
+                    if (!event.target.classList.contains('show-details-button')) {
+                        // Nếu không phải nút, thì bỏ qua (hoặc có thể thực hiện hành động khác)
+                        return;
+                    }
+
+                    const orderId = event.target.dataset.orderId;
                     toggleOrderDetails(orderId, orderItem);
                 });
             });
+
+           
         })
         .catch(error => {
             orderList.innerHTML = `<p class="error">Có lỗi xảy ra: ${error}</p>`;
