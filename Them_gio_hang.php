@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_SESSION['user_id'])) {
         echo "<script>
                 alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.');
-                window.location.href = 'index.php';
+                window.location.href = 'ĐN.php';
               </script>";
         exit();
     }
@@ -50,14 +50,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Hết hàng
                     echo "<script>
                         alert('Sản phẩm này đã hết hàng.');
-                        window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "'; // Quay lại trang chi tiết
+                        window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "'; 
                       </script>";
                     exit();
                 } else {
                     // Vượt quá số lượng có thể mua
                     echo "<script>
                         alert('Số lượng bạn chọn cộng với số lượng đã có trong giỏ hàng vượt quá số lượng còn lại trong kho. Bạn chỉ có thể mua tối đa " . ($available_quantity - $existing_quantity) . " sản phẩm này.');
-                        window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "'; // Quay lại trang chi tiết
+                        window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "';
                       </script>";
                     exit();
                 }
@@ -88,14 +88,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Hết hàng
                     echo "<script>
                         alert('Sản phẩm này đã hết hàng.');
-                        window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "'; // Quay lại trang chi tiết
+                        window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "'; 
                       </script>";
                     exit();
                 } else {
                     // Vượt quá số lượng có thể mua
                     echo "<script>
                         alert('Số lượng bạn chọn vượt quá số lượng còn lại trong kho. Chỉ còn lại " . $available_quantity . " sản phẩm.');
-                        window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "'; // Quay lại trang chi tiết
+                        window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "'; 
                       </script>";
                     exit();
                 }

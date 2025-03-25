@@ -17,15 +17,13 @@ include_once('db/connect.php');
     <link rel="stylesheet" href="css/header.css?v=<?php echo time(); ?>" type="text/css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-    <title><?php echo isset($book['book_title']) ? htmlspecialchars($book['book_title']) : 'Chi tiết sách'; ?></title>
+    <title>Giới thiệu</title>
        
 </head>
 <body>
 
-    <!-- Header -->
     <?php include 'header.php'; ?>
 
-    <!-- content -->    
     <section class="wrapper_gt">
         <div class="box_gt">
             <ul>
@@ -56,8 +54,7 @@ include_once('db/connect.php');
                
         </div>    
     </section>
-    
-    <!-- footer -->
+
     <?php include 'footer.php'; ?>
     
     <script>

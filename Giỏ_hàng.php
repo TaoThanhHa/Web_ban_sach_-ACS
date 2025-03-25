@@ -6,14 +6,13 @@ session_start();
 if (!isset($_SESSION['user_id'])) {
     echo "<script>
             alert('Bạn cần đăng nhập để xem giỏ hàng.');
-            window.location.href = 'Trang_chủ.php';
+            window.location.href = 'ĐN.php';
           </script>";
     exit();
 }
 
 $user_id = $_SESSION['user_id']; // Lấy user ID từ session
 
-// Kiểm tra nếu giỏ hàng của người dùng này không tồn tại
 if (!isset($_SESSION['cart'][$user_id])) {
     $_SESSION['cart'][$user_id] = [];
 }
@@ -30,14 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($quantity <= 0) {
             // Xóa sản phẩm khỏi giỏ hàng và hoàn trả số lượng
             unset($_SESSION['cart'][$user_id][$book_id]);
-            // Cập nhật số lượng trong database (hoàn trả lại số lượng đã có)
             $quantity_diff = $old_quantity;
             $sql_update_quantity = "UPDATE tbl_book SET book_quantity = book_quantity + ? WHERE book_id = ?";
             $stmt_update_quantity = $mysqli->prepare($sql_update_quantity);
             $stmt_update_quantity->bind_param("ii", $quantity_diff, $book_id);
 
             if ($stmt_update_quantity->execute()) {
-                 //echo "Số lượng sản phẩm đã được hoàn trả.";
             } else {
                 echo "Lỗi khi hoàn trả số lượng: " . $stmt_update_quantity->error;
             }
@@ -46,18 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Cập nhật số lượng trong giỏ hàng
             $_SESSION['cart'][$user_id][$book_id]['quantity'] = $quantity;
-
-            // Tính toán sự khác biệt giữa số lượng cũ và số lượng mới
-            $quantity_diff = $quantity - $old_quantity; // Số lượng mới - số lượng cũ
+            $quantity_diff = $quantity - $old_quantity; 
 
             // Cập nhật số lượng trong database
-            //Lưu ý: Phải đảo ngược lại số lượng khi update
             $sql_update_quantity = "UPDATE tbl_book SET book_quantity = book_quantity - ? WHERE book_id = ?";
             $stmt_update_quantity = $mysqli->prepare($sql_update_quantity);
             $stmt_update_quantity->bind_param("ii", $quantity_diff, $book_id);
 
             if ($stmt_update_quantity->execute()) {
-                //echo "Số lượng sản phẩm đã được cập nhật.";
             } else {
                 echo "Lỗi khi cập nhật số lượng: " . $stmt_update_quantity->error;
             }
@@ -77,7 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt_update_quantity = $mysqli->prepare($sql_update_quantity);
         $stmt_update_quantity->bind_param("ii", $quantity_diff, $book_id);
         if ($stmt_update_quantity->execute()) {
-            //echo "Số lượng sản phẩm đã được hoàn trả.";
         } else {
             echo "Lỗi khi hoàn trả số lượng: " . $stmt_update_quantity->error;
         }

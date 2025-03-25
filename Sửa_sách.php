@@ -215,6 +215,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             ?>
                         </select>
                         <button type="submit">Cập nhật</button>
+                        <a href="Admin.php">Hủy</a>
                         <?php if (isset($message)): ?>
                             <div class="alert alert-info"><?php echo $message; ?></div>
                         <?php endif; ?>

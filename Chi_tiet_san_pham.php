@@ -1,13 +1,11 @@
 <?php
 include_once('db/connect.php');
 
-// Hàm để xử lý lỗi database
 function db_error($mysqli) {
     echo "Lỗi database: " . $mysqli->error;
     exit;
 }
 
-// Lấy book_id từ URL
 $book_id = isset($_GET['book_id']) ? (int)$_GET['book_id'] : 0;
 
 // Truy vấn để lấy thông tin chi tiết sách
@@ -22,7 +20,6 @@ $stmt->bind_param("i", $book_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Kiểm tra xem có sách nào không
 if ($result->num_rows > 0) {
     $book = $result->fetch_assoc();
 } else {
@@ -30,7 +27,6 @@ if ($result->num_rows > 0) {
     exit();
 }
 
-// Truy vấn để lấy category
 $sql_category = "SELECT * FROM tbl_category ORDER BY category_id DESC";
 $spl_category = $mysqli->query($sql_category);
 
@@ -67,10 +63,8 @@ $stmt->close();
 </head>
 <body>
 
-    <!-- Header -->
     <?php include 'header.php'; ?>
 
-    <!-- Story Section -->
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-4">
@@ -133,7 +127,6 @@ $stmt->close();
         </div>
     </div>
 
-    <!-- Tabbed Content -->
     <div class="container mt-5">
         <div class="tong">
             <ul class="nav nav-tabs words" id="myTab" role="tablist">
@@ -155,13 +148,12 @@ $stmt->close();
 
             <div class="tab-pane fade cmt" id="binhluan" role="tabpanel" aria-labelledby="binhluan-tab">
                 <div class="box-cmt">
-                    <!-- Phần bình luận sẽ được thêm vào sau -->
                     <p>Chức năng bình luận sẽ được phát triển sau</p>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Related Products -->
+
     <div class="container mt-5">
         <h2>Xem thêm các sản phẩm khác</h2>
         <section class="wrapper">
@@ -197,7 +189,6 @@ $stmt->close();
         </section>
     </div>
 
-    <!-- Footer -->
     <?php include 'footer.php'; ?>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
@@ -206,6 +197,6 @@ $stmt->close();
 </body>
 </html>
 <?php
-// Đóng kết nối
+
 $mysqli->close();
 ?>

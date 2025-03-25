@@ -1,4 +1,8 @@
-/* Thêm CSS để style trang quản lý sách */
+a, a:hover{
+  color: black;
+  text-decoration: none;
+}
+
 .container {
   width: 80%;
   margin: 0 auto;

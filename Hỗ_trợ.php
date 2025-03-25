@@ -13,15 +13,14 @@
     <link rel="stylesheet" href="css/header.css?v=<?php echo time(); ?>" type="text/css">
 </head>
 <body>
-    <!-- header -->
-    <!-- header -->
+
     <?php include 'header_admin.php'; ?>
 
     <div class="container">
         <h1 class="text-center mb-4">Hỗ trợ khách hàng</h1>
 
         <h2 class="text-center mb-3">Danh sách yêu cầu hỗ trợ</h2>
-        <div class="table-responsive">  <!-- Thêm lớp table-responsive -->
+        <div class="table-responsive">  
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>

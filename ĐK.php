@@ -1,5 +1,4 @@
 <?php
-// Kết nối đến cơ sở dữ liệu
 include_once('db/connect.php');
 
 if (isset($_POST['register'])) {
@@ -12,15 +11,15 @@ if (isset($_POST['register'])) {
     // Validate Email
     if (!preg_match('/^[a-zA-Z0-9._%+-]+@gmail\.com$/', $email)) {
         echo "<script>alert('Email không hợp lệ (phải là @gmail.com)!');</script>";
-    } // Kiểm tra xem mật khẩu có khớp không
+    } 
     elseif ($password !== $confirmPassword) {
         echo "<script>alert('Mật khẩu và nhập lại mật khẩu không khớp!');</script>";
     } else {
-        // Validate Phone
+
         if (!preg_match('/^(0[0-9]{9})$/', $phone)) {
             echo "<script>alert('Số điện thoại không hợp lệ (phải bắt đầu bằng 0 và có 10 chữ số)!');</script>";
         }
-        // Kiểm tra độ mạnh của mật khẩu (ví dụ đơn giản)
+
         elseif (strlen($password) < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)) {
             echo "<script>alert('Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa và số!');</script>";
         } else {
@@ -28,14 +27,12 @@ if (isset($_POST['register'])) {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             $stmt = $mysqli->prepare("INSERT INTO tbl_user (name, email, phone, pass) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $name, $email, $phone, $hashedPassword); // Lưu mật khẩu đã băm
+            $stmt->bind_param("ssss", $name, $email, $phone, $hashedPassword); 
 
             if ($stmt->execute()) {
-                // Đăng ký thành công, có thể chuyển hướng đến trang đăng nhập
                 header("Location: ĐN.php");
                 exit();
             } else {
-                // Thông báo lỗi
                 echo "Có lỗi xảy ra: " . $stmt->error;
             }
         }

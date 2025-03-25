@@ -1,9 +1,7 @@
-// Theo_dõi.js
-
 // Hiển thị danh sách đơn hàng
 function displayOrders(searchTerm = '') {
     const orderList = document.getElementById('order-list');
-    orderList.innerHTML = 'Loading...'; // Hiển thị thông báo loading
+    orderList.innerHTML = 'Loading...';
 
 
     fetch('get_orders.php')
@@ -18,18 +16,17 @@ function displayOrders(searchTerm = '') {
 
             // Lọc đơn hàng theo searchTerm
             const filteredOrders = data.filter(order => {
-                return String(order.id_order).includes(searchTerm); // Tìm kiếm theo id_order (chuyển thành chuỗi)
+                return String(order.id_order).includes(searchTerm); 
             });
 
-            // Sắp xếp đơn hàng: 'Đã giao hàng' xuống cuối
             filteredOrders.sort((a, b) => {
                 if (a.order_status === 'Đã giao hàng' && b.order_status !== 'Đã giao hàng') {
-                    return 1; // a xuống cuối
+                    return 1; 
                 }
                 if (a.order_status !== 'Đã giao hàng' && b.order_status === 'Đã giao hàng') {
-                    return -1; // b xuống cuối
+                    return -1; 
                 }
-                return 0; // Giữ nguyên thứ tự
+                return 0;
             });
 
             orderList.innerHTML = '';
@@ -52,18 +49,17 @@ function displayOrders(searchTerm = '') {
 
 // Hiển thị chi tiết đơn hàng
 function displayOrderDetails(orderId, orderItem) {
-    let orderDetails = orderItem.nextElementSibling; // Kiểm tra xem chi tiết đã được hiển thị chưa
+    let orderDetails = orderItem.nextElementSibling;
 
     if (orderDetails && orderDetails.classList.contains('order-details')) {
-        // Nếu đã hiển thị, ẩn nó đi
         orderDetails.remove();
         return;
     }
 
     orderDetails = document.createElement('div');
     orderDetails.classList.add('order-details');
-    orderDetails.innerHTML = 'Loading...'; // Hiển thị thông báo loading
-    orderItem.parentNode.insertBefore(orderDetails, orderItem.nextSibling); // Chèn vào DOM sau orderItem
+    orderDetails.innerHTML = 'Loading...';
+    orderItem.parentNode.insertBefore(orderDetails, orderItem.nextSibling); 
 
     fetch(`get_order_details.php?id=${orderId}`)
         .then(response => {

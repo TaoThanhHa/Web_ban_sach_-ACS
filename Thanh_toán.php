@@ -32,7 +32,7 @@ if ($result_user->num_rows > 0) {
     $user_name = htmlspecialchars($user_data['name']);
     $user_email = htmlspecialchars($user_data['email']);
 } else {
-    echo "<script>alert('Không tìm thấy thông tin người dùng.'); window.location.href = 'Trang_chủ.php';</script>";
+    echo "<script>alert('Không tìm thấy thông tin người dùng.'); window.location.href = 'index.php';</script>";
     exit();
 }
 
@@ -40,8 +40,8 @@ $stmt_user->close();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Lấy thông tin từ form
-    $name = $user_name; // Lấy từ thông tin người dùng
-    $email = $user_email; // Lấy từ thông tin người dùng
+    $name = $user_name;
+    $email = $user_email; 
     $address = $_POST['address'];
     $phone = $_POST['phone'];
     $payment_method = $_POST['payment-method'];
@@ -110,17 +110,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Commit transaction
         $mysqli->commit();
 
-        // Xóa giỏ hàng
         unset($_SESSION['cart'][$user_id]);
 
         echo "<script>
                 alert('Đơn hàng của bạn đã được hoàn tất!');
-                window.location.href = 'Trang_chủ.php';
+                window.location.href = 'index.php';
               </script>";
         exit();
 
     } catch (Exception $e) {
-        // Rollback transaction
         $mysqli->rollback();
         echo "<script>alert('Có lỗi xảy ra trong quá trình thanh toán: " . $e->getMessage() . "');</script>";
     }
@@ -249,7 +247,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Validate phone number
             const phoneValue = phoneInput.value.trim();
-            const phoneRegex = /^0\d{9}$/; // Matches VN phone numbers, starts with 0 and has 10 digits
+            const phoneRegex = /^0\d{9}$/; 
             if (!phoneRegex.test(phoneValue)) {
                 phoneError.style.display = 'block';
                 phoneError.textContent = 'Số điện thoại không hợp lệ. Vui lòng nhập số điện thoại bắt đầu bằng 0 và có 10 chữ số.';

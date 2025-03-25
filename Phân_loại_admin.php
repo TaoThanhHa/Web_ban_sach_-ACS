@@ -23,11 +23,6 @@ include_once('db/connect.php');
         $spl_category = mysqli_query($mysqli, 'SELECT * FROM tbl_category ORDER BY category_id DESC');
         $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : 0;
 
-        // Thiết lập số lượng sách hiển thị trên mỗi trang
-        $books_per_page = 12;
-        $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $offset = ($current_page - 1) * $books_per_page;
-
         // Truy vấn để lấy category_name
         $category_name = '';
         if($category_id > 0){
@@ -53,11 +48,9 @@ include_once('db/connect.php');
 
         $query .= " ORDER BY book_id DESC";
 
-        $query .= " LIMIT $books_per_page OFFSET $offset";
         $results = $mysqli->query($query);
     ?>
 
-    <!-- header -->
     <?php include 'header_admin.php'; ?>
 
     <section class="cartegory">
@@ -118,7 +111,6 @@ include_once('db/connect.php');
         </div>
     </section>
 
-    <!-- footer -->
     <?php include 'footer.php'; ?>
     <script src="javascript/Phân_loại.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

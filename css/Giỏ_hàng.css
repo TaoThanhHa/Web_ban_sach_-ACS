@@ -8,33 +8,6 @@
   li {
     list-style: none;
   }
-  
-  /* header */
-  .header{
-    width: 100%;
-    height: 50px;
-    box-shadow: 0px 2px 2px 0px gray;
-    display: flex;
-    justify-content: space-between;
-    align-items: center; 
-    padding: 25px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color:#EB5757;
-    z-index: 1;
-}
-
-.header a{
-    text-decoration: none;
-    color: white;
-    font-size: xx-large;
-    font-weight: 900;
-}
-
-.header a:hover{
-    color: #eb3c15;
-}
 
 /*Giỏ hàng*/
 .box_cart{
@@ -228,7 +201,7 @@ ul{
 nav .content-nav ul {
     position: fixed;
     bottom: 0;
-    left: -200px; /* Hide off-screen */
+    left: -200px; 
     width: 200px;
     height: 90%;
     background-color: #f1f1f1;

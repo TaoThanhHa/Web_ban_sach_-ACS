@@ -23,11 +23,6 @@ include_once('db/connect.php');
         $spl_category = mysqli_query($mysqli, 'SELECT * FROM tbl_category ORDER BY category_id DESC');
         $category_id = isset($_GET['category_id']) ? (int)$_GET['category_id'] : 0;
 
-        // Thiết lập số lượng sách hiển thị trên mỗi trang
-        $books_per_page = 12;
-        $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $offset = ($current_page - 1) * $books_per_page;
-
         // Truy vấn để lấy category_name
         $category_name = '';
         if($category_id > 0){
@@ -40,7 +35,7 @@ include_once('db/connect.php');
         // Phần tìm kiếm
         $search_keyword = isset($_POST['search']) ? $mysqli->real_escape_string($_POST['search']) : '';
 
-        // Truy vấn chính
+        // Truy vấn chính (Bỏ LIMIT và OFFSET)
         $query = "SELECT * FROM tbl_book WHERE 1=1";
 
         if ($category_id > 0) {
@@ -51,9 +46,8 @@ include_once('db/connect.php');
             $query .= " AND book_title LIKE '%$search_keyword%'";
         }
 
-        $query .= " ORDER BY book_id DESC";
+        $query .= " ORDER BY book_id DESC"; //Sắp xếp theo ID giảm dần
 
-        $query .= " LIMIT $books_per_page OFFSET $offset";
         $results = $mysqli->query($query);
     ?>
 

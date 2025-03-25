@@ -1,12 +1,12 @@
 <?php
-session_start(); // Thêm session_start() ở đầu file
+session_start(); 
 include_once('db/connect.php');
 
 // Kiểm tra xem người dùng đã đăng nhập hay chưa
 if (!isset($_SESSION['user_id'])) {
     echo "<script>
             alert('Bạn cần đăng nhập để liên hệ.');
-            window.location.href = 'Trang_chủ.php'; 
+            window.location.href = 'ĐN.php'; 
           </script>";
     exit();
 }
@@ -14,7 +14,6 @@ if (!isset($_SESSION['user_id'])) {
 // Lấy user_id từ session
 $user_id = $_SESSION['user_id'];
 
-// Khởi tạo biến để lưu trữ phản hồi
 $reply = "";
 
 // Truy vấn database để tìm phản hồi cho user này
@@ -40,16 +39,12 @@ $stmt->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/Liên_hệ.css" type="text/css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/header.css" type="text/css">
-
 
 </head>
 <body>

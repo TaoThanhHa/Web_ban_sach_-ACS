@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $category = isset($_POST['book_category']) ? (int)$_POST['book_category'] : 0;
 
     $image = $_FILES['image']['name'] ?? '';
-    $target_dir = "images/"; 
+    $target_dir = "images/"; // Changed target directory
     $image_name = uniqid() . "_" . basename($image);
     $target_file = $target_dir . $image_name;
     $uploadOk = 1;
@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <div class="body">
-        <form class="container" id="story-form" action="Tao_san_pham.php" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <form class="container" id="story-form" action="Tao_san_pham.php" method="POST" enctype="multipart/form-data">
             <div class="box-avata">
                 <div class="avata">
                     <input type="file" id="image-upload" name="image" accept="image/*" style="display: none;">
@@ -163,7 +163,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $mysqli2->close();
                             ?>
                         </select>
-                        <button type="submit">Lưu</button>
+                        <button type="submit">Tạo mới</button>
+                        <a href="Admin.php">Hủy</a>
                         <?php if (isset($message)): ?>
                             <div class="alert alert-info"><?php echo $message; ?></div>
                         <?php endif; ?>
@@ -173,7 +174,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
     </div>
 
-    <script src="./javascript/Tao_san_pham.js">
+    <script>
+        document.getElementById('image-upload').addEventListener('change', function() {
+            var file = this.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview-image').setAttribute('src', e.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
     </script>
 </body>
 </html>
