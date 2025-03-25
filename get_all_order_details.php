@@ -11,18 +11,21 @@ if ($order_id <= 0) {
     exit();
 }
 
-// Truy vấn để lấy thông tin đơn hàng
-$sql_order = "SELECT id_order, 
-              id_user, 
-              order_date, -- Giữ nguyên để chuyển đổi trong PHP
-              shipping_address, 
-              order_status, 
-              total_amount, 
-              shipping_method, 
-              payment_method, 
-              shipping_fee
-              FROM tbl_order
-              WHERE id_order = ?";
+// Truy vấn để lấy thông tin đơn hàng và email người dùng
+$sql_order = "SELECT 
+                o.id_order, 
+                o.id_user, 
+                o.order_date,
+                o.shipping_address, 
+                o.order_status, 
+                o.total_amount, 
+                o.shipping_method, 
+                o.payment_method, 
+                o.shipping_fee,
+                u.email AS user_email  -- Lấy email người dùng
+            FROM tbl_order o
+            JOIN tbl_user u ON o.id_user = u.id  -- JOIN bảng tbl_order và tbl_user
+            WHERE o.id_order = ?";
 
 $stmt_order = $mysqli->prepare($sql_order);
 
@@ -46,7 +49,6 @@ $order = $result_order->fetch_assoc();
 $order_date = new DateTime($order['order_date'], new DateTimeZone('UTC'));
 $order_date->setTimezone(new DateTimeZone('Asia/Ho_Chi_Minh'));
 $order['order_date'] = $order_date->format('Y-m-d H:i:s'); // Định dạng lại nếu cần
-
 
 $stmt_order->close();
 
@@ -78,5 +80,5 @@ $order['items'] = $items;
 
 // Trả về dữ liệu dưới dạng JSON
 header('Content-Type: application/json');
-echo json_encode($order);
+echo json_encode($order, JSON_UNESCAPED_UNICODE);
 ?>

@@ -9,12 +9,19 @@ if (isset($_POST['register'])) {
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
 
-    // Kiểm tra xem mật khẩu có khớp không
-    if ($password !== $confirmPassword) {
+    // Validate Email
+    if (!preg_match('/^[a-zA-Z0-9._%+-]+@gmail\.com$/', $email)) {
+        echo "<script>alert('Email không hợp lệ (phải là @gmail.com)!');</script>";
+    } // Kiểm tra xem mật khẩu có khớp không
+    elseif ($password !== $confirmPassword) {
         echo "<script>alert('Mật khẩu và nhập lại mật khẩu không khớp!');</script>";
     } else {
+        // Validate Phone
+        if (!preg_match('/^(0[0-9]{9})$/', $phone)) {
+            echo "<script>alert('Số điện thoại không hợp lệ (phải bắt đầu bằng 0 và có 10 chữ số)!');</script>";
+        }
         // Kiểm tra độ mạnh của mật khẩu (ví dụ đơn giản)
-        if (strlen($password) < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)) {
+        elseif (strlen($password) < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)) {
             echo "<script>alert('Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa và số!');</script>";
         } else {
             // Băm mật khẩu
@@ -38,11 +45,18 @@ if (isset($_POST['register'])) {
 
 
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <title>Đăng Kí</title>
     <link rel="stylesheet" href="css/Đk.css" type="text/css">
+    <style>
+        .error {
+            color: red;
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div class="gdđn">
@@ -58,12 +72,13 @@ if (isset($_POST['register'])) {
                             <span class="quyenloi">Là một phần của cộng đồng tác giả và độc giả toàn cầu, mọi người đều được kết nối bằng sức mạnh của trí tưởng tượng.</span>
                         </div>
                     </div>
-                    
+
                     <form id="registerForm" method="post" onsubmit="return validateForm()">
                         <input type="text" id="name" name="name" placeholder="Tên" required>
                         <input type="email" id="email" name="email" placeholder="Email" required>
-                        <div class="error" id="email-error" style="display: none; color: red;">Email không hợp lệ.</div>
+                        <div class="error" id="email-error"></div>
                         <input type="tel" id="phone" name="phone" placeholder="Số điện thoại" required>
+                        <div class="error" id="phone-error"></div>
                         <input type="password" id="password" name="password" placeholder="Mật khẩu" required>
                         <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
                         <button type="submit" name="register" class="buttondn">Đăng ký</button>
@@ -78,27 +93,44 @@ if (isset($_POST['register'])) {
             </div>
         </div>
     </div>
-    
+
     <script>
         function validateForm() {
-            var password = document.getElementById('password').value;
-            var confirmPassword = document.getElementById('confirmPassword').value;
+            let isValid = true;  // Biến để theo dõi xem form có hợp lệ hay không
+            const emailInput = document.getElementById('email');
+            const emailError = document.getElementById('email-error');
+            const phoneInput = document.getElementById('phone');
+            const phoneError = document.getElementById('phone-error');
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+             // Validate Email
+            const emailValue = emailInput.value;
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+            if (!emailRegex.test(emailValue)) {
+                emailError.textContent = 'Email không hợp lệ (phải là @gmail.com).';
+                emailError.style.display = 'block';
+                isValid = false;
+            } else {
+                emailError.style.display = 'none';
+            }
+            // Validate Phone
+            const phoneValue = phoneInput.value;
+            const phoneRegex = /^(0[0-9]{9})$/; // Bắt đầu bằng 0 và có 10 chữ số
+            if (!phoneRegex.test(phoneValue)) {
+                phoneError.textContent = 'Số điện thoại không hợp lệ (phải bắt đầu bằng 0 và có 10 chữ số).';
+                phoneError.style.display = 'block';
+                isValid = false;
+            } else {
+                phoneError.style.display = 'none';
+            }
             
             if (password !== confirmPassword) {
                 alert("Mật khẩu và nhập lại mật khẩu không khớp!");
                 return false;
             }
-            
-            return true;
-        }
-         // Kiểm tra email
-         const emailValue = emailInput.value;
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-        if (!emailRegex.test(emailValue)) {
-            emailError.style.display = 'block';
-            return;
-        } else {
-            emailError.style.display = 'none';
+
+            return isValid; // Trả về false nếu có bất kỳ lỗi nào
         }
     </script>
 </body>

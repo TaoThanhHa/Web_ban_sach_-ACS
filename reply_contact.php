@@ -15,12 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("si", $reply, $id);  // 's' cho reply (string), 'i' cho id (integer)
 
     if ($stmt->execute()) {
-        echo "Đã trả lời yêu cầu!";
-        // Chuyển hướng về trang Hỗ trợ.php
-        header("Location: Hỗ_trợ.php");
+        echo "<script>alert('Đã trả lời yêu cầu!'); window.location.href = 'Hỗ_trợ.php';</script>";
         exit();
     } else {
-        echo "Lỗi cập nhật: " . $stmt->error;
+        echo "<script>alert('Lỗi cập nhật: " . $stmt->error . "');</script>";
     }
 
     $stmt->close();
@@ -37,26 +35,79 @@ if ($result->num_rows == 1) {
     $row = $result->fetch_assoc();
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trả lời yêu cầu</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Trả lời yêu cầu hỗ trợ</h1>
-    <p><strong>Tên:</strong> <?php echo htmlspecialchars($row["name"]); ?></p>
-    <p><strong>Email:</strong> <?php echo htmlspecialchars($row["email"]); ?></p>
-    <p><strong>Nội dung:</strong> <?php echo htmlspecialchars($row["comment"]); ?></p>
+    <div class="container">
+        <h1>Trả lời yêu cầu hỗ trợ</h1>
 
-    <form method="POST">
-        <label for="reply">Câu trả lời:</label><br>
-        <textarea id="reply" name="reply" rows="4" cols="50" required></textarea><br><br>
-        <button type="submit">Gửi trả lời</button>
-    </form>
+        <div class="mb-3">
+            <label>Tên:</label>
+            <p><?php echo htmlspecialchars($row["name"]); ?></p>
+        </div>
+
+        <div class="mb-3">
+            <label>Email:</label>
+            <p><?php echo htmlspecialchars($row["email"]); ?></p>
+        </div>
+
+        <div class="mb-3">
+            <label>Nội dung:</label>
+            <p><?php echo htmlspecialchars($row["comment"]); ?></p>
+        </div>
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="reply">Câu trả lời:</label>
+                <textarea class="form-control" id="reply" name="reply" rows="5" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> Gửi trả lời
+            </button>
+             <a href="Hỗ_trợ.php" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
 <?php
 } else {
-    echo "Không tìm thấy yêu cầu.";
+    echo "<div class='alert alert-danger'>Không tìm thấy yêu cầu.</div>";
 }
 
 $stmt->close();

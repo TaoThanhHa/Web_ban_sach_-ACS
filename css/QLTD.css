@@ -125,7 +125,7 @@ h1 {
 
 .order-status {
     font-weight: bold;
-    color: #27ae60; /* Xanh lá cây tươi sáng */
+    color: #e94520; /* Xanh lá cây tươi sáng */
 }
 
 /* Chi tiết đơn hàng */
@@ -181,8 +181,9 @@ h1 {
     text-align: center;
 }
 
-button {
-    background-color: #e44d26; /* Cam chủ đạo */
+/* Màu cho nút xem chi tiết */
+.show-details-button {
+    background-color: #3498db; /* Xanh dương */
     color: #fff;
     border: none;
     padding: 12px 20px;
@@ -194,8 +195,27 @@ button {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ cho nút */
 }
 
-button:hover {
-    background-color: #c63d1a; /* Cam đậm hơn khi hover */
+.show-details-button:hover {
+    background-color: #2980b9; /* Xanh dương đậm hơn khi hover */
+    transform: scale(1.05); /* Hiệu ứng phóng to */
+}
+
+/* Màu cho nút cập nhật trạng thái */
+.update-status-button {
+    background-color: #ed7d28; /* Xanh lá cây */
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Thêm hiệu ứng transform */
+    margin: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ cho nút */
+}
+
+.update-status-button:hover {
+    background-color: #27ae60; /* Xanh lá cây đậm hơn khi hover */
     transform: scale(1.05); /* Hiệu ứng phóng to */
 }
 
