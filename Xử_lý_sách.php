@@ -30,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message = "Yêu cầu không hợp lệ.";
 }
 
-// Chuyển hướng trở lại trang Quản_lý_sách.php
 header("Location: Admin.php?message=" . urlencode($message));
 exit;
 ?>

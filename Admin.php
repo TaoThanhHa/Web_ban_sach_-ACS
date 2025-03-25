@@ -12,7 +12,7 @@ include_once('db/connect.php');
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/Trang_chu.css?v=<?php echo time(); ?>" type="text/css">
+    <link rel="stylesheet" href="css/Trang_chu.css?php echo time(); ?>" type="text/css">
     <link rel="stylesheet" href="css/header.css?v=<?php echo time(); ?>" type="text/css">
 
 </head>
@@ -71,7 +71,7 @@ include_once('db/connect.php');
                             echo '<p class="card-text">';
                             echo '<span class="font-weight-bold">' . number_format($price, 0, ',', '.') . 'đ</span><br>';
                             echo '<del class="text-muted">' . number_format($row['book_original_price'], 0, ',', '.') . 'đ</del> ';
-                            echo '<span class="text-danger">-' . htmlspecialchars($row['book_discount']) . '%</span>';
+                            echo '<span class="discount">-' . htmlspecialchars($row['book_discount']) . '%</span>';
                             echo '</p>';
                             echo '</div>';
                             echo '</a>';

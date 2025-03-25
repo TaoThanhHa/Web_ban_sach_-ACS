@@ -71,6 +71,24 @@ img.card-img-top {
     line-clamp: 2;
 }
 
+.discount {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #EB5757;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.font-weight-bold {
+    font-weight: 700 !important;
+    color: green;
+    font-size: 20px;
+}
+
 .btn-primary{
     background-color: #EB5757;
+    border-color: #EB5757;
 }
+

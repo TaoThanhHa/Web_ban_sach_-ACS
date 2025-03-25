@@ -9,16 +9,15 @@ function db_error($mysqli) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Kiểm tra xem user đã đăng nhập chưa
     if (!isset($_SESSION['user_id'])) {
         echo "<script>
                 alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.');
-                window.location.href = 'Trang_chủ.php'; // Chuyển hướng đến trang đăng nhập
+                window.location.href = 'index.php';
               </script>";
         exit();
     }
 
-    $user_id = $_SESSION['user_id']; // Lấy user ID từ session
+    $user_id = $_SESSION['user_id']; 
 
     $book_id = isset($_POST['book_id']) ? (int)$_POST['book_id'] : 0;
     $book_title = isset($_POST['book_title']) ? $_POST['book_title'] : '';
@@ -26,7 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $book_price = isset($_POST['book_price']) ? (float)$_POST['book_price'] : 0.0;
     $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
 
-    // Truy vấn để lấy số lượng sách còn lại trong kho
     $query = "SELECT book_quantity FROM tbl_book WHERE book_id = ?";
     $stmt = $mysqli->prepare($query);
 
@@ -42,9 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result->fetch_assoc();
         $available_quantity = (int)$row['book_quantity'];
 
-        // Kiểm tra xem sản phẩm đã có trong giỏ hàng của người dùng này chưa
         if (isset($_SESSION['cart'][$user_id][$book_id])) {
-            // Sản phẩm đã có trong giỏ hàng của người dùng này
             $existing_quantity = (int)$_SESSION['cart'][$user_id][$book_id]['quantity'];
             $new_quantity = $existing_quantity + $quantity;
 
@@ -66,7 +62,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     exit();
                 }
             } else {
-                // **Cập nhật số lượng sách trong CSDL (GIẢM)**
                 $update_query = "UPDATE tbl_book SET book_quantity = book_quantity - ? WHERE book_id = ?";
                 $update_stmt = $mysqli->prepare($update_query);
 
@@ -78,18 +73,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $update_stmt->execute();
                 $update_stmt->close();
 
-                // Cập nhật số lượng trong giỏ hàng
                 $_SESSION['cart'][$user_id][$book_id]['quantity'] = $new_quantity;
 
                 echo "<script>
                     alert('Cập nhật giỏ hàng thành công!');
-                    window.location.href = 'Giỏ_hàng.php'; // Chuyển đến trang giỏ hàng
+                    window.location.href = 'Giỏ_hàng.php'; 
                   </script>";
                 exit();
             }
         } else {
-            // Sản phẩm chưa có trong giỏ hàng của người dùng này
-            // Kiểm tra số lượng yêu cầu so với số lượng có sẵn
+
             if ($quantity > $available_quantity) {
                  if ($available_quantity == 0) {
                     // Hết hàng
@@ -108,7 +101,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
 
             } else {
-                // **Cập nhật số lượng sách trong CSDL (GIẢM)**
                 $update_query = "UPDATE tbl_book SET book_quantity = book_quantity - ? WHERE book_id = ?";
                 $update_stmt = $mysqli->prepare($update_query);
 
@@ -133,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 echo "<script>
                     alert('Thêm vào giỏ hàng thành công!');
-                    window.location.href = 'Giỏ_hàng.php'; // Chuyển đến trang giỏ hàng
+                    window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "'; 
                   </script>";
                 exit();
             }
@@ -141,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "<script>
                 alert('Không tìm thấy sách.');
-                window.location.href = 'index.php'; // Quay lại trang chủ
+                window.location.href = 'index.php';
               </script>";
         exit();
     }
@@ -150,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo "<script>
             alert('Truy cập không hợp lệ.');
-            window.location.href = 'index.php'; // Quay lại trang chủ
+            window.location.href = 'index.php'; 
           </script>";
     exit();
 }

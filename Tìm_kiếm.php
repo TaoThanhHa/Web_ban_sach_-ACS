@@ -1,17 +1,14 @@
 <?php
 include_once('db/connect.php');
 
-// Lấy keyword tìm kiếm từ URL
 $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
 
-// Xử lý khi không có keyword
 if (empty($keyword)) {
     echo "<p>Vui lòng nhập từ khóa tìm kiếm.</p>";
-    exit; // Dừng thực thi nếu không có keyword
+    exit; 
 }
 
-// Truy vấn tìm kiếm sách theo tên
-$sql = "SELECT * FROM tbl_book WHERE book_title LIKE '%" . $keyword . "%'";
+$sql = "SELECT * FROM tbl_book WHERE book_title LIKE '%" . $keyword . "%' ORDER BY book_id DESC";
 $result = $mysqli->query($sql);
 
 ?>
@@ -30,21 +27,6 @@ $result = $mysqli->query($sql);
         .container h1{
             padding-top: 50px;
             margin-bottom: 25px;
-        }
-        .card {
-            height: 500px;
-        }
-        img.card-img-top {
-            height: 350px;
-        }
-
-        .card-title {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            -webkit-line-clamp: 2;
-            text-overflow: ellipsis;
-            line-clamp: 2;
         }
         
     </style>
@@ -73,7 +55,7 @@ $result = $mysqli->query($sql);
                 echo '<p class="card-text">';
                 echo '<span class="font-weight-bold">' . number_format($price, 0, ',', '.') . 'đ</span><br>';
                 echo '<del class="text-muted">' . number_format($row['book_original_price'], 0, ',', '.') . 'đ</del> ';
-                echo '<span class="text-danger">-' . htmlspecialchars($row['book_discount']) . '%</span>';
+                echo '<span class="discount">-' . htmlspecialchars($row['book_discount']) . '%</span>';
                 echo '</p>';
                 echo '</div>';
                 echo '</a>';

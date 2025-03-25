@@ -29,10 +29,10 @@ include_once('db/connect.php');
                     <a class="nav-link" href="./Tao_san_pham.php">Thêm sách</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./Quản_lý_người_dùng.php">QL người dùng</a>
+                    <a class="nav-link" href="./Quản_lý_người_dùng.php">Người dùng</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./QLTD.php">QL đơn hàng</a>
+                    <a class="nav-link" href="./QLTD.php">Đơn hàng</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./Hỗ_trợ.php">Hỗ trợ</a>

@@ -55,14 +55,12 @@ $stmt->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/Chi_tiet_sản_phẩm.css?v=<?php echo time(); ?>" type="text/css">
-    <link rel="stylesheet" href="css/header.css?v=<?php echo time(); ?>" type="text/css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/Chi_tiet_sản_phẩm.css?php echo time(); ?>" type="text/css">
+    <link rel="stylesheet" href="css/header.css?v=<?php echo time(); ?>" type="text/css">
 
     <title><?php echo isset($book['book_title']) ? htmlspecialchars($book['book_title']) : 'Chi tiết sách'; ?></title>
        
@@ -105,10 +103,11 @@ $stmt->close();
                             <span class="price"><?php echo number_format($price, 0, ',', '.'); ?>đ</span>
                         </li>
                         <li>
-                            <span class="original-price"><?php echo number_format($original_price, 0, ',', '.'); ?>đ</span>
+                            <del class="original-price"><?php echo number_format($original_price, 0, ',', '.'); ?>đ</del>
                         </li>
                     </ul>
 
+                   
                     <div class="box-counter">
                         <?php if ($book['book_quantity'] > 0): ?>
                             <form action="Them_gio_hang.php" method="POST" class="d-flex align-items-center">
@@ -139,10 +138,10 @@ $stmt->close();
         <div class="tong">
             <ul class="nav nav-tabs words" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active word" id="mota-tab" data-toggle="tab" href="#mota" role="tab" aria-controls="mota" aria-selected="true" onclick="changeContent(this, 'Mô tả')">Mô tả</a>
+                    <a class="nav-link active word" id="mota-tab" data-toggle="tab" href="#mota" role="tab" aria-controls="mota" aria-selected="true">Mô tả</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link word" id="binhluan-tab" data-toggle="tab" href="#binhluan" role="tab" aria-controls="binhluan" aria-selected="false" onclick="changeContent(this, 'Bình luận')">Bình luận</a>
+                    <a class="nav-link word" id="binhluan-tab" data-toggle="tab" href="#binhluan" role="tab" aria-controls="binhluan" aria-selected="false">Bình luận</a>
                 </li>
             </ul>
         </div>
@@ -162,7 +161,6 @@ $stmt->close();
             </div>
         </div>
     </div>
-
     <!-- Related Products -->
     <div class="container mt-5">
         <h2>Xem thêm các sản phẩm khác</h2>
@@ -182,7 +180,7 @@ $stmt->close();
                         echo '<div class="card-body">';
                         echo '<h5 class="card-title">' . htmlspecialchars($row['book_title']) . '</h5>';
                         echo '<p class="card-text">';
-                        echo '<span class="font-weight-bold">' . number_format($price, 0, ',', '.') . 'đ</span><br>';
+                        echo '<span class="price">' . number_format($price, 0, ',', '.') . 'đ</span><br>';
                         echo '<del class="text-muted">' . number_format($row['book_original_price'], 0, ',', '.') . 'đ</del> ';
                         echo '<span class="text-danger">-' . htmlspecialchars($row['book_discount']) . '%</span>';
                         echo '</p>';
@@ -204,7 +202,7 @@ $stmt->close();
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="javascript/Chi_tiet_san_pham.js"></script>
+    <script src="./javascript/Chi_tiet_san_pham.js"></script>
 </body>
 </html>
 <?php

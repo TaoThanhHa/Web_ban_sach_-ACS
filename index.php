@@ -80,7 +80,7 @@ include_once('db/connect.php');
                             echo '<p class="card-text">';
                             echo '<span class="font-weight-bold">' . number_format($price, 0, ',', '.') . 'đ</span><br>';
                             echo '<del class="text-muted">' . number_format($row['book_original_price'], 0, ',', '.') . 'đ</del> ';
-                            echo '<span class="text-danger">-' . htmlspecialchars($row['book_discount']) . '%</span>';
+                            echo '<span class="discount">-' . htmlspecialchars($row['book_discount']) . '%</span>';
                             echo '</p>';
                             echo '</div>';
                             echo '</a>';
