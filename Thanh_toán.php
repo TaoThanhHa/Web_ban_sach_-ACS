@@ -32,7 +32,7 @@ if ($result_user->num_rows > 0) {
     $user_name = htmlspecialchars($user_data['name']);
     $user_email = htmlspecialchars($user_data['email']);
 } else {
-    echo "<script>alert('Không tìm thấy thông tin người dùng.'); window.location.href = 'Trang_chủ.php';</script>";
+    echo "<script>alert('Không tìm thấy thông tin người dùng.'); window.location.href = 'index.php';</script>";
     exit();
 }
 
@@ -51,13 +51,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $total_amount = 0;
     $shipping_fee = ($shipping_method === 'express') ? 50000 : 30000;
 
+    // **KIỂM TRA LẠI SỐ LƯỢNG TRƯỚC KHI THANH TOÁN (QUAN TRỌNG)**
+    $can_process_order = true;
     if (isset($_SESSION['cart'][$user_id])) {
-        foreach ($_SESSION['cart'][$user_id] as $item) {
-            $price = isset($item['price']) ? (float)$item['price'] : 0.0;
+        foreach ($_SESSION['cart'][$user_id] as $book_id => $item) {
             $quantity = isset($item['quantity']) ? (int)$item['quantity'] : 1;
-            $total_amount += $price * $quantity;
+
+            // Truy vấn số lượng sách còn lại trong kho
+            $sql_check_quantity = "SELECT book_quantity FROM tbl_book WHERE book_id = ?";
+            $stmt_check_quantity = $mysqli->prepare($sql_check_quantity);
+            $stmt_check_quantity->bind_param("i", $book_id);
+            $stmt_check_quantity->execute();
+            $result_check_quantity = $stmt_check_quantity->get_result();
+
+            if ($result_check_quantity->num_rows > 0) {
+                $row_quantity = $result_check_quantity->fetch_assoc();
+                $available_quantity = (int)$row_quantity['book_quantity'];
+
+                if ($quantity > $available_quantity) {
+                    echo "<script>alert('Sản phẩm " . htmlspecialchars($item['title']) . " không còn đủ số lượng. Vui lòng kiểm tra lại giỏ hàng.'); window.location.href = 'Giỏ_hàng.php';</script>";
+                    $can_process_order = false;
+                    exit(); // Dừng lại ngay lập tức nếu có lỗi
+                }
+            } else {
+                echo "<script>alert('Không tìm thấy thông tin sản phẩm. Vui lòng kiểm tra lại giỏ hàng.'); window.location.href = 'Giỏ_hàng.php';</script>";
+                $can_process_order = false;
+                exit(); // Dừng lại ngay lập tức nếu có lỗi
+            }
+
+            $stmt_check_quantity->close();
+              $price = isset($item['price']) ? (float)$item['price'] : 0.0;
+                $total_amount += $price * $quantity;
         }
+    } else {
+        echo "<script>alert('Giỏ hàng của bạn đang trống.'); window.location.href = 'index.php';</script>";
+        $can_process_order = false;
+        exit();
     }
+
+    if (!$can_process_order) {
+        exit(); // Dừng lại nếu có lỗi
+    }
+
 
     // Bắt đầu transaction
     $mysqli->begin_transaction();
@@ -102,7 +137,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (!$stmt_order_item->execute()) {
                     throw new Exception("Lỗi execute (tbl_order_item): " . $stmt_order_item->error);
                 }
+                 // Cập nhật lại số lượng sách trong kho sau khi đặt hàng thành công
+                $sql_update_book_quantity = "UPDATE tbl_book SET book_quantity = book_quantity - ? WHERE book_id = ?";
+                $stmt_update_book_quantity = $mysqli->prepare($sql_update_book_quantity);
 
+                if ($stmt_update_book_quantity === false) {
+                    throw new Exception("Lỗi prepare (tbl_update_book_quantity): " . $mysqli->error);
+                }
+
+                $stmt_update_book_quantity->bind_param("ii", $quantity, $book_id);
+                if (!$stmt_update_book_quantity->execute()) {
+                    throw new Exception("Lỗi execute (tbl_update_book_quantity): " . $stmt_update_book_quantity->error);
+                }
+
+                $stmt_update_book_quantity->close();
                 $stmt_order_item->close();
             }
         }
@@ -115,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         echo "<script>
                 alert('Đơn hàng của bạn đã được hoàn tất!');
-                window.location.href = 'Trang_chủ.php';
+                window.location.href = 'index.php';
               </script>";
         exit();
 

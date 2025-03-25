@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    $user_id = $_SESSION['user_id']; 
+    $user_id = $_SESSION['user_id'];
 
     $book_id = isset($_POST['book_id']) ? (int)$_POST['book_id'] : 0;
     $book_title = isset($_POST['book_title']) ? $_POST['book_title'] : '';
@@ -62,22 +62,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     exit();
                 }
             } else {
-                $update_query = "UPDATE tbl_book SET book_quantity = book_quantity - ? WHERE book_id = ?";
-                $update_stmt = $mysqli->prepare($update_query);
+                // Không trừ số lượng trong kho ở đây nữa
 
-                if (!$update_stmt) {
-                    db_error($mysqli);
-                }
-
-                $update_stmt->bind_param("ii", $quantity, $book_id);
-                $update_stmt->execute();
-                $update_stmt->close();
-
+                // Cập nhật số lượng trong giỏ hàng
                 $_SESSION['cart'][$user_id][$book_id]['quantity'] = $new_quantity;
 
                 echo "<script>
                     alert('Cập nhật giỏ hàng thành công!');
-                    window.location.href = 'Giỏ_hàng.php'; 
+                    window.location.href = 'Giỏ_hàng.php';
                   </script>";
                 exit();
             }
@@ -101,17 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
 
             } else {
-                $update_query = "UPDATE tbl_book SET book_quantity = book_quantity - ? WHERE book_id = ?";
-                $update_stmt = $mysqli->prepare($update_query);
-
-                if (!$update_stmt) {
-                    db_error($mysqli);
-                }
-
-                $update_stmt->bind_param("ii", $quantity, $book_id);
-                $update_stmt->execute();
-                $update_stmt->close();
-
+                // Không trừ số lượng trong kho ở đây nữa
 
                 // Thêm sản phẩm vào giỏ hàng
                 $item = array(
@@ -125,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 echo "<script>
                     alert('Thêm vào giỏ hàng thành công!');
-                    window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "'; 
+                    window.location.href = 'Chi_tiet_san_pham.php?book_id=" . $book_id . "';
                   </script>";
                 exit();
             }
@@ -142,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     echo "<script>
             alert('Truy cập không hợp lệ.');
-            window.location.href = 'index.php'; 
+            window.location.href = 'index.php';
           </script>";
     exit();
 }

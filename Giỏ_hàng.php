@@ -6,7 +6,7 @@ session_start();
 if (!isset($_SESSION['user_id'])) {
     echo "<script>
             alert('Bạn cần đăng nhập để xem giỏ hàng.');
-            window.location.href = 'Trang_chủ.php';
+            window.location.href = 'index.php';
           </script>";
     exit();
 }
@@ -18,51 +18,82 @@ if (!isset($_SESSION['cart'][$user_id])) {
     $_SESSION['cart'][$user_id] = [];
 }
 
+// Xử lý AJAX request kiểm tra số lượng
+if (isset($_GET['action']) && $_GET['action'] === 'check_quantity') {
+    $book_id = isset($_GET['book_id']) ? (int)$_GET['book_id'] : 0;
+    // Chuyển đổi quantity sang số nguyên
+    $quantity = isset($_GET['quantity']) ? (int)$_GET['quantity'] : 0;
+
+    // Đặt header để báo cho trình duyệt biết rằng đây là JSON
+    header('Content-Type: application/json');
+
+    if ($book_id > 0 && $quantity > 0) {
+        $sql_check_quantity = "SELECT book_quantity FROM tbl_book WHERE book_id = ?";
+        $stmt_check_quantity = $mysqli->prepare($sql_check_quantity);
+        $stmt_check_quantity->bind_param("i", $book_id);
+        $stmt_check_quantity->execute();
+        $result_check_quantity = $stmt_check_quantity->get_result();
+
+        if ($result_check_quantity->num_rows > 0) {
+            $row_quantity = $result_check_quantity->fetch_assoc();
+            $available_quantity = (int)$row_quantity['book_quantity'];
+
+            if ($quantity > $available_quantity) {
+                echo json_encode(['success' => false, 'message' => 'Số lượng bạn chọn vượt quá số lượng còn lại trong kho. Chỉ còn lại ' . $available_quantity . ' sản phẩm. Bạn có thể mua tối đa: '.$available_quantity.' sản phẩm']);
+                exit;
+            } else {
+                // Cập nhật số lượng trong session giỏ hàng (Quan trọng)
+                $_SESSION['cart'][$user_id][$book_id]['quantity'] = $quantity;
+                echo json_encode(['success' => true]);
+                exit;
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Không tìm thấy thông tin sản phẩm.']);
+            exit;
+        }
+
+        $stmt_check_quantity->close();
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Thông tin sản phẩm không hợp lệ.']);
+        exit;
+    }
+}
+
 // Cập nhật giỏ hàng khi có yêu cầu từ client
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] === 'update') {
         $book_id = $_POST['book_id'];
-        $quantity = $_POST['quantity'];
+        // Chuyển đổi quantity sang số nguyên
+        $quantity = (int)$_POST['quantity'];
 
-        // Lấy số lượng cũ từ giỏ hàng (nếu có)
-        $old_quantity = isset($_SESSION['cart'][$user_id][$book_id]['quantity']) ? $_SESSION['cart'][$user_id][$book_id]['quantity'] : 0;
+         // Lấy số lượng sản phẩm còn lại trong kho
+        $sql_check_quantity = "SELECT book_quantity FROM tbl_book WHERE book_id = ?";
+        $stmt_check_quantity = $mysqli->prepare($sql_check_quantity);
+        $stmt_check_quantity->bind_param("i", $book_id);
+        $stmt_check_quantity->execute();
+        $result_check_quantity = $stmt_check_quantity->get_result();
 
-        if ($quantity <= 0) {
-            // Xóa sản phẩm khỏi giỏ hàng và hoàn trả số lượng
-            unset($_SESSION['cart'][$user_id][$book_id]);
-            // Cập nhật số lượng trong database (hoàn trả lại số lượng đã có)
-            $quantity_diff = $old_quantity;
-            $sql_update_quantity = "UPDATE tbl_book SET book_quantity = book_quantity + ? WHERE book_id = ?";
-            $stmt_update_quantity = $mysqli->prepare($sql_update_quantity);
-            $stmt_update_quantity->bind_param("ii", $quantity_diff, $book_id);
+        if ($result_check_quantity->num_rows > 0) {
+            $row_quantity = $result_check_quantity->fetch_assoc();
+            $available_quantity = (int)$row_quantity['book_quantity'];
 
-            if ($stmt_update_quantity->execute()) {
-                 //echo "Số lượng sản phẩm đã được hoàn trả.";
-            } else {
-                echo "Lỗi khi hoàn trả số lượng: " . $stmt_update_quantity->error;
-            }
-            $stmt_update_quantity->close();
+                if ($quantity > $available_quantity) {
+                    echo "<script>alert('Số lượng bạn chọn vượt quá số lượng còn lại trong kho. Chỉ còn lại " . $available_quantity . " sản phẩm.'); window.location.href = 'Giỏ_hàng.php';</script>";
+                    exit();
+                }
 
         } else {
-            // Cập nhật số lượng trong giỏ hàng
-            $_SESSION['cart'][$user_id][$book_id]['quantity'] = $quantity;
-
-            // Tính toán sự khác biệt giữa số lượng cũ và số lượng mới
-            $quantity_diff = $quantity - $old_quantity; // Số lượng mới - số lượng cũ
-
-            // Cập nhật số lượng trong database
-            //Lưu ý: Phải đảo ngược lại số lượng khi update
-            $sql_update_quantity = "UPDATE tbl_book SET book_quantity = book_quantity - ? WHERE book_id = ?";
-            $stmt_update_quantity = $mysqli->prepare($sql_update_quantity);
-            $stmt_update_quantity->bind_param("ii", $quantity_diff, $book_id);
-
-            if ($stmt_update_quantity->execute()) {
-                //echo "Số lượng sản phẩm đã được cập nhật.";
-            } else {
-                echo "Lỗi khi cập nhật số lượng: " . $stmt_update_quantity->error;
-            }
-            $stmt_update_quantity->close();
+            // Xử lý trường hợp không tìm thấy sách
+            echo "<script>alert('Không tìm thấy sản phẩm.'); window.location.href = 'Giỏ_hàng.php';</script>";
+            exit();
         }
+        $stmt_check_quantity->close();
+
+         // Cập nhật số lượng trong giỏ hàng
+            $_SESSION['cart'][$user_id][$book_id]['quantity'] = $quantity;
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit();
+
     } elseif (isset($_POST['action']) && $_POST['action'] === 'remove') {
         $book_id = $_POST['book_id'];
 
@@ -71,17 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         unset($_SESSION['cart'][$user_id][$book_id]);
 
-        // Hoàn trả số lượng vào database
-        $quantity_diff = $old_quantity;
-        $sql_update_quantity = "UPDATE tbl_book SET book_quantity = book_quantity + ? WHERE book_id = ?";
-        $stmt_update_quantity = $mysqli->prepare($sql_update_quantity);
-        $stmt_update_quantity->bind_param("ii", $quantity_diff, $book_id);
-        if ($stmt_update_quantity->execute()) {
-            //echo "Số lượng sản phẩm đã được hoàn trả.";
-        } else {
-            echo "Lỗi khi hoàn trả số lượng: " . $stmt_update_quantity->error;
-        }
-        $stmt_update_quantity->close();
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit();
     }
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit();
@@ -150,16 +172,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         function numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
+
         function checkout() {
-            fetch('', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'action=checkout'
-            }).then(() => {
-                window.location.href = 'Thanh_toán.php';
+            // Kiểm tra số lượng trước khi chuyển sang trang thanh toán
+            let hasErrors = false;
+            const cartItems = document.querySelectorAll('#cart-items tr');
+
+            cartItems.forEach(item => {
+                const bookId = item.dataset.bookId;
+                const quantity = parseInt(item.querySelector('input[type="number"]').value);
+
+                // Tạo một XMLHttpRequest để thực hiện AJAX request
+                let xhr = new XMLHttpRequest();
+                xhr.open('GET', 'Giỏ_hàng.php?action=check_quantity&book_id=' + bookId + '&quantity=' + quantity, false);  // Sử dụng GET và đồng bộ
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            if (response.success === false) {
+                                alert(response.message);
+                                hasErrors = true;
+                            }
+                        } catch (e) {
+                            alert('Lỗi phân tích cú pháp JSON: ' + e);
+                            hasErrors = true;
+                        }
+                    } else {
+                        alert('Có lỗi xảy ra: ' + xhr.status);
+                        hasErrors = true;
+                    }
+                };
+                xhr.onerror = function() {
+                    alert('Lỗi kết nối mạng.');
+                    hasErrors = true;
+                };
+                xhr.send();
+
+                if (hasErrors) return;
             });
+
+            if (!hasErrors) {
+                // Nếu không có lỗi, chuyển sang trang thanh toán
+                window.location.href = 'Thanh_toán.php';
+            }
         }
     </script>
 </head>
@@ -191,7 +246,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo '<tr data-book-id="' . htmlspecialchars($book_id) . '">';
                             echo '<td><img src="images/' . htmlspecialchars($item['image']) . '" alt=""></td>';
                             echo '<td>' . htmlspecialchars($item['title']) . '</td>';
-                            echo '<td><input type="number" value="' . $item['quantity'] . '" min="1" onchange="updateQuantity(this)"></td>';
+                            echo '<td><input type="number" value="' . htmlspecialchars($item['quantity']) . '" min="1" onchange="updateQuantity(this)"></td>';
                             echo '<td class="unit-price" data-price="' . htmlspecialchars($item['price']) . '">' . number_format($item['price'], 0, ',', '.') . '₫</td>';
                             echo '<td class="price" data-price="' . htmlspecialchars($item['price']) . '">' . number_format($item_total, 0, ',', '.') . '₫</td>';
                             echo '<td><button class="button" onclick="removeItem(this)">Xóa</button></td>';

@@ -45,7 +45,7 @@ if (isset($_POST['login'])) {
             if ($role == 1) {
                 header("Location: Admin.php");
             } else {
-                header("Location: Trang_chủ.php");
+                header("Location: index.php");
             }
             exit();
         } else {

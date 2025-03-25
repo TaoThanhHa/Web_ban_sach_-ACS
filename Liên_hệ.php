@@ -6,7 +6,7 @@ include_once('db/connect.php');
 if (!isset($_SESSION['user_id'])) {
     echo "<script>
             alert('Bạn cần đăng nhập để liên hệ.');
-            window.location.href = 'Trang_chủ.php'; 
+            window.location.href = 'index.php'; 
           </script>";
     exit();
 }
